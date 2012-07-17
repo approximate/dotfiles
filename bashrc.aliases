@@ -1,0 +1,17 @@
+# This is a main file for aliases
+# It is called automatically by my huge .bashrc
+
+# Shorter commands for listings
+alias ll='ls -la'
+alias lt='ls -ltr'
+
+# Short commands for process listings
+alias psu='ps -fu $LOGNAME'
+
+# General abbreviations
+alias t=todo.sh
+
+# Quick bash-related edit commands
+alias ebl='vi ~/.bashrc.local'
+alias ebr='vi ~/.bashrc'
+alias eba='vi ~/.bashrc.aliases'
