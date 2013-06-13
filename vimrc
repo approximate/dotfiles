@@ -1,18 +1,19 @@
 " Modeline and Notes {
 " vim: set foldmarker={,} foldlevel=2 foldmethod=marker nospell:
-" Latest update: 30.07.2012 17:06:38
-" This is the personal .vimrc file of Konstantin Zverev
-" Much of what's below was borrowed from many places
-" A lot of that is specific to my setup (I use ViM on Win32, cygwin and UNIX)
+" Latest update: Thu Jun 13 21:28:26 2013
+"
+" A lot of what follows is specific to my setup:
+" I use ViM on Win32, MacOS X and various UNIX/Linux boxes
+" Both console and gui version
 "
 " }
 
 " Environment {
 " Basics {
 set nocompatible " must be first line
-set background=dark " Assume a dark background
 filetype off                   " required!
 
+"Set up Vundle first
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Bundle 'gmarik/vundle'
@@ -21,17 +22,38 @@ Bundle 'gmarik/vundle'
 "
 " original repos on github
 Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-markdown'
+Bundle 'tpope/vim-sensible'
+Bundle 'tpope/vim-scriptease'
+Bundle 'kien/ctrlp.vim'
+Bundle 'scrooloose/nerdtree'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Bundle 'tpope/vim-rails.git'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'xolox/vim-colorscheme-switcher'
+Bundle 'xolox/vim-misc.git'
+Bundle 'msanders/snipmate.vim'
+Bundle 'ervandew/supertab'
+Bundle 'vimez/vim-showmarks'
+Bundle 'thisivan/vim-taglist'
+Bundle 'flazz/vim-colorschemes'
+Bundle 'Lokaltog/powerline'
+Bundle 'joeybeninghove/bufexplorer'
+"
 " vim-scripts repos
+"
 Bundle 'L9'
 Bundle 'FuzzyFinder'
+Bundle 'Gundo'
+Bundle 'ScrollColors'
+"
 " non github repos
-Bundle 'git://git.wincent.com/command-t.git'
+" Bundle 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (ie. when working on your own plugin)
-Bundle 'file:///Users/gmarik/path/to/plugin'
+" Bundle 'file:///Users/gmarik/path/to/plugin'
 " ...
+"
 filetype plugin indent on     " required!
 "
 " Brief help
@@ -50,35 +72,30 @@ filetype plugin indent on     " required!
 if has('win32') || has('win64')
     set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
     set guifont=Terminus_for_Powerline:h14:cRUSSIAN
+    set background=dark " Assume a dark background
 endif
 " }
 "
-" Setup Bundle Support {
-" The next two lines ensure that the ~/.vim/bundle/ system works
-runtime! autoload/pathogen.vim
-silent! call pathogen#infect()
-silent! call pathogen#helptags()
-silent! call pathogen#runtime_append_all_bundles()
-" }
-
+" Mac OS X specifics {
+" On Mac, set up the GUI font
+if has('mac') || has('macunix')
+    set guifont=Inconsolata:h14
+    set background=dark " Assume a dark background
+endif
 " }
 
 " General {
-set background=dark " Assume a dark background
 
 if !has('win32') && !has('win64')
     set term=$TERM " Make arrow and other keys work
 endif
 
-filetype plugin indent on " Automatically detect file types.
-if has('syntax')
-    syntax on " syntax highlighting
-endif
+" if has('syntax')
+"     syntax on " syntax highlighting
+" endif
+set t_Co=256 "try forcing ViM to use 256 colors
+
 set mouse=a " automatically enable mouse usage
-"set autochdir " always switch to the current file directory.. Messes with some plugins, best left commented outsed
-"set autochdir " always switch to the current file directory.. Messes with some plugins, best left commented out
-"set autochdir " always switch to the current file directory.. Messes with some plugins, best left commented out
-" not every vim is compiled with this, use the following line instead
 " If you use command-t plugin, it conflicts with this, comment it out.
 autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
 scriptencoding utf-8
@@ -87,7 +104,6 @@ scriptencoding utf-8
 set shortmess+=filmnrxoOtT " abbrev. of messages (avoids 'hit enter')
 set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
 set virtualedit=onemore " allow for cursor beyond last character
-set history=1000 " Store a ton of history (default is 20)
 set nospell " spell checking off
 set hidden
 
@@ -113,8 +129,6 @@ au BufWinEnter * silent! loadview "make vim load view (state) (folds, cursor, et
 " }
 
 " Vim UI {
-color darkZ  " load a colorscheme
-set tabpagemax=15 " only show 15 tabs
 set showmode " display the current mode
 
 set cursorline " highlight current line
@@ -140,12 +154,9 @@ if has('statusline')
     set statusline+=%=%-14.(%l,%c%V%)\ %p%% " Right aligned file nav info
 endif
 
-set backspace=indent,eol,start " backspace for dummys
 set linespace=0 " No extra spaces between rows
 set nu " Line numbers on
 set relativenumber " Show oinly relative line numbers
-set showmatch " show matching brackets/parenthesis
-set incsearch " find as you type search
 set hlsearch " highlight search terms
 set winminheight=0 " windows can be 0 line high
 set ignorecase " case insensitive search
@@ -158,24 +169,18 @@ set scrolloff=3 " minimum lines to keep above and below cursor
 " set foldenable " auto fold code
 set gdefault " the /g flag on :s substitutions by default
 set list
-set listchars=tab:>.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
-" set listchars=tab:>.,trail:.,extends:#,nbsp:.,eol:¬ " Highlight problematic whitespace
 
 
 " }
 
 " Formatting {
-set encoding=utf-8
 set wrap " wrap long lines
 set textwidth=79 " wrap at this position
 set formatoptions=qrn1
 set colorcolumn=85 " Make this column red, so I can see if the line is too long
-set autoindent " indent at the same level of the previous line
 set copyindent " Copy previous indentation on autoindent
 set shiftwidth=4 " use indents of 4 spaces
-set shiftround " use multiple of shiftwidth when doing >>
 set expandtab " tabs are spaces, not tabs
-set smarttab " insert smart tabs instead of hard ones
 set tabstop=8 " a Tab char is equal to 8 spaces
 set softtabstop=4 " let backspace delete indent
 set matchpairs+=<:> " match, to be used with %
@@ -445,17 +450,6 @@ nmap <leader>vd :VCSVimDiff<CR>
 nmap <leader>vl :VCSLog<CR>
 nmap <leader>vu :VCSUpdate<CR>
 " }
-" Debugging with VimDebugger {
-"map <F11> :DbgStepInto<CR>
-"map <F10> :DbgStepOver<CR>
-"map <S-F11> :DbgStepOut<CR>
-"map <F5> :DbgRun<CR>
-"map <F6> :DbgDetach<CR>
-"map <F8> :DbgToggleBreakpoint<CR>
-"map <S-F8> :DbgFlushBreakpoints<CR>
-"map <F9> :DbgRefreshWatch<CR>
-"map <S-F9> :DbgAddWatch<CR>
-" }
 " Taglist Variables {
 let Tlist_Auto_Highlight_Tag = 1
 let Tlist_Auto_Update = 1
@@ -477,8 +471,10 @@ if has('gui_running')
     set lines=50 " 50 lines of text instead of 24,
     set columns=120 " set for making a GUI window useful
     au FocusLost * :wa " write all files when losing focus
+    colorscheme solarized
 else
-    set term=builtin_ansi " Make arrow and other keys work
+"    set term=builtin_ansi " Make arrow and other keys work
+    colorscheme desert256
 endif
 " }
 " }
