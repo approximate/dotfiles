@@ -1,6 +1,6 @@
 " Modeline and Notes {
 " vim: set foldmarker={,} foldlevel=2 foldmethod=marker nospell:
-"
+" Latest update: 30.07.2012 17:06:38
 " This is the personal .vimrc file of Konstantin Zverev
 " Much of what's below was borrowed from many places
 " A lot of that is specific to my setup (I use ViM on Win32, cygwin and UNIX)
@@ -11,6 +11,37 @@
 " Basics {
 set nocompatible " must be first line
 set background=dark " Assume a dark background
+filetype off                   " required!
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+Bundle 'gmarik/vundle'
+
+" My Bundles here:
+"
+" original repos on github
+Bundle 'tpope/vim-fugitive'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Bundle 'tpope/vim-rails.git'
+" vim-scripts repos
+Bundle 'L9'
+Bundle 'FuzzyFinder'
+" non github repos
+Bundle 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (ie. when working on your own plugin)
+Bundle 'file:///Users/gmarik/path/to/plugin'
+" ...
+filetype plugin indent on     " required!
+"
+" Brief help
+" :BundleList          - list configured bundles
+" :BundleInstall(!)    - install(update) bundles
+" :BundleSearch(!) foo - search(or refresh cache first) for foo
+" :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+"
+" see :h vundle for more details or wiki for FAQ
+" NOTE: comments after Bundle command are not allowed..
 " }
 
 " Windows Compatible {
@@ -18,7 +49,7 @@ set background=dark " Assume a dark background
 " across (heterogeneous) systems easier.
 if has('win32') || has('win64')
     set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-    set guifont=Terminus:h14:cRUSSIAN
+    set guifont=Terminus_for_Powerline:h14:cRUSSIAN
 endif
 " }
 "
@@ -34,12 +65,18 @@ silent! call pathogen#runtime_append_all_bundles()
 
 " General {
 set background=dark " Assume a dark background
-    if !has('win32') && !has('win64')
-        set term=$TERM " Make arrow and other keys work
-    endif
+
+if !has('win32') && !has('win64')
+    set term=$TERM " Make arrow and other keys work
+endif
+
 filetype plugin indent on " Automatically detect file types.
-syntax on " syntax highlighting
+if has('syntax')
+    syntax on " syntax highlighting
+endif
 set mouse=a " automatically enable mouse usage
+"set autochdir " always switch to the current file directory.. Messes with some plugins, best left commented outsed
+"set autochdir " always switch to the current file directory.. Messes with some plugins, best left commented out
 "set autochdir " always switch to the current file directory.. Messes with some plugins, best left commented out
 " not every vim is compiled with this, use the following line instead
 " If you use command-t plugin, it conflicts with this, comment it out.
@@ -53,6 +90,9 @@ set virtualedit=onemore " allow for cursor beyond last character
 set history=1000 " Store a ton of history (default is 20)
 set nospell " spell checking off
 set hidden
+
+set linebreak
+
 " Setting up the directories {
 set backup " backups are nice ...
 set undofile " so is persistent undo ...
@@ -82,10 +122,10 @@ hi cursorline guibg=#333333 " highlight bg color of current line
 hi CursorColumn guibg=#333333 " highlight cursor
 
 if has('cmdline_info')
-set ruler " show the ruler
-set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " a ruler on steroids
-set showcmd " show partial commands in status line and
-" selected characters/lines in visual mode
+    set ruler " show the ruler
+    set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " a ruler on steroids
+    set showcmd " show partial commands in status line and
+    " selected characters/lines in visual mode
 endif
 
 if has('statusline')
@@ -125,6 +165,7 @@ set listchars=tab:>.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
 " }
 
 " Formatting {
+set encoding=utf-8
 set wrap " wrap long lines
 set textwidth=79 " wrap at this position
 set formatoptions=qrn1
@@ -140,8 +181,11 @@ set softtabstop=4 " let backspace delete indent
 set matchpairs+=<:> " match, to be used with %
 set pastetoggle=<F12> " pastetoggle (sane indentation on pastes)
 set comments=sl:/*,mb:*,elx:*/ " auto format comment blocks
+set clipboard=unnamed
 " Remove trailing whitespaces and ^M chars
 autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+set foldmethod=indent
+set foldlevel=99
 " }
 
 " Key (re)Mappings {
@@ -153,10 +197,12 @@ let mapleader = ','
 " Making it so ; works like : for commands. Saves typing and eliminates :W style typos due to lazy holding shift.
 nnoremap ; :
 
-nnoremap <Tab> %
-vnoremap <Tab> %
+" nnoremap <Tab> %
+" vnoremap <Tab> %
 
-
+" Space in normal mode moves one page down
+nmap <Space> <C-F>     "                                                    {{{
+"                                                                           }}}
 " Easier moving in tabs and windows
 map <C-J> <C-W>j<C-W>_
 map <C-K> <C-W>k<C-W>_
@@ -180,21 +226,27 @@ nnoremap <up> <nop>
 nnoremap <down> <nop>
 nnoremap <left> <nop>
 nnoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
 
 " Wrapped lines goes down/up to next row, rather than next line in file.
 nnoremap j gj
 nnoremap k gk
 
+inoremap jj <ESC>
+
 " The following two lines conflict with moving to top and bottom of the
 " screen
 " If you prefer that functionality, comment them out.
-map <S-H> gT
-map <S-L> gt
+" map <S-H> gT
+" map <S-L> gt
 
 " Some tabbing mappings
 map <silent> <C-Tab> :tabnext<CR>
 
-" Stupid shift key fixes
+" Stupid shift key fixes for common commands
 cmap W w
 cmap WQ wq
 cmap wQ wq
@@ -235,6 +287,9 @@ map [H g0
 imap [H g0
 " For when you forget to sudo.. Really Write the file.
 cmap w!! w !sudo tee % >/dev/null
+
+" Insert current date using F3 in Insert mode
+inoremap <F3> <C-R>=strftime("%c")<CR>
 " }
 
 " Plugins {
@@ -277,12 +332,12 @@ highlight ShowMarksHLm gui=bold guibg=LightGreen guifg=DarkGreen
 " }
 
 " OmniComplete {
-"if has("autocmd") && exists("+omnifunc")
-"autocmd Filetype *
-"\if &omnifunc == "" |
-"\setlocal omnifunc=syntaxcomplete#Complete |
-"\endif
-"endif
+if has("autocmd") && exists("+omnifunc")
+    autocmd Filetype *
+        \if &omnifunc == "" |
+        \setlocal omnifunc=syntaxcomplete#Complete |
+        \endif
+endif
 
 " Popup menu hightLight Group
 "highlight Pmenu ctermbg=13 guibg=DarkBlue
@@ -329,7 +384,7 @@ endif
 au FileType * let b:delimitMate_autoclose = 1
 
 " If using html auto complete (complete closing tag)
-        au FileType xml,html,xhtml let b:delimitMate_matchpairs = "(:),[:],{:}"
+au FileType xml,html,xhtml let b:delimitMate_matchpairs = "(:),[:],{:}"
 " }
 " AutoCloseTag {
 " Make it so AutoCloseTag works for xml and xhtml files as well
@@ -356,8 +411,12 @@ let NERDTreeQuitOnOpen=1
 let NERDTreeShowHidden=1
 let NERDTreeKeepTreeInNewTab=1
 " }
+"
+" Powerline {
+let g:Powerline_symbols='fancy'
+" }
 
-" Richard's plugins {
+" KMZ's plugins {
 " " Scratch buffer {
 nmap <leader><tab> :Scratch<CR>
 " }
@@ -416,7 +475,7 @@ let g:tlist_javascript_settings = 'javascript;f:function;c:class;m:method;p:prop
 if has('gui_running')
     set guioptions-=T " remove the toolbar
     set lines=50 " 50 lines of text instead of 24,
-    set columns=100 " set for making a GUI window useful
+    set columns=120 " set for making a GUI window useful
     au FocusLost * :wa " write all files when losing focus
 else
     set term=builtin_ansi " Make arrow and other keys work
@@ -426,35 +485,36 @@ endif
 
 " Init function -- make startup slow, but is worth for new installs {
 function! InitializeDirectories()
-  let separator = "."
-  let parent = $HOME
-  let prefix = '.vim'
-  let dir_list = {
-\ 'backup': 'backupdir',
-\ 'views': 'viewdir',
-\ 'swap': 'directory',
-\ 'undo': 'undodir' }
+    let separator = "."
+    let parent = $HOME
+    let prefix = '.vim'
+    let dir_list = {
+                \ 'backup': 'backupdir',
+                \ 'views': 'viewdir',
+                \ 'swap': 'directory',
+                \ 'undo': 'undodir' }
 
-  for [dirname, settingname] in items(dir_list)
-      let directory = parent . '/' . prefix . dirname . "/"
-      if exists("*mkdir")
-          if !isdirectory(directory)
-              call mkdir(directory)
-          endif
-      endif
-      if !isdirectory(directory)
-          echo "Warning: Unable to create backup directory: " . directory
-          echo "Try: mkdir -p " . directory
-      else
-          let directory = substitute(directory, " ", "\\\\ ", "")
-          exec "set " . settingname . "=" . directory
-      endif
-  endfor
+    for [dirname, settingname] in items(dir_list)
+        let directory = parent . '/' . prefix . dirname . "/"
+        if exists("*mkdir")
+            if !isdirectory(directory)
+                call mkdir(directory)
+            endif
+        endif
+        if !isdirectory(directory)
+            echo "Warning: Unable to create backup directory: " . directory
+            echo "Try: mkdir -p " . directory
+        else
+            let directory = substitute(directory, " ", "\\\\ ", "")
+            exec "set " . settingname . "=" . directory
+        endif
+    endfor
 endfunction
 
- call InitializeDirectories()
+call InitializeDirectories()
 " }
 
+" NERDTree helper function {
 function! NERDTreeInitAsNeeded()
     redir => bufoutput
     buffers!
@@ -466,6 +526,7 @@ function! NERDTreeInitAsNeeded()
         wincmd l
     endif
 endfunction
+" }
 
 " Use local vimrc if available {
 if filereadable(expand("~/.vimrc.local"))
@@ -473,8 +534,6 @@ if filereadable(expand("~/.vimrc.local"))
 endif
 " }
 
-set foldmethod=indent
-set foldlevel=99
 " Language-related settings {
 " Python {
 autocmd FileType python set foldmethod=indent foldlevel=99

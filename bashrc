@@ -3,17 +3,17 @@
 # REQUIRES bash version >= 2.04
 # vim: set ai tw=74 fen fdc=4 fdm=marker: VIM modeline
 ######################################################################
-# COMMENTS & DOCUMENTATION {{{1
+# COMMENTS & DOCUMENTATION                                            {{{1
 ######################################################################
 # NOTE!!!! Don't make changes to this file for a single machine. Use
 # .bashrc.local. See "Local Customisations" below.
 ######################################################################
-# Version history {{{2
+# Version history                                                     {{{2
 ######################################################################
 # * 2012-01-10 Added support for external aliases file in .bashrc.aliases
 # * 2012-01-13 Did some sygwin-specific $PATH cleanup 
 ######################################################################
-# General {{{2
+# General                                                             {{{2
 ######################################################################
 # This file is designed on the assumption that bash is NOT our login
 # shell. If it was then the env variable setting should be in the
@@ -25,7 +25,7 @@
 # and I doubt they make that much difference to performance.
 #
 ######################################################################
-# Local Customisations {{{2
+# Local Customisations                                                {{{2
 ######################################################################
 # It's best not to change this file on a machine-by-machine basis. For
 # local extensions this file calls ~/.bashrc.local if it exists. It's
@@ -66,7 +66,7 @@
 #                                       this script to appear to hang
 #
 ######################################################################
-# TODO: {{{2
+# TODO:                                                               {{{2
 ######################################################################
 #   It seems that I'm constantly adding new features that leap-frog the
 #   TODO list below, so this is really a SHOULDDO list, but for what it's
@@ -81,7 +81,7 @@
 #       newer version of software installed there won't get used.
 #
 ######################################################################
-# Folding {{{2
+# Folding                                                             {{{2
 ######################################################################
 # The funny comments in this file, made from braces, like the ones before
 # this paragraph, are for vim's folding mode. They make navigation in the
@@ -91,7 +91,7 @@
 ######################################################################
 
 ######################################################################
-# Set up some variables for later {{{1
+# Set up some variables for later                                     {{{1
 ######################################################################
 # NOTE: If a variable is added here it should be unset at the end of the
 # file!
@@ -101,9 +101,10 @@
 # $- contains the options provided to the shell
 [[ $- == *i* ]] && _shell_is_interactive=1
 [[ -n "$DISPLAY" ]] && _running_X=1
+[[ -n "$ENABLE_X" ]] || _running_X=0
 
 ######################################################################
-# Make the first call on the local settings file {{{1
+# Make the first call on the local settings file                      {{{1
 ######################################################################
 
 [ -f $HOME/.bashrc.local ] && . $HOME/.bashrc.local pre
@@ -111,7 +112,7 @@
 ######################################################################
 # PATH, MANPATH, LD_LIBRARY_PATH {{{1/*{{{*/
 ######################################################################
-# Comments {{{2
+# Comments                                                            {{{2
 # We do this first since we might need them later. 
 #
 # LOCALPROGS allows programs to be installed in
@@ -123,7 +124,7 @@
 # Here we add EVERY path we're likely to need, independant of OS. We will
 # strip the ones that don't exist later
 # 
-# Variable setup {{{2
+# Variable setup                                                      {{{2
 # I don't normally set these to a complete list since not all users need
 # all apps, but if either of the {LOCAL,OPT}PROGS variables is not set it
 # will be automatically filled below with all values from the disk.
@@ -156,8 +157,8 @@ MANPATH=$MANPATH:/opt/SUNWSMS/man
 MANPATH=$MANPATH:/usr/cluster/man:/usr/cluster/dtk/man:/usr/sfw/man
 LD_LIBRARY_PATH=/usr/local/lib
 
-# Auto-add paths {{{2
-# /usr/local {{{3
+# Auto-add paths                                                      {{{2
+# /usr/local                                                          {{{3
 if [ -d /usr/local ]; then
     for PROG in ${LOCALPROGS:-$(cd /usr/local; echo *)}
     do
@@ -176,7 +177,7 @@ if [ -d /usr/local ]; then
     done
 fi
 
-# /opt {{{3
+# /opt                                                                {{{3
 if [ -d /opt ]; then
     for PROG in ${OPTPROGS:-$(cd /opt; echo *)}
     do
@@ -195,7 +196,7 @@ if [ -d /opt ]; then
     done
 fi
 
-# $HOME/opt {{{3
+# $HOME/opt                                                           {{{3
 # Don't do this if our home directory is /. This won't affect the
 # resulting PATH but it will make the loop below faster
 if [ -d $HOME/opt -a $HOME != "/" ]; then
@@ -218,7 +219,7 @@ fi
 
 unset PROG OPTPROGS LOCALPROGS
 
-# Clean up path-like variables {{{2
+# Clean up path-like variables                                        {{{2
 # Here we clean up the PATH and similar variables by removing non-existant
 # dirs and duplicates.
 #
@@ -228,7 +229,7 @@ unset PROG OPTPROGS LOCALPROGS
 # We do this by declaring a function that cleans a variable. This function
 # is currently left declared for future use. TODO: Should we unset this?
 
-# pathclean: Clean up path-like variables {{{3
+# pathclean: Clean up path-like variables                             {{{3
 # arguments: name-of-var-to-clean
 # 
 # Note that this function's parameter is the NAME of the variable to clean
@@ -278,7 +279,7 @@ function pathclean() {
     # eval "$thevar=\"$( echo ${newpathcomps[*]} | sed -e's/ /:/g' -e 's/|/ /g' -e 's/.*Program Files.*//g' )\""
 }
 
-# Perform the cleaning {{{3
+# Perform the cleaning                                                {{{3
 
 pathclean PATH
 pathclean MANPATH
@@ -287,7 +288,7 @@ pathclean LD_LIBRARY_PATH
 export PATH MANPATH LD_LIBRARY_PATH
 
 ######################################################################/*}}}*/
-# Terminal setup {{{1
+# Terminal setup                                                      {{{1
 ######################################################################
 # Set up the terminal (based on the TERM variable). Doesn't work properly
 # on solaris (esp. in CDE) 'cos tset is Bezerkeley :-(
@@ -301,7 +302,7 @@ if [[ "$_shell_is_interactive" == 1 && \
 fi
 
 ######################################################################
-# Better X detection {{{1
+# Better X detection                                                  {{{1
 ######################################################################
 # Ok, we now have the PATH set, so we can be more ambitious (and therefore
 # reliable) about setting the _running_X variable.  The general idea here
@@ -333,17 +334,17 @@ if (( _running_X )); then
     # If displayhost is blank DISPLAY is probably ":0" so we shouldn't ping
     [[ -z "$displayhost" ]] && pingcmd=""
     (( _debugging )) && echo Thorough X tests..
-    if ! ( $pingcmd && xdpyinfo ) >/dev/null 2>&1; then
-        # Either we can't ping the machine or xdpyinfo failed. Either way,
-        # X is probably not going to work!
-        (( _debugging )) && echo X seems to be broken!
-        unset _running_X
-    fi
+#    if ! ( $pingcmd && xdpyinfo ) >/dev/null 2>&1; then
+#        # Either we can't ping the machine or xdpyinfo failed. Either way,
+#        # X is probably not going to work!
+#        (( _debugging )) && echo X seems to be broken!
+#        unset _running_X
+#    fi
     unset displayhost pingcmd
 fi
         
 ######################################################################
-# Shell options {{{1
+# Shell options                                                       {{{1
 ######################################################################
 # Set my preferred options
 shopt -s cdspell checkwinsize histreedit
@@ -359,9 +360,9 @@ shopt -s cdspell checkwinsize histreedit
 HISTCONTROL=ignoredups
 
 ######################################################################
-# Prompt and other terminal settings {{{1
+# Prompt and other terminal settings                                  {{{1
 ######################################################################
-# Set the prompt {{{2
+# Set the prompt                                                      {{{2
 # If it's an xterm then set the window title to reflect $PWD 
 # If we're root, make the prompt red
 # TODO: Should use tput for a lot of this stuff
@@ -415,43 +416,9 @@ export -n PS1
 [[ $oldextglob == *off ]] && shopt -u extglob
 unset basicprompt settitle setcoloron setcoloroff oldextglob
 ######################################################################
-# X related settings {{{1
+# Aliases                                                             {{{1
 ######################################################################
-# Perhaps these should be elsewhere, but I don't want to carry 23 files
-# with me when I move from machine to machine
-#
-if (( _running_X )); then
-    # use .xmodmaprc if it's there
-    if [[ -f ~/.xmodmaprc ]]; then
-        (( _debugging )) && echo Loading keyboard mapping from ~/.xmodmaprc
-        xmodmap ~/.xmodmaprc
-    else
-        # Fix "Help" key on a Sun {{{2
-        # Ok, the "Help" key on Sun keyboards drives me mental, since I'm
-        # always hitting it instead of "Escape", so I remap it so that is
-        # IS a second Escape key. 
-        if [[ $OSTYPE == solaris* ]]; then
-            # if it's not already done
-            if [ -n "$(xmodmap -pk | grep Help)" ]; then
-                (( _debugging )) && echo "Remapping Help key to Escape!"
-                xmodmap -e "keysym Help = Escape" > /dev/null 2>&1
-            fi
-        fi
-        # Turn off CAPSLOCK (I never use it deliberately) {{{2
-        # if it's not already done
-        if [[ -n $(xmodmap | grep ^lock | sed 's/^lock *//') ]]; then
-            xmodmap -e "clear lock"
-            (( _debugging )) && echo "Disabling Caps Lock"
-        fi
-# }}}
-    fi  # End of no-modmaprc branch
-fi      # End of X stuff
-
-
-######################################################################
-# Aliases {{{1
-######################################################################
-# Less is MORE {{{2
+# Less is MORE                                                        {{{2
 unalias less 2>/dev/null
 if [[ $(type -p less) ]]; then
     # without less, man is CRAPPO (esp. on Solaris!).
@@ -462,7 +429,7 @@ else
     alias less=more
 fi
 
-# vi is good, but vim is better. {{{2
+# vi is good, but vim is better.                                      {{{2
 # I'm in the habit of typing 'vi' but if vim is there, I'd prefer that
 if [[ $(type -p vim) ]]; then
     if [[ $OSTYPE == solaris* && $TERM == xterm ]]; then 
@@ -478,7 +445,7 @@ else
     export VISUAL=$(type -p vi)
 fi
 
-# If I have GNU ls then use color! {{{2
+# If I have GNU ls then use color!                                    {{{2
 # TODO: This will break in the unfortunate circumstance when dircolors is
 # present, but the first ls in the path is not GNU ls. Should fix this.
 if [[ $(type -p dircolors) ]]; then
@@ -486,21 +453,21 @@ if [[ $(type -p dircolors) ]]; then
     alias ls='ls --color=auto '
 fi
 
-# "rebash" {{{2
+# "rebash"                                                            {{{2
 # Let me easily re-run this in case of a new installation or change to this
 # file. I know, how lazy is this?
 
 alias rebash='. ~/.bashrc'
 
-# Other aliases {{{2
+# Other aliases                                                       {{{2
 # Put the rest of stuff that you want aliased in .bashrc.aliases file
 
 [[ -f ~/.bashrc.aliases ]] && source ~/.bashrc.aliases
 
 ######################################################################
-# Functions {{{1
+# Functions                                                           {{{1
 ######################################################################
-# ruler {{{2
+# ruler                                                               {{{2
 # This one is sometimes handy. Once I'd written it, I realised I could
 # have just used a static set of strings and extracted the needed
 # substring, but this is niftier and more educational (for me) and a
@@ -578,13 +545,13 @@ if [[ $OSTYPE == solaris* ]]; then
 fi # end solaris function
 
 ######################################################################
-# Make the last call on the local settings file {{{1
+# Make the last call on the local settings file                       {{{1
 ######################################################################
 
 [ -e $HOME/.bashrc.local ] && . $HOME/.bashrc.local post
 
 ######################################################################
-# Clean up {{{1
+# Clean up                                                            {{{1
 ######################################################################
 unset _shell_is_interactive
 unset _running_X
