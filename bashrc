@@ -464,6 +464,11 @@ alias rebash='. ~/.bashrc'
 
 [[ -f ~/.bashrc.aliases ]] && source ~/.bashrc.aliases
 
+# Use bash-completion, if available
+if [[ $PS1 && -f $(brew --prefix)/etc/bash_completion ]] ; then
+    . $(brew --prefix)/etc/bash_completion
+fi
+
 ######################################################################
 # Functions                                                           {{{1
 ######################################################################
