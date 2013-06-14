@@ -12,10 +12,7 @@
 [push]
 	default = simple
 [color]
-	branch = auto
-	diff = auto
-	interactive = auto
-	        ui = true
+	ui = true
 [guitool "Edit"]
 	cmd = mvim -f $FILENAME
 	noconsole = yes
@@ -34,3 +31,7 @@
 [alias]
 	s = status
 	l = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
+	alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
+[github]
+	user = approximate
+	token = 0d32529c03e64d0e0d7d64778d1ae66ed359c602
