@@ -31,3 +31,6 @@
 	needsfile = yes
 [mergetool]
 	keepBackup = false
+[alias]
+	s = status
+	l = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
