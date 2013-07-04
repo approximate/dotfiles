@@ -10,7 +10,7 @@
 [merge]
 	tool = vimdiff
 [push]
-	default = simple
+	default = current
 [color]
 	ui = true
 [guitool "Edit"]
