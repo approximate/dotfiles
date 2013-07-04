@@ -1,2 +1,0 @@
-utl_3_0a.vba: call delete('D:\Data\Applications\Vim\vimfiles/doc/utl_usr.txt')|call delete('D:\Data\Applications\Vim\vimfiles/autoload/utl_lib.vim')|call delete('D:\Data\Applications\Vim\vimfiles/plugin/utl.vim')|call delete('D:\Data\Applications\Vim\vimfiles/plugin/utl_rc.vim')|call delete('D:\Data\Applications\Vim\vimfiles/plugin/utl_scm.vim')|call delete('D:\Data\Applications\Vim\vimfiles/plugin/utl_uri.vim')
-supertab.vba: call delete('d:\Data\ZverevK\.vim/doc/supertab.txt')|call delete('d:\Data\ZverevK\.vim/plugin/supertab.vim')

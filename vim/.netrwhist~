@@ -1,4 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='d:/Data/ZverevK/src/AppEngine/approximate'
-let g:netrw_dirhist_2='d:/Data/ZverevK/src/AppEngine/approximate/templates'
