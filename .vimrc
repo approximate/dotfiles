@@ -40,6 +40,13 @@ Bundle 'thisivan/vim-taglist'
 Bundle 'flazz/vim-colorschemes'
 Bundle 'Lokaltog/powerline'
 Bundle 'joeybeninghove/bufexplorer'
+Bundle 'fs111/pydoc.vim'
+Bundle 'kevinw/pyflakes-vim'
+Bundle 'tsaleh/vim-matchit'
+" Bundle 'fholgado/minibufexpl.vim'
+Bundle 'scrooloose/nerdtree'
+Bundle 'tpope/vim-ragtag'
+" Bundle 'xolox/vim-session'
 "
 " vim-scripts repos
 "
@@ -47,6 +54,12 @@ Bundle 'L9'
 Bundle 'FuzzyFinder'
 Bundle 'Gundo'
 Bundle 'ScrollColors'
+Bundle 'vim-autopep8'
+Bundle 'bufexplorer.zip'
+Bundle 'YankRing.vim'
+Bundle 'vimpager'
+Bundle 'TaskList.vim'
+
 "
 " non github repos
 " Bundle 'git://git.wincent.com/command-t.git'
