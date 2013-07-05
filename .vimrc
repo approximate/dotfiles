@@ -9,7 +9,8 @@
 " }
 
 " Environment {
-" Basics {
+
+" Basic bundle setup using Vundle {
 set nocompatible " must be first line
 filetype off                   " required!
 
@@ -79,7 +80,7 @@ filetype plugin indent on     " required!
 " NOTE: comments after Bundle command are not allowed..
 " }
 
-" Windows Compatible {
+" Windows specifics {
 " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
 " across (heterogeneous) systems easier.
 if has('win32') || has('win64')
@@ -88,7 +89,7 @@ if has('win32') || has('win64')
     set background=dark " Assume a dark background
 endif
 " }
-"
+
 " Mac OS X specifics {
 " On Mac, set up the GUI font
 if has('mac') || has('macunix')
@@ -97,16 +98,15 @@ if has('mac') || has('macunix')
 endif
 " }
 
+" }
+
 " General {
 
 if !has('win32') && !has('win64')
     set term=$TERM " Make arrow and other keys work
 endif
 
-" if has('syntax')
-"     syntax on " syntax highlighting
-" endif
-set t_Co=256 "try forcing ViM to use 256 colors
+set t_Co=256 " try forcing ViM to use 256 colors
 
 set mouse=a " automatically enable mouse usage
 " If you use command-t plugin, it conflicts with this, comment it out.
@@ -128,16 +128,10 @@ set undofile " so is persistent undo ...
 set undolevels=1000 "maximum number of changes that can be undone
 set undoreload=10000 "maximum number lines to save for undo on a buffer reload
 set wildignore=*.swp,*.bak,*.pyc,*.tmp
-" Moved to function at bottom of the file
-"set backupdir=$HOME/.vimbackup// " but not when they clog .
-"set directory=$HOME/.vimswap// " Same for swap files
-"set viewdir=$HOME/.vimviews// " same for view files
-"" Creating directories if they don't exist
-"silent execute '!mkdir -p $HVOME/.vimbackup'
-"silent execute '!mkdir -p $HOME/.vimswap'
-"silent execute '!mkdir -p $HOME/.vimviews'
-au BufWinLeave * silent! mkview "make vim save view (state) (folds, cursor, etc)
-au BufWinEnter * silent! loadview "make vim load view (state) (folds, cursor, etc)
+let directory=$HOME . '/.vim/.cache/swap'
+let undodir=$HOME . '/.vim/.cache/undo'
+"au BufWinLeave * silent! mkview "make vim save view (state) (folds, cursor, etc)
+"au BufWinEnter * silent! loadview "make vim load view (state) (folds, cursor, etc)
 " }
 " }
 
@@ -183,6 +177,19 @@ set scrolloff=3 " minimum lines to keep above and below cursor
 set gdefault " the /g flag on :s substitutions by default
 set list
 
+" GUI Settings {
+" GVIM- (here instead of .gvimrc)
+if has('gui_running')
+    set guioptions-=T " remove the toolbar
+    set lines=50 " 50 lines of text instead of 24,
+    set columns=120 " set for making a GUI window useful
+"    au FocusLost * :wa " write all files when losing focus
+    colorscheme solarized
+else
+"    set term=builtin_ansi " Make arrow and other keys work
+    colorscheme desert256
+endif
+" }
 
 " }
 
@@ -219,8 +226,8 @@ nnoremap ; :
 " vnoremap <Tab> %
 
 " Space in normal mode moves one page down
-nmap <Space> <C-F>     "                                                    {{{
-"                                                                           }}}
+nmap <Space> <C-F>
+"
 " Easier moving in tabs and windows
 map <C-J> <C-W>j<C-W>_
 map <C-K> <C-W>k<C-W>_
@@ -228,8 +235,8 @@ map <C-L> <C-W>l<C-W>_
 map <C-H> <C-W>h<C-W>_
 
 " Map two combinations to make VIM customization easier
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
+nmap <silent> <leader>ev :e $MYVIMRC<CR>   " Edit .vimrc
+nmap <silent> <leader>sv :so $MYVIMRC<CR>  " Reload .vimrc
 
 " Turn off F1 for help
 nnoremap <F1> <nop>
@@ -255,12 +262,6 @@ nnoremap k gk
 
 inoremap jj <ESC>
 
-" The following two lines conflict with moving to top and bottom of the
-" screen
-" If you prefer that functionality, comment them out.
-" map <S-H> gT
-" map <S-L> gt
-
 " Some tabbing mappings
 map <silent> <C-Tab> :tabnext<CR>
 
@@ -273,6 +274,7 @@ cmap Tabe tabe
 
 " Yank from the cursor to the end of the line, to be consistent with C and D.
 nnoremap Y y$
+
 """ Code folding options
 nmap <leader>f0 :set foldlevel=0<CR>
 nmap <leader>f1 :set foldlevel=1<CR>
@@ -312,28 +314,9 @@ inoremap <F3> <C-R>=strftime("%c")<CR>
 
 " Plugins {
 
-" VCSCommand {
-" let b:VCSCommandMapPrefix=',v'
-" let b:VCSCommandVCSType='git'
-" }
 " Supertab {
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
-" }
-
-" Misc {
-map <C-F10> <Esc>:vsp<CR>:VTree<CR>
-" map Control + F10 to Vtree
-
-noremap <leader><F5> :CheckSyntax<cr>
-let g:checksyntax_auto = 1
-
-"comment out line(s) in visual mode -RB: If you do this, you can't
-"switch sides of the comment block in visual mode.
-"vmap o :call NERDComment(1, 'toggle')<CR>
-let g:NERDShutUp=1
-
-let b:match_ignorecase = 1
 " }
 " ShowMarks {
 let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -348,7 +331,6 @@ highlight ShowMarksHLo gui=bold guibg=LightYellow guifg=DarkYellow
 " For multiple marks on the same line.
 highlight ShowMarksHLm gui=bold guibg=LightGreen guifg=DarkGreen
 " }
-
 " OmniComplete {
 if has("autocmd") && exists("+omnifunc")
     autocmd Filetype *
@@ -387,28 +369,6 @@ set tags=./tags;/,$HOME/vimtags
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR> " C-\ - Open the definition in a new tab
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR> " A-] - Open the definition in a vertical split
 " }
-
-" EasyTags {
-" Disabling for now. It doesn't work well on large tag files
-let g:loaded_easytags = 1 " Disable until it's working better
-let g:easytags_cmd = 'ctags'
-let g:easytags_dynamic_files = 1
-if !has('win32') && !has('win64')
-    let g:easytags_resolve_links = 1
-endif
-" }
-
-" Delimitmate {
-au FileType * let b:delimitMate_autoclose = 1
-
-" If using html auto complete (complete closing tag)
-au FileType xml,html,xhtml let b:delimitMate_matchpairs = "(:),[:],{:}"
-" }
-" AutoCloseTag {
-" Make it so AutoCloseTag works for xml and xhtml files as well
-au FileType xhtml,xml ru ftplugin/html/autoclosetag.vim
-" }
-
 " SnipMate {
 " Setting the author var
 " If forking, please overwrite in your .vimrc.local file
@@ -416,7 +376,6 @@ let g:snips_author = 'Konstantin Zverev <konstantin.zverev@gmail.com>'
 " Shortcut for reloading snippets, useful when developing
 nnoremap ,smr <esc>:exec ReloadAllSnippets()<cr>
 " }
-
 " NerdTree {
 map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
 map <leader>e :NERDTreeFind<CR>
@@ -429,14 +388,17 @@ let NERDTreeQuitOnOpen=1
 let NERDTreeShowHidden=1
 let NERDTreeKeepTreeInNewTab=1
 " }
-"
 " Powerline {
 let g:Powerline_symbols='fancy'
 " }
-
-" KMZ's plugins {
-" " Scratch buffer {
+" Scratch buffer {
 nmap <leader><tab> :Scratch<CR>
+" }
+" Misc {
+map <C-F10> <Esc>:vsp<CR>:VTree<CR>
+" map Control + F10 to Vtree
+
+let b:match_ignorecase = 1
 " }
 " Fuzzy Finder {
 """ Fuzzy Find file, tree, buffer, line
@@ -445,6 +407,7 @@ nmap <leader>ft :FufFile<CR>
 nmap <leader>fb :FufBuffer<CR>
 nmap <leader>fl :FufLine<CR>
 nmap <leader>fr :FufRenewCache<CR>
+let g:fuf_dataDir=$HOME . '/.vim/.cache/fuzzyfind'
 " }
 " Session List {
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
@@ -454,14 +417,8 @@ nmap <leader>ss :SessionSave<CR>
 " Buffer explorer {
 nmap <leader>b :BufExplorer<CR>
 " }
-" VCS commands {:
-nmap <leader>vs :VCSStatus<CR>
-nmap <leader>vc :VCSCommit<CR>
-nmap <leader>vb :VCSBlame<CR>
-nmap <leader>va :VCSAdd<CR>
-nmap <leader>vd :VCSVimDiff<CR>
-nmap <leader>vl :VCSLog<CR>
-nmap <leader>vu :VCSUpdate<CR>
+" Ctrl-P settings {
+let g:ctrlp_cache_dir=$HOME . '.vim/.cache/ctrlp'
 " }
 " Taglist Variables {
 let Tlist_Auto_Highlight_Tag = 1
@@ -476,51 +433,10 @@ let g:ctags_statusline=1
 " Override how taglist does javascript
 let g:tlist_javascript_settings = 'javascript;f:function;c:class;m:method;p:property;v:global'
 " }
-
-" GUI Settings {
-" GVIM- (here instead of .gvimrc)
-if has('gui_running')
-    set guioptions-=T " remove the toolbar
-    set lines=50 " 50 lines of text instead of 24,
-    set columns=120 " set for making a GUI window useful
-    au FocusLost * :wa " write all files when losing focus
-    colorscheme solarized
-else
-"    set term=builtin_ansi " Make arrow and other keys work
-    colorscheme desert256
-endif
+" YankRing settings {
+let g:yankring_history_dir=$HOME . '/.vim/.cache/yankring/'
+let g:yankring_history_file='yankring.hist'
 " }
-" }
-
-" Init function -- make startup slow, but is worth for new installs {
-function! InitializeDirectories()
-    let separator = "."
-    let parent = $HOME
-    let prefix = '.vim'
-    let dir_list = {
-                \ 'backup': 'backupdir',
-                \ 'views': 'viewdir',
-                \ 'swap': 'directory',
-                \ 'undo': 'undodir' }
-
-    for [dirname, settingname] in items(dir_list)
-        let directory = parent . '/' . prefix . dirname . "/"
-        if exists("*mkdir")
-            if !isdirectory(directory)
-                call mkdir(directory)
-            endif
-        endif
-        if !isdirectory(directory)
-            echo "Warning: Unable to create backup directory: " . directory
-            echo "Try: mkdir -p " . directory
-        else
-            let directory = substitute(directory, " ", "\\\\ ", "")
-            exec "set " . settingname . "=" . directory
-        endif
-    endfor
-endfunction
-
-call InitializeDirectories()
 " }
 
 " NERDTree helper function {
