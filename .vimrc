@@ -86,7 +86,6 @@ filetype plugin indent on     " required!
 if has('win32') || has('win64')
     set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
     set guifont=Terminus_for_Powerline:h14:cRUSSIAN
-    set background=dark " Assume a dark background
 endif
 " }
 
@@ -94,7 +93,6 @@ endif
 " On Mac, set up the GUI font
 if has('mac') || has('macunix')
     set guifont=Inconsolata:h14
-    set background=dark " Assume a dark background
 endif
 " }
 
@@ -128,8 +126,9 @@ set undofile " so is persistent undo ...
 set undolevels=1000 "maximum number of changes that can be undone
 set undoreload=10000 "maximum number lines to save for undo on a buffer reload
 set wildignore=*.swp,*.bak,*.pyc,*.tmp
-let directory=$HOME . '/.vim/.cache/swap'
-let undodir=$HOME . '/.vim/.cache/undo'
+set directory=$HOME/.vim/.cache/swap/
+set undodir=$HOME/.vim/.cache/undo/
+"
 "au BufWinLeave * silent! mkview "make vim save view (state) (folds, cursor, etc)
 "au BufWinEnter * silent! loadview "make vim load view (state) (folds, cursor, etc)
 " }
@@ -137,7 +136,7 @@ let undodir=$HOME . '/.vim/.cache/undo'
 
 " Vim UI {
 set showmode " display the current mode
-
+set background=dark " Assume a dark background
 set cursorline " highlight current line
 hi cursorline guibg=#333333 " highlight bg color of current line
 hi CursorColumn guibg=#333333 " highlight cursor
@@ -187,7 +186,8 @@ if has('gui_running')
     colorscheme solarized
 else
 "    set term=builtin_ansi " Make arrow and other keys work
-    colorscheme desert256
+"    colorscheme desert256
+    colorscheme wombat256
 endif
 " }
 
@@ -407,7 +407,7 @@ nmap <leader>ft :FufFile<CR>
 nmap <leader>fb :FufBuffer<CR>
 nmap <leader>fl :FufLine<CR>
 nmap <leader>fr :FufRenewCache<CR>
-let g:fuf_dataDir=$HOME . '/.vim/.cache/fuzzyfind'
+let g:fuf_dataDir=$HOME . '/.vim/.cache/fuzzyfind/'
 " }
 " Session List {
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
@@ -418,7 +418,7 @@ nmap <leader>ss :SessionSave<CR>
 nmap <leader>b :BufExplorer<CR>
 " }
 " Ctrl-P settings {
-let g:ctrlp_cache_dir=$HOME . '.vim/.cache/ctrlp'
+let g:ctrlp_cache_dir=$HOME . '.vim/.cache/ctrlp/'
 " }
 " Taglist Variables {
 let Tlist_Auto_Highlight_Tag = 1
