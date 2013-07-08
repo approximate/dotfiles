@@ -1,11 +1,10 @@
 " Modeline and Notes {
-" vim: set foldmarker={,} foldlevel=2 foldmethod=marker nospell:
-" Latest update: Thu Jun 13 21:28:26 2013
+" vim: foldmarker={,} foldlevel=2 foldmethod=marker nospell
+" Latest update: Fri Jul  5 22:00:13 2013
 "
 " A lot of what follows is specific to my setup:
 " I use ViM on Win32, MacOS X and various UNIX/Linux boxes
 " Both console and gui version
-"
 " }
 
 " Environment {
@@ -20,7 +19,6 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 " My Bundles here:
-"
 " original repos on github
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-surround'
@@ -44,13 +42,14 @@ Bundle 'joeybeninghove/bufexplorer'
 Bundle 'fs111/pydoc.vim'
 Bundle 'kevinw/pyflakes-vim'
 Bundle 'tsaleh/vim-matchit'
-" Bundle 'fholgado/minibufexpl.vim'
+Bundle 'fholgado/minibufexpl.vim'
 Bundle 'scrooloose/nerdtree'
 Bundle 'tpope/vim-ragtag'
-" Bundle 'xolox/vim-session'
-"
+Bundle 'xolox/vim-session'
+Bundle 'cburroughs/pep8.py'
+Bundle 'nvie/vim-flake8'
+
 " vim-scripts repos
-"
 Bundle 'L9'
 Bundle 'FuzzyFinder'
 Bundle 'Gundo'
@@ -61,21 +60,19 @@ Bundle 'YankRing.vim'
 Bundle 'vimpager'
 Bundle 'TaskList.vim'
 
-"
 " non github repos
 " Bundle 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (ie. when working on your own plugin)
 " Bundle 'file:///Users/gmarik/path/to/plugin'
 " ...
-"
 filetype plugin indent on     " required!
-"
+
 " Brief help
 " :BundleList          - list configured bundles
 " :BundleInstall(!)    - install(update) bundles
 " :BundleSearch(!) foo - search(or refresh cache first) for foo
 " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
-"
+
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
 " }
@@ -104,23 +101,20 @@ if !has('win32') && !has('win64')
     set term=$TERM " Make arrow and other keys work
 endif
 
-set t_Co=256 " try forcing ViM to use 256 colors
-
-set mouse=a " automatically enable mouse usage
 " If you use command-t plugin, it conflicts with this, comment it out.
 autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
 scriptencoding utf-8
 
-" set autowrite " automatically write a file when leaving a modified buffer
+set t_Co=256 " try forcing ViM to use 256 colors
+set mouse=a " automatically enable mouse usage
 set shortmess+=filmnrxoOtT " abbrev. of messages (avoids 'hit enter')
 set viewoptions=folds,options,cursor,unix,slash " better unix / windows compatibility
 set virtualedit=onemore " allow for cursor beyond last character
 set nospell " spell checking off
 set hidden
-
 set linebreak
 
-" Setting up the directories {
+" Setting up the directories for services like undo, backups etc {
 set backup " backups are nice ...
 set undofile " so is persistent undo ...
 set undolevels=1000 "maximum number of changes that can be undone
@@ -131,6 +125,10 @@ set undodir=$HOME/.vim/.cache/undo/
 "
 "au BufWinLeave * silent! mkview "make vim save view (state) (folds, cursor, etc)
 "au BufWinEnter * silent! loadview "make vim load view (state) (folds, cursor, etc)
+" }
+
+" Misc {
+let b:match_ignorecase = 1
 " }
 " }
 
@@ -172,7 +170,7 @@ set wildmode=list:longest,full " command <Tab> completion, list matches, then lo
 set whichwrap=b,s,h,l,<,>,[,] " backspace and cursor keys wrap to
 set scrolljump=5 " lines to scroll when cursor leaves screen
 set scrolloff=3 " minimum lines to keep above and below cursor
-" set foldenable " auto fold code
+set foldenable " auto fold code
 set gdefault " the /g flag on :s substitutions by default
 set list
 
@@ -197,7 +195,6 @@ endif
 set wrap " wrap long lines
 set textwidth=79 " wrap at this position
 set formatoptions=qrn1
-set colorcolumn=85 " Make this column red, so I can see if the line is too long
 set copyindent " Copy previous indentation on autoindent
 set shiftwidth=4 " use indents of 4 spaces
 set expandtab " tabs are spaces, not tabs
@@ -215,26 +212,27 @@ set foldlevel=99
 
 " Key (re)Mappings {
 
-"The default leader is '\', but many people prefer ',' as it's in a standard
-"location
+"The default leader is '\', but I  prefer ',' as it's in a standard location
 let mapleader = ','
 
-" Making it so ; works like : for commands. Saves typing and eliminates :W style typos due to lazy holding shift.
+" Making ; work like : for commands.
+" Saves typing and eliminates :W style typos due to lazy holding shift.
 nnoremap ; :
 
 " nnoremap <Tab> %
 " vnoremap <Tab> %
 
-" Space in normal mode moves one page down
+" Space in normal mode moves one page down, Shift-Space moves one page up
 nmap <Space> <C-F>
-"
+nmap <S-Space> <C-B>
+
 " Easier moving in tabs and windows
 map <C-J> <C-W>j<C-W>_
 map <C-K> <C-W>k<C-W>_
 map <C-L> <C-W>l<C-W>_
 map <C-H> <C-W>h<C-W>_
 
-" Map two combinations to make VIM customization easier
+" Map two combinations to make ViM customization easier
 nmap <silent> <leader>ev :e $MYVIMRC<CR>   " Edit .vimrc
 nmap <silent> <leader>sv :so $MYVIMRC<CR>  " Reload .vimrc
 
@@ -313,7 +311,6 @@ inoremap <F3> <C-R>=strftime("%c")<CR>
 " }
 
 " Plugins {
-
 " Supertab {
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
@@ -374,7 +371,7 @@ map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR> " A-] - Open the definiti
 " If forking, please overwrite in your .vimrc.local file
 let g:snips_author = 'Konstantin Zverev <konstantin.zverev@gmail.com>'
 " Shortcut for reloading snippets, useful when developing
-nnoremap ,smr <esc>:exec ReloadAllSnippets()<cr>
+nnoremap <leader>smr <esc>:exec ReloadAllSnippets()<cr>
 " }
 " NerdTree {
 map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
@@ -394,12 +391,6 @@ let g:Powerline_symbols='fancy'
 " Scratch buffer {
 nmap <leader><tab> :Scratch<CR>
 " }
-" Misc {
-map <C-F10> <Esc>:vsp<CR>:VTree<CR>
-" map Control + F10 to Vtree
-
-let b:match_ignorecase = 1
-" }
 " Fuzzy Finder {
 """ Fuzzy Find file, tree, buffer, line
 nmap <leader>ff :FufFile **/<CR>
@@ -411,16 +402,19 @@ let g:fuf_dataDir=$HOME . '/.vim/.cache/fuzzyfind/'
 " }
 " Session List {
 set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
-nmap <leader>sl :SessionList<CR>
-nmap <leader>ss :SessionSave<CR>
+let g:session_autosave = 'no'
+let g:session_autoload = 'no'
+nmap <leader>os :OpenSession<CR>
+nmap <leader>ss :SaveSession<CR>
+nmap <leader>vs :ViewSession<CR>
 " }
-" Buffer explorer {
+" Buffer explorer settings {
 nmap <leader>b :BufExplorer<CR>
 " }
 " Ctrl-P settings {
 let g:ctrlp_cache_dir=$HOME . '.vim/.cache/ctrlp/'
 " }
-" Taglist Variables {
+" Taglist settings {
 let Tlist_Auto_Highlight_Tag = 1
 let Tlist_Auto_Update = 1
 let Tlist_Exit_OnlyWindow = 1
@@ -463,6 +457,7 @@ endif
 " Python {
 autocmd FileType python set foldmethod=indent foldlevel=99
 au Filetype python set omnifunc=pythoncomplete#Complete
+" set colorcolumn=85 " Make this column red, so I can see if the line is too long
 let g:SuperTabDefaultCompletionType='context'
 let g:pyflakes_use_quickfix=0
 let g:pep8_map='<leader>8'
