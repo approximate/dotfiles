@@ -117,6 +117,7 @@ set linebreak
 
 " Setting up the directories for services like undo, backups etc {
 set backup " backups are nice ...
+set backupdir=$HOME/.vim/.cache/backup/ " Write backups to a separate location, not in current dir
 if version > 703 
     set undofile " so is persistent undo ...
     set undolevels=1000 "maximum number of changes that can be undone
