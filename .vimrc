@@ -117,12 +117,14 @@ set linebreak
 
 " Setting up the directories for services like undo, backups etc {
 set backup " backups are nice ...
-set undofile " so is persistent undo ...
-set undolevels=1000 "maximum number of changes that can be undone
-set undoreload=10000 "maximum number lines to save for undo on a buffer reload
+if version > 703 
+    set undofile " so is persistent undo ...
+    set undolevels=1000 "maximum number of changes that can be undone
+    set undoreload=10000 "maximum number lines to save for undo on a buffer reload
+    set undodir=$HOME/.vim/.cache/undo/
+endif
 set wildignore=*.swp,*.bak,*.pyc,*.tmp
 set directory=$HOME/.vim/.cache/swap/
-set undodir=$HOME/.vim/.cache/undo/
 "
 "au BufWinLeave * silent! mkview "make vim save view (state) (folds, cursor, etc)
 "au BufWinEnter * silent! loadview "make vim load view (state) (folds, cursor, etc)
@@ -161,7 +163,9 @@ endif
 
 set linespace=0 " No extra spaces between rows
 set nu " Line numbers on
-set relativenumber " Show oinly relative line numbers
+if version > 703
+    set relativenumber " Show oinly relative line numbers
+endif
 set hlsearch " highlight search terms
 set winminheight=0 " windows can be 0 line high
 set ignorecase " case insensitive search
