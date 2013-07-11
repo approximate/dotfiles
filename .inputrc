@@ -11,9 +11,23 @@
 "\e[B": history-search-forward
 "\e[A": history-search-backward
 
+# Function Keys
+#"[11~": F1
+#"[11~": F2
+#"[13~": F3
+#"[14~": F4
+#"[15~": F5
+#"[17~": F6
+#"[18~": F7
+#"[19~": F8
+#"[20~": F9
+#"[21~": F10
+#"[23~": F11
+#"[24~": F12
 
 set completion-ignore-case On
 set completion-query-items 20
+set mark-symlinked-directories on
 set enable-keypad
 set horizontal-scroll-mode off
 set bell-style visible
@@ -21,5 +35,35 @@ set expand-tilde on
 set convert-meta off
 set input-meta on
 set output-meta on
-set show-all-if-ambiguous on
+# set show-all-if-ambiguous on
 set visible-stats on
+
+$if Bash
+	Space: magic-space
+$endif
+
+"\M-o": "\C-p\C-a\M-f "
+
+# turn the numpad keys on
+"\eOQ":         "/"
+"\eOR":         "*"
+"\eOS":         "-"
+"\eOk":         "+"
+"\eOl":         "+"
+"\eOM":         accept-line
+
+# Colon and dot
+#"\eOl":       ","
+"\eOn":         "."
+
+# Numbers
+"\eOp":         "0"
+"\eOq":         "1"
+"\eOr":         "2"
+"\eOs":         "3"
+"\eOt":         "4"
+"\eOu":         "5"
+"\eOv":         "6"
+"\eOw":         "7"
+"\eOx":         "8"
+"\eOy":         "9"
