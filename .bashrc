@@ -1,4 +1,4 @@
-# Boyd's favorite .bashrc!! 
+# Boyd's favorite .bashrc!!
 # Please send suggestions to me at boyd-adamson@usa.net
 # REQUIRES bash version >= 2.04
 # vim: set ai tw=74 fen fdc=4 fdm=marker: VIM modeline
@@ -11,7 +11,7 @@
 # Version history                                                     {{{2
 ######################################################################
 # * 2012-01-10 Added support for external aliases file in .bashrc.aliases
-# * 2012-01-13 Did some sygwin-specific $PATH cleanup 
+# * 2012-01-13 Did some sygwin-specific $PATH cleanup
 ######################################################################
 # General                                                             {{{2
 ######################################################################
@@ -113,7 +113,7 @@
 # PATH, MANPATH, LD_LIBRARY_PATH {{{1/*{{{*/
 ######################################################################
 # Comments                                                            {{{2
-# We do this first since we might need them later. 
+# We do this first since we might need them later.
 #
 # LOCALPROGS allows programs to be installed in
 # /usr/local/<progname>/{bin,man,sbin,lib} and still be found.  OPTPROGS
@@ -123,7 +123,7 @@
 #
 # Here we add EVERY path we're likely to need, independant of OS. We will
 # strip the ones that don't exist later
-# 
+#
 # Variable setup                                                      {{{2
 # I don't normally set these to a complete list since not all users need
 # all apps, but if either of the {LOCAL,OPT}PROGS variables is not set it
@@ -231,24 +231,24 @@ unset PROG OPTPROGS LOCALPROGS
 
 # pathclean: Clean up path-like variables                             {{{3
 # arguments: name-of-var-to-clean
-# 
+#
 # Note that this function's parameter is the NAME of the variable to clean
 # up, not the contents of the variable. The variable is changed in-place.
 # This is the bash equivalent to pass-by-reference!
 
 function pathclean() {
-    # Variable Declarations 
+    # Variable Declarations
     local -a newpathcomps     # Array of new path components
     local -i alreadyseen      # Have we already seen this component?
     local component           # Current component we're looking at
     local -i i                # loop var
     local thevar=$1           # The NAME of the variable we're cleaning
 
-    # Clean up the PATH 
+    # Clean up the PATH
     # Expunge double /s and make : into a space. Unfortunatly, this breaks
     # on path entries with a space in them, as happens in the cygwin
     # environment with the fabulous "Program Files" directory, so we have
-    # to kludge them into | and then back again... 
+    # to kludge them into | and then back again...
     #
     # Changed by KZ:
     # - remove "/cygdrive" as I have local mounts
@@ -295,9 +295,9 @@ export PATH MANPATH LD_LIBRARY_PATH
 # TODO: I think there's a tset in /usr/ucb
 if [[ "$_shell_is_interactive" == 1 && \
 	$OSTYPE != solaris* && \
-	$OSTYPE != cygwin* ]]; then 
+	$OSTYPE != cygwin* ]]; then
     if [[ $(type -p tset) ]]; then
-        eval $(SHELL=/bin/sh tset -r -s)
+        eval $(SHELL=/bin/sh tset -Q -I -s)
     fi
 fi
 
@@ -318,7 +318,7 @@ if (( _running_X )); then
     declare displayhost=${DISPLAY%:*}
     declare pingcmd
     case $OSTYPE in
-        solaris*) 
+        solaris*)
             pingcmd="ping $displayhost 1"
             ;;
         linux*)
@@ -342,7 +342,7 @@ if (( _running_X )); then
 #    fi
     unset displayhost pingcmd
 fi
-        
+       
 ######################################################################
 # Shell options                                                       {{{1
 ######################################################################
@@ -363,7 +363,7 @@ HISTCONTROL=ignoredups
 # Prompt and other terminal settings                                  {{{1
 ######################################################################
 # Set the prompt                                                      {{{2
-# If it's an xterm then set the window title to reflect $PWD 
+# If it's an xterm then set the window title to reflect $PWD
 # If we're root, make the prompt red
 # TODO: Should use tput for a lot of this stuff
 # Declare some variables to work with
@@ -408,7 +408,7 @@ case $TERM in
 esac
 PS1="${settitle}${setcoloron}${basicprompt}${setcoloroff} "
 
-# Remove any exporting of PS1 since it looks hideous in other shells and 
+# Remove any exporting of PS1 since it looks hideous in other shells and
 # bash will just re-read this file anyway
 export -n PS1
 
@@ -432,7 +432,7 @@ fi
 # vi is good, but vim is better.                                      {{{2
 # I'm in the habit of typing 'vi' but if vim is there, I'd prefer that
 if [[ $(type -p vim) ]]; then
-    if [[ $OSTYPE == solaris* && $TERM == xterm ]]; then 
+    if [[ $OSTYPE == solaris* && $TERM == xterm ]]; then
         # I'm probably using putty on a PC so to get colors going:
         alias vi='TERM=xtermc vim'
     else
@@ -529,7 +529,7 @@ fi # End bash version test
 # Been meaning to do this for a while, then came across one at
 # http://www.beaglebros.com/unix - so I stole it. I've since changed it,
 # but when do I stop crediting the inspiration?
-if [[ $OSTYPE == solaris* ]]; then 
+if [[ $OSTYPE == solaris* ]]; then
     function ps {
         if [ -n "$1" ]; then
             if [[ $1 == -* ]]; then
