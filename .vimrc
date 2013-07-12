@@ -269,6 +269,11 @@ inoremap jj <ESC>
 " Some tabbing mappings
 map <silent> <C-Tab> :tabnext<CR>
 
+" Better bindings for quickfix stuff
+nmap <silent><leader>n :cn<CR>
+nmap <silent><leader>p :cp<CR>
+nmap <silent><leader>l :clist<CR>
+
 " Stupid shift key fixes for common commands
 cmap W w
 cmap WQ wq
@@ -369,8 +374,10 @@ set completeopt=menu,longest,preview
 " Ctags {
 " This will look in the current directory for 'tags', and work up the tree towards root until one is found.
 set tags=./tags;/,$HOME/vimtags
-map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR> " C-\ - Open the definition in a new tab
-map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR> " A-] - Open the definition in a vertical split
+" C-\ - Open the definition in a new tab
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+" A-] - Open the definition in a vertical split
+map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR> 
 " }
 " SnipMate {
 " Setting the author var
