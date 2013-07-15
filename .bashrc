@@ -103,11 +103,11 @@
 # Comments {
 # We do this first since we might need them later.
 
+# Selective adding of installed programs:
 # LOCALPROGS allows programs to be installed in
 # /usr/local/<progname>/{bin,man,sbin,lib} and still be found.  OPTPROGS
 # does the same thing for /opt/<progname> - mostly for Solaris. MYUSRPROGS
-# is the same thing for ~/opt, but I don't understamd why you'd install
-# stuff in your own home dir and then not want to run it!
+# is the same thing for ~/usr
 
 # Here we add EVERY path we're likely to need, independant of OS. We will
 # strip the ones that don't exist later
@@ -117,6 +117,9 @@
 # I don't normally set these to a complete list since not all users need
 # all apps, but if either of the {LOCAL,OPT}PROGS variables is not set it
 # will be automatically filled below with all values from the disk.
+
+# TODO: This has to be fixed for MacOSX, where Homebrew puts stuff directly
+# into /usr/local/bin
 
 #LOCALPROGS="vim screen teTeX"
 #OPTPROGS="SUNWcluster SUNWmd"
@@ -136,7 +139,7 @@ PATH=$PATH:/usr/bin/X11:/usr/tcb/bin
 PATH=/sw/bin:/sw/sbin:/Developer/Tools:$PATH
 # TODO: HP/UX and Linux entries should be here
 # My entries
-PATH=$PATH:/usr/local/bin
+PATH=$PATH:/usr/local/bin:$HOME/scripts
 # Late Solaris entries - definitely want these at the end
 PATH=$PATH:/usr/ucb
 
