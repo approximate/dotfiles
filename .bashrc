@@ -1,20 +1,17 @@
-# Boyd's favorite .bashrc!!
-# Please send suggestions to me at boyd-adamson@usa.net
+# KMZ big huge .bashrc {
+# vim: ai tw=74 fen fdm=marker nospell fmr={,}
+
+# This file is largely based on Boyd Adamson's .bashrc
 # REQUIRES bash version >= 2.04
-# vim: set ai tw=74 fen fdc=4 fdm=marker: VIM modeline
-######################################################################
-# COMMENTS & DOCUMENTATION                                            {{{1
-######################################################################
+# }
+
+# COMMENTS & DOCUMENTATION {
+
 # NOTE!!!! Don't make changes to this file for a single machine. Use
 # .bashrc.local. See "Local Customisations" below.
-######################################################################
-# Version history                                                     {{{2
-######################################################################
-# * 2012-01-10 Added support for external aliases file in .bashrc.aliases
-# * 2012-01-13 Did some sygwin-specific $PATH cleanup
-######################################################################
-# General                                                             {{{2
-######################################################################
+
+# General {
+
 # This file is designed on the assumption that bash is NOT our login
 # shell. If it was then the env variable setting should be in the
 # .bash_profile file, not the .bashrc. I've made a special effort to keep
@@ -23,19 +20,19 @@
 # As a result, there are some unusual constructs in here. There are still
 # some external calls left (e.g. calls to sed) but they are not in loops
 # and I doubt they make that much difference to performance.
-#
-######################################################################
-# Local Customisations                                                {{{2
-######################################################################
+# }
+
+# Local Customisations {
+
 # It's best not to change this file on a machine-by-machine basis. For
 # local extensions this file calls ~/.bashrc.local if it exists. It's
 # called twice...  once before all processing with a single parameter ($1)
 # "pre" and once after all processing with a single parameter "post".
-#
+
 # In addition, a number of variables are set and are available for use by
 # the ~/.bashrc.local script. These variables are UNset before this file
 # exits, so they are not available once the shell is interactive.
-#
+
 # The variables set by this script are:
 #   _debugging                          Manually set (see below) to "1" if
 #                                       parts of this and called scripts
@@ -45,12 +42,12 @@
 #                                       get confused by stuff being
 #                                       printed at shell startup so
 #                                       normally this should be OFF.
-#
+
 #   _shell_is_interactive               Set to "1" if this is an interactive
 #                                       session, and unset otherwise. No
 #                                       output should be produced if this
 #                                       is set.
-#
+
 #   _running_X                          Set to "1" if we are running under
 #                                       X and appropriate stuff should be
 #                                       done.  NOTE that when the "pre"
@@ -64,35 +61,28 @@
 #                                       before using X since timeouts on
 #                                       non-existant servers may cause
 #                                       this script to appear to hang
-#
-######################################################################
-# TODO:                                                               {{{2
-######################################################################
+
+# }
+
+# TODO: Main list {
 #   It seems that I'm constantly adding new features that leap-frog the
-#   TODO list below, so this is really a SHOULDDO list, but for what it's
+#   todo list below, so this is really a SHOULDDO list, but for what it's
 #   worth:
 #     - surround the ENV var and other once-only stuff with a big if,
 #       testing $0 or something for login-shellness then call this file
 #       from /.bash_profile with something like:
 #       [ -f ~/.bashrc ] && . /.bashrc
+#     - exclude lots of things such as alises etc in case our session
+#       is not interactive
 #     - Policy question: Should stuff in the /usr/local tree be used in
 #       preference to stuff in system directories like /usr/bin? At the
 #       moment the path has the /usr/local stuff later. That means that a
 #       newer version of software installed there won't get used.
-#
-######################################################################
-# Folding                                                             {{{2
-######################################################################
-# The funny comments in this file, made from braces, like the ones before
-# this paragraph, are for vim's folding mode. They make navigation in the
-# file a lot easier  Unfortunately they require vim version >= 6.0. See
-# ":help folding" in vim for more info. They should't affect any other
-# editor, just think of them as marking the start and end of sections.
-######################################################################
+# }
+# }
 
-######################################################################
-# Set up some variables for later                                     {{{1
-######################################################################
+# Set up some variables for later {
+
 # NOTE: If a variable is added here it should be unset at the end of the
 # file!
 
@@ -102,36 +92,35 @@
 [[ $- == *i* ]] && _shell_is_interactive=1
 [[ -n "$DISPLAY" ]] && _running_X=1
 [[ -n "$ENABLE_X" ]] || _running_X=0
+# }
 
-######################################################################
-# Make the first call on the local settings file                      {{{1
-######################################################################
-
+# Make the first call on the local settings file {
 [ -f $HOME/.bashrc.local ] && . $HOME/.bashrc.local pre
+# }
 
-######################################################################
-# PATH, MANPATH, LD_LIBRARY_PATH {{{1/*{{{*/
-######################################################################
-# Comments                                                            {{{2
+# PATH, MANPATH, LD_LIBRARY_PATH {
+
+# Comments {
 # We do this first since we might need them later.
-#
+
 # LOCALPROGS allows programs to be installed in
 # /usr/local/<progname>/{bin,man,sbin,lib} and still be found.  OPTPROGS
-# does the same thing for /opt/<progname> - mostly for Solaris. MYOPTPROGS
+# does the same thing for /opt/<progname> - mostly for Solaris. MYUSRPROGS
 # is the same thing for ~/opt, but I don't understamd why you'd install
 # stuff in your own home dir and then not want to run it!
-#
+
 # Here we add EVERY path we're likely to need, independant of OS. We will
 # strip the ones that don't exist later
-#
-# Variable setup                                                      {{{2
+# }
+
+# Variable setup {
 # I don't normally set these to a complete list since not all users need
 # all apps, but if either of the {LOCAL,OPT}PROGS variables is not set it
 # will be automatically filled below with all values from the disk.
 
 #LOCALPROGS="vim screen teTeX"
 #OPTPROGS="SUNWcluster SUNWmd"
-#MYOPTPROGS=""
+#MYUSRPROGS=""
 
 # Basic Entries
 PATH=/sbin:/usr/sbin:/usr/bin:/usr/dt/bin:$PATH
@@ -145,6 +134,7 @@ PATH=$PATH:/opt/SUNWSMS/bin
 PATH=$PATH:/usr/bin/X11:/usr/tcb/bin
 # MacOSX entries
 PATH=/sw/bin:/sw/sbin:/Developer/Tools:$PATH
+# TODO: HP/UX and Linux entries should be here
 # My entries
 PATH=$PATH:/usr/local/bin
 # Late Solaris entries - definitely want these at the end
@@ -156,9 +146,11 @@ MANPATH=$MANPATH:/usr/X11R6/man/:/usr/perl5/man
 MANPATH=$MANPATH:/opt/SUNWSMS/man
 MANPATH=$MANPATH:/usr/cluster/man:/usr/cluster/dtk/man:/usr/sfw/man
 LD_LIBRARY_PATH=/usr/local/lib
+# }
 
-# Auto-add paths                                                      {{{2
-# /usr/local                                                          {{{3
+# Auto-add paths {
+
+# /usr/local {
 if [ -d /usr/local ]; then
     for PROG in ${LOCALPROGS:-$(cd /usr/local; echo *)}
     do
@@ -176,8 +168,8 @@ if [ -d /usr/local ]; then
         fi
     done
 fi
-
-# /opt                                                                {{{3
+# }
+# /opt {
 if [ -d /opt ]; then
     for PROG in ${OPTPROGS:-$(cd /opt; echo *)}
     do
@@ -195,43 +187,44 @@ if [ -d /opt ]; then
         fi
     done
 fi
-
-# $HOME/opt                                                           {{{3
+# }
+# $HOME/usr {
 # Don't do this if our home directory is /. This won't affect the
 # resulting PATH but it will make the loop below faster
-if [ -d $HOME/opt -a $HOME != "/" ]; then
-    for PROG in ${MYOPTPROGS:-$(cd $HOME/opt; echo *)}
+if [ -d $HOME/usr -a $HOME != "/" ]; then
+    for PROG in ${MYUSRPROGS:-$(cd $HOME/usr; echo *)}
     do
-        if [ -d $HOME/opt/$PROG/bin ]; then
-            PATH=$HOME/opt/$PROG/bin:$PATH
+        if [ -d $HOME/usr/$PROG/bin ]; then
+            PATH=$HOME/usr/$PROG/bin:$PATH
         fi
-        if [ -d $HOME/opt/$PROG/sbin ]; then
-            PATH=$HOME/opt/$PROG/sbin:$PATH
+        if [ -d $HOME/usr/$PROG/sbin ]; then
+            PATH=$HOME/usr/$PROG/sbin:$PATH
         fi
-        if [ -d $HOME/opt/$PROG/man ]; then
-            MANPATH=$HOME/opt/$PROG/man:$MANPATH
+        if [ -d $HOME/usr/$PROG/man ]; then
+            MANPATH=$HOME/usr/$PROG/man:$MANPATH
         fi
-        if [ -d $HOME/opt/$PROG/lib ]; then
-            LD_LIBRARY_PATH=$HOME/opt/$PROG/lib:$LD_LIBRARY_PATH
+        if [ -d $HOME/usr/$PROG/lib ]; then
+            LD_LIBRARY_PATH=$HOME/usr/$PROG/lib:$LD_LIBRARY_PATH
         fi
     done
 fi
+# }
 
 unset PROG OPTPROGS LOCALPROGS
 
-# Clean up path-like variables                                        {{{2
+# Clean up path-like variables {
 # Here we clean up the PATH and similar variables by removing non-existant
 # dirs and duplicates.
-#
+
 # This whole thing is complicated by the fact that we want to keep the
 # existing path components in order, so we can't just use sort -u
-#
-# We do this by declaring a function that cleans a variable. This function
-# is currently left declared for future use. TODO: Should we unset this?
 
-# pathclean: Clean up path-like variables                             {{{3
+# We do this by declaring a function that cleans a variable. This function
+# is left declared for future use.
+
+# pathclean: Clean up path-like variables {
 # arguments: name-of-var-to-clean
-#
+
 # Note that this function's parameter is the NAME of the variable to clean
 # up, not the contents of the variable. The variable is changed in-place.
 # This is the bash equivalent to pass-by-reference!
@@ -278,8 +271,8 @@ function pathclean() {
     eval "$thevar=\"$( echo ${newpathcomps[*]} | sed -e's/ /:/g' -e 's/|/ /g' )\""
     # eval "$thevar=\"$( echo ${newpathcomps[*]} | sed -e's/ /:/g' -e 's/|/ /g' -e 's/.*Program Files.*//g' )\""
 }
-
-# Perform the cleaning                                                {{{3
+# }
+# Perform the cleaning {
 
 pathclean PATH
 pathclean MANPATH
@@ -287,9 +280,13 @@ pathclean LD_LIBRARY_PATH
 
 export PATH MANPATH LD_LIBRARY_PATH
 
-######################################################################/*}}}*/
-# Terminal setup                                                      {{{1
-######################################################################
+# }
+# }
+# }
+
+# }
+
+# Terminal setup {
 # Set up the terminal (based on the TERM variable). Doesn't work properly
 # on solaris (esp. in CDE) 'cos tset is Bezerkeley :-(
 # TODO: I think there's a tset in /usr/ucb
@@ -300,10 +297,9 @@ if [[ "$_shell_is_interactive" == 1 && \
         eval $(SHELL=/bin/sh tset -Q -I -s)
     fi
 fi
+# }
 
-######################################################################
-# Better X detection                                                  {{{1
-######################################################################
+# Better X detection {
 # Ok, we now have the PATH set, so we can be more ambitious (and therefore
 # reliable) about setting the _running_X variable.  The general idea here
 # is that we want to check that the DISPLAY variable is not only set, but
@@ -334,6 +330,8 @@ if (( _running_X )); then
     # If displayhost is blank DISPLAY is probably ":0" so we shouldn't ping
     [[ -z "$displayhost" ]] && pingcmd=""
     (( _debugging )) && echo Thorough X tests..
+# This section takes AGES to execute on OSX, so I commented it out for the time being
+
 #    if ! ( $pingcmd && xdpyinfo ) >/dev/null 2>&1; then
 #        # Either we can't ping the machine or xdpyinfo failed. Either way,
 #        # X is probably not going to work!
@@ -342,10 +340,9 @@ if (( _running_X )); then
 #    fi
     unset displayhost pingcmd
 fi
-       
-######################################################################
-# Shell options                                                       {{{1
-######################################################################
+# }
+
+# Shell options {
 # Set my preferred options
 shopt -s cdspell checkwinsize histreedit
 
@@ -358,11 +355,11 @@ shopt -s cdspell checkwinsize histreedit
 
 #Only put duplicate lines in the history once
 HISTCONTROL=ignoredups
+# }
 
-######################################################################
-# Prompt and other terminal settings                                  {{{1
-######################################################################
-# Set the prompt                                                      {{{2
+# Prompt and other terminal settings {
+
+# Set the prompt {
 # If it's an xterm then set the window title to reflect $PWD
 # If we're root, make the prompt red
 # TODO: Should use tput for a lot of this stuff
@@ -415,10 +412,14 @@ export -n PS1
 # set extglob back to how we found it
 [[ $oldextglob == *off ]] && shopt -u extglob
 unset basicprompt settitle setcoloron setcoloroff oldextglob
-######################################################################
-# Aliases                                                             {{{1
-######################################################################
-# Less is MORE                                                        {{{2
+# }
+
+# }
+
+# Aliases {
+# TODO: most of this should probably go into .bashrc.aliases
+
+# Less is MORE {
 unalias less 2>/dev/null
 if [[ $(type -p less) ]]; then
     # without less, man is CRAPPO (esp. on Solaris!).
@@ -428,8 +429,8 @@ else
     # this prevents (even more) insanity.
     alias less=more
 fi
-
-# vi is good, but vim is better.                                      {{{2
+# }
+# vi is good, but vim is better {
 # I'm in the habit of typing 'vi' but if vim is there, I'd prefer that
 if [[ $(type -p vim) ]]; then
     if [[ $OSTYPE == solaris* && $TERM == xterm ]]; then
@@ -444,30 +445,29 @@ else
     export EDITOR=$(type -p vi)
     export VISUAL=$(type -p vi)
 fi
-
-# If I have GNU ls then use color!                                    {{{2
+# }
+# If I have GNU ls then use color! {
 # TODO: This will break in the unfortunate circumstance when dircolors is
 # present, but the first ls in the path is not GNU ls. Should fix this.
 if [[ $(type -p dircolors) ]]; then
     eval $(dircolors --bourne-shell)
     alias ls='ls --color=auto '
 fi
-
-# "rebash"                                                            {{{2
+# }
+# "rebash" {
 # Let me easily re-run this in case of a new installation or change to this
 # file. I know, how lazy is this?
 
 alias rebash='. ~/.bashrc'
-
-# Other aliases                                                       {{{2
+# }
+# Other aliases {
 # Put the rest of stuff that you want aliased in .bashrc.aliases file
+[ -f ~/.bashrc.aliases ] && source ~/.bashrc.aliases
+# }
+# }
 
-[[ -f ~/.bashrc.aliases ]] && source ~/.bashrc.aliases
-
-######################################################################
-# Functions                                                           {{{1
-######################################################################
-# ruler                                                               {{{2
+# Functions {
+# ruler {
 # This one is sometimes handy. Once I'd written it, I realised I could
 # have just used a static set of strings and extracted the needed
 # substring, but this is niftier and more educational (for me) and a
@@ -522,7 +522,9 @@ if [[ ( ${BASH_VERSINFO[0]} = "2"  || ${BASH_VERSINFO[0]} > "2" )
     }
     ' # end the eval
 fi # End bash version test
+# }
 
+# The ps function {
 # This function lets me use either the System V (-ef) or BSD (aux) style
 # switches on Solaris. It just runs the appropriate ps based on whether
 # there's a - there or not.
@@ -543,16 +545,15 @@ if [[ $OSTYPE == solaris* ]]; then
     }
 
 fi # end solaris function
+# }
+# }
 
-######################################################################
-# Make the last call on the local settings file                       {{{1
-######################################################################
-
+# Make the last call on the local settings file {
 [ -e $HOME/.bashrc.local ] && . $HOME/.bashrc.local post
+# }
 
-######################################################################
-# Clean up                                                            {{{1
-######################################################################
+# Clean up {
 unset _shell_is_interactive
 unset _running_X
 unset _debugging
+# }
