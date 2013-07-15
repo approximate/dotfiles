@@ -1,20 +1,65 @@
+# This .bashrc.aliases file is read from main .bashrc
+# vim: ai tw=74 fen fdm=marker nospell fmr={,}
+
+# Less is MORE {
+unalias less 2>/dev/null
+if [[ $(type -p less) ]]; then
+    # without less, man is CRAPPO (esp. on Solaris!).
+    export PAGER="less -si"
+else
+    # We don't have less, but my fingers are ALWAYS typing it anyway. So
+    # this prevents (even more) insanity.
+    alias less=more
+fi
+# }
+
+# If I have proper ls then use color! {
+# TODO: This will break in the unfortunate circumstance when dircolors is
+# present, but the first ls in the path is not GNU ls. Should fix this.
+if [[ $(type -p dircolors) ]] ; then
+    eval $(dircolors --bourne-shell )
+    alias ls='ls --color=auto '
+elif [[ $OSTYPE == darwin* ]] ; then
+    # MacOSX ls can output colors using -G switch
+    alias ls='ls -G'
+fi
+# }
+
+# vi is good, but vim is better {
+# I'm in the habit of typing 'vi' but if vim is there, I'd prefer that
+if [[ $(type -p vim) ]]; then
+    if [[ $OSTYPE == solaris* && $TERM == xterm ]]; then
+        # I'm probably using putty on a PC so to get colors going:
+        alias vi='TERM=xtermc vim'
+    else
+        alias vi=vim
+    fi
+    export EDITOR=$(type -p vim)
+    export VISUAL=$(type -p vim)
+else
+    export EDITOR=$(type -p vi)
+    export VISUAL=$(type -p vi)
+fi
+# }
+
 alias ll='ls -la'
 alias lt='ls -ltr'
-alias setcontrol='stty erase ^? kill ^D susp ^Z intr ^C'
+
 alias psx='/usr/bin/ps -elf | grep $LOGNAME | grep -v sshd | grep -v $SHELL | grep -v grep'
 alias psu='/usr/bin/ps -fx -u$UID | grep -v sshd | grep -v $SHELL | sort | grep -v sort | grep -v grep '
+
 alias x="xterm -ls &"
 alias apropos="man -k"
-alias ct="cleartool"
-alias sv="cleartool setview"
+
 alias h=history
 alias hg='history | grep '
+
 alias VELCOM='ssh -o ControlMaster=no -o ControlPath=/var/spool/sockets/pwgr/tunnel_minsk_ctl -o ServerAliveInterval=180 -o TCPKeepAlive=yes -Y -A bscsadm@10.254.62.60'
 
 # Quick bash-related edit commands
 alias ebl='vi ~/.bashrc.local'
 alias ebr='vi ~/.bashrc'
 alias eba='vi ~/.bashrc.aliases'
-alias realias='. ~/.bashrc.aliases'
 
+alias setcontrol='stty erase ^? kill ^D susp ^Z intr ^C'
 setcontrol

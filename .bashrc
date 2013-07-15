@@ -417,48 +417,11 @@ unset basicprompt settitle setcoloron setcoloroff oldextglob
 # }
 
 # Aliases {
-# TODO: most of this should probably go into .bashrc.aliases
-
-# Less is MORE {
-unalias less 2>/dev/null
-if [[ $(type -p less) ]]; then
-    # without less, man is CRAPPO (esp. on Solaris!).
-    export PAGER="less -si"
-else
-    # We don't have less, but my fingers are ALWAYS typing it anyway. So
-    # this prevents (even more) insanity.
-    alias less=more
-fi
-# }
-# vi is good, but vim is better {
-# I'm in the habit of typing 'vi' but if vim is there, I'd prefer that
-if [[ $(type -p vim) ]]; then
-    if [[ $OSTYPE == solaris* && $TERM == xterm ]]; then
-        # I'm probably using putty on a PC so to get colors going:
-        alias vi='TERM=xtermc vim'
-    else
-        alias vi=vim
-    fi
-    export EDITOR=$(type -p vim)
-    export VISUAL=$(type -p vim)
-else
-    export EDITOR=$(type -p vi)
-    export VISUAL=$(type -p vi)
-fi
-# }
-# If I have GNU ls then use color! {
-# TODO: This will break in the unfortunate circumstance when dircolors is
-# present, but the first ls in the path is not GNU ls. Should fix this.
-if [[ $(type -p dircolors) ]]; then
-    eval $(dircolors --bourne-shell)
-    alias ls='ls --color=auto '
-fi
-# }
-# "rebash" {
+# "rebash" and "realias" {
 # Let me easily re-run this in case of a new installation or change to this
 # file. I know, how lazy is this?
-
 alias rebash='. ~/.bashrc'
+alias realias='. ~/.bashrc.aliases'
 # }
 # Other aliases {
 # Put the rest of stuff that you want aliased in .bashrc.aliases file
