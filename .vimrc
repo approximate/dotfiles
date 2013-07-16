@@ -49,6 +49,7 @@ Bundle 'tpope/vim-ragtag'
 Bundle 'xolox/vim-session'
 Bundle 'cburroughs/pep8.py'
 Bundle 'nvie/vim-flake8'
+Bundle 'tomtom/tcomment_vim'
 
 " vim-scripts repos
 Bundle 'L9'
@@ -275,10 +276,10 @@ nmap <silent><leader>p :cp<CR>
 nmap <silent><leader>l :clist<CR>
 
 " Stupid shift key fixes for common commands
-cmap W w
-cmap WQ wq
-cmap wQ wq
-cmap Q q
+cmap W<CR> w<CR>
+cmap WQ<CR> wq<CR>
+cmap wQ<CR> wq<CR>
+cmap Q<CR> q<CR>
 cmap Tabe tabe
 
 " Yank from the cursor to the end of the line, to be consistent with C and D.
@@ -319,6 +320,8 @@ cmap w!! w !sudo tee % >/dev/null
 
 " Insert current date using F3 in Insert mode
 inoremap <F3> <C-R>=strftime("%c")<CR>
+
+nmap <silent><leader>f :call GlobalGrep()<CR>
 " }
 
 " Plugins {
@@ -457,6 +460,13 @@ function! NERDTreeInitAsNeeded()
         NERDTreeFind
         wincmd l
     endif
+endfunction
+" }
+" My vimgrep wrapper that can be mapped {
+function! GlobalGrep()
+    let curr_word=expand("<cword>")
+    let grep_cmd="vimgrep" . " " . curr_word . " *"
+    execute grep_cmd
 endfunction
 " }
 
