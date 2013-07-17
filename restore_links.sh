@@ -35,6 +35,6 @@ timestamp="$(date +%F_%H.%M.%S)"
 # I experimented with hardlinks, but this got screwed by "git pull", which 
 # just created new files
 for file in $filelist ; do
-    [ -e "$HOME/$file" ] && mv "$HOME/$file" "$HOME/${file}.$timestamp" || exit 1
+    [ -e "$HOME/$file" -a ! -L "$HOME/$file" ] && mv "$HOME/$file" "$HOME/${file}.$timestamp" || exit 1
     ln -s "$repo/$file" "$HOME/$file"
 done
