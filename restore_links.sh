@@ -35,6 +35,28 @@ timestamp="$(date +%F_%H.%M.%S)"
 # I experimented with hardlinks, but this got screwed by "git pull", which 
 # just created new files
 for file in $filelist ; do
-    [ -e "$HOME/$file" -a ! -L "$HOME/$file" ] && mv "$HOME/$file" "$HOME/${file}.$timestamp" || exit 1
-    ln -s "$repo/$file" "$HOME/$file"
+    echo "Checking file $file"
+    if [ -e "$HOME/$file" ] ; then
+        if [ ! -L "$HOME/$file" ] ; then
+            # There is a normal file with the same name
+            # Let's just rename it
+            echo "Making backup..."
+            mv "$HOME/$file" "$HOME/${file}.$timestamp" || exit 1
+        else
+            # There's a symlink already, let's see where it points
+            # link -p $HOME/$file
+            if [ -x $(which readlink) ] ; then
+                echo "Checking the linked file..."
+                _dest_file=$(readlink -q --canonicalize $HOME/$file)
+                if [ -f $_dest_file ] && [ "$_dest_file" == "$repo/$file" ] ; then
+                    echo "Looks like the link is correct, skipping..."
+                else
+                    echo "Links point somewhere else, needs changing..."
+                fi
+            fi
+        fi
+    else
+        ln -s "$repo/$file" "$HOME/$file" || exit 1
+        echo "Created symlink to $file"
+    fi
 done
