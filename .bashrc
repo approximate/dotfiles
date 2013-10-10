@@ -192,25 +192,27 @@ if [ -d /opt ]; then
 fi
 # }
 # $HOME/usr {
+# TODO: This section has to be rewritten, as it currently breaks on my
+# multiplatform $HOME/usr.
 # Don't do this if our home directory is /. This won't affect the
 # resulting PATH but it will make the loop below faster
-if [ -d $HOME/usr -a $HOME != "/" ]; then
-    for PROG in ${MYUSRPROGS:-$(cd $HOME/usr; echo *)}
-    do
-        if [ -d $HOME/usr/$PROG/bin ]; then
-            PATH=$HOME/usr/$PROG/bin:$PATH
-        fi
-        if [ -d $HOME/usr/$PROG/sbin ]; then
-            PATH=$HOME/usr/$PROG/sbin:$PATH
-        fi
-        if [ -d $HOME/usr/$PROG/man ]; then
-            MANPATH=$HOME/usr/$PROG/man:$MANPATH
-        fi
-        if [ -d $HOME/usr/$PROG/lib ]; then
-            LD_LIBRARY_PATH=$HOME/usr/$PROG/lib:$LD_LIBRARY_PATH
-        fi
-    done
-fi
+# if [ -d $HOME/usr -a $HOME != "/" ]; then
+#     for PROG in ${MYUSRPROGS:-$(cd $HOME/usr; echo *)}
+#     do
+#         if [ -d $HOME/usr/$PROG/bin ]; then
+#             PATH=$HOME/usr/$PROG/bin:$PATH
+#         fi
+#         if [ -d $HOME/usr/$PROG/sbin ]; then
+#             PATH=$HOME/usr/$PROG/sbin:$PATH
+#         fi
+#         if [ -d $HOME/usr/$PROG/man ]; then
+#             MANPATH=$HOME/usr/$PROG/man:$MANPATH
+#         fi
+#         if [ -d $HOME/usr/$PROG/lib ]; then
+#             LD_LIBRARY_PATH=$HOME/usr/$PROG/lib:$LD_LIBRARY_PATH
+#         fi
+#     done
+# fi
 # }
 
 unset PROG OPTPROGS LOCALPROGS
