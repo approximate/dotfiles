@@ -118,6 +118,45 @@
 # all apps, but if either of the {LOCAL,OPT}PROGS variables is not set it
 # will be automatically filled below with all values from the disk.
 
+# Here's another idea how to populate the PATH and MANPATH variables
+
+# # prepend_colon(val, var)
+# prepend_colon() {
+#   if [ -z "$2" ]; then
+#     echo $1
+#   else
+#     echo $1:$2
+#   fi
+# }
+# 
+# # unshift_path(path)
+# unshift_path() {
+#   if [ -d $1/sbin ]; then
+#     export PATH=$(prepend_colon "$1/sbin" $PATH)
+#   fi
+#   if [ -d $1/bin ]; then
+#     export PATH=$(prepend_colon "$1/bin" $PATH)
+#   fi
+# 
+#   if [ -d $1/share/man ]; then
+#     export MANPATH=$(prepend_colon "$1/share/man" $MANPATH)
+#   fi
+# }
+# 
+# # TABULA RASA
+# export PATH=""
+# export MANPATH=""
+# 
+# unshift_path "/usr/X11"
+# unshift_path ""
+# unshift_path "/usr"
+# unshift_path "/usr/local"
+# unshift_path "/opt/local"
+# unshift_path "$HOME/local"
+# unshift_path "$HOME/etc"
+# 
+# export PATH=$(prepend_colon ".local" $PATH)
+# The end of the idea section}}
 # TODO: This has to be fixed for MacOSX, where Homebrew puts stuff directly
 # into /usr/local/bin
 
