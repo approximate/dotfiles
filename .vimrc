@@ -20,47 +20,59 @@ Bundle 'gmarik/vundle'
 
 " My Bundles here:
 " original repos on github
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-markdown'
-Bundle 'tpope/vim-sensible'
-Bundle 'tpope/vim-scriptease'
-Bundle 'tpope/vim-git'
-Bundle 'kien/ctrlp.vim'
-Bundle 'scrooloose/nerdtree'
+" Bundle 'Lokaltog/powerline'
+Bundle 'bling/vim-airline'
 Bundle 'Lokaltog/vim-easymotion'
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'altercation/vim-colors-solarized'
+Bundle 'cburroughs/pep8.py'
+Bundle 'ervandew/supertab'
+Bundle 'fholgado/minibufexpl.vim'
+Bundle 'flazz/vim-colorschemes'
+Bundle 'fs111/pydoc.vim'
+Bundle 'godlygeek/tabular'
+Bundle 'joeybeninghove/bufexplorer'
+Bundle 'kevinw/pyflakes-vim'
+Bundle 'kien/ctrlp.vim'
+Bundle 'mattboehm/vim-accordion'
+Bundle 'msanders/snipmate.vim'
+Bundle 'nvie/vim-flake8'
+Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Bundle 'scrooloose/nerdtree'
+Bundle 'thisivan/vim-taglist'
+Bundle 'tomtom/tcomment_vim'
+" Bundle 'tpope/vim-commentary'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-git'
+Bundle 'tpope/vim-markdown'
+Bundle 'tpope/vim-ragtag'
+Bundle 'tpope/vim-scriptease'
+Bundle 'tpope/vim-sensible'
+Bundle 'tpope/vim-surround'
+Bundle 'tsaleh/vim-matchit'
+Bundle 'vimez/vim-showmarks'
 Bundle 'xolox/vim-colorscheme-switcher'
 Bundle 'xolox/vim-misc.git'
-Bundle 'msanders/snipmate.vim'
-Bundle 'ervandew/supertab'
-Bundle 'vimez/vim-showmarks'
-Bundle 'thisivan/vim-taglist'
-Bundle 'flazz/vim-colorschemes'
-Bundle 'Lokaltog/powerline'
-Bundle 'joeybeninghove/bufexplorer'
-Bundle 'fs111/pydoc.vim'
-Bundle 'kevinw/pyflakes-vim'
-Bundle 'tsaleh/vim-matchit'
-Bundle 'fholgado/minibufexpl.vim'
-Bundle 'scrooloose/nerdtree'
-Bundle 'tpope/vim-ragtag'
 Bundle 'xolox/vim-session'
-Bundle 'cburroughs/pep8.py'
-Bundle 'nvie/vim-flake8'
-Bundle 'tomtom/tcomment_vim'
+" Bundle 'biskark/vim-ultimate-colorscheme-utility'
+" Bundle 'drmikehenry/vim-fixkey'
+" Bundle 'mikewest/vimroom'
+" Bundle 'Shougo/unite.vim'
+" Bundle 'mhinz/vim-startify'
+" Bundle 'tpope/vim-dispatch'
+" Bundle 'mhinz/vim-tmuxify'
+" Bundle 'kablamo/vim-git-log'
+" Bundle 'jpalardy/vim-slime'
 
 " vim-scripts repos
-Bundle 'L9'
 Bundle 'FuzzyFinder'
 Bundle 'Gundo'
+Bundle 'L9'
 Bundle 'ScrollColors'
-Bundle 'vim-autopep8'
-Bundle 'bufexplorer.zip'
-Bundle 'YankRing.vim'
-Bundle 'vimpager'
 Bundle 'TaskList.vim'
+Bundle 'YankRing.vim'
+Bundle 'bufexplorer.zip'
+Bundle 'vim-autopep8'
+Bundle 'vimpager'
 
 " non github repos
 " Bundle 'git://git.wincent.com/command-t.git'
@@ -133,6 +145,7 @@ set directory=$HOME/.vim/.cache/swap/
 " }
 
 " Misc {
+source ~/dotfiles/VerticalHelp.vim " This is a dirty hack, I should repackage this plugin
 let b:match_ignorecase = 1
 " }
 " }
@@ -141,8 +154,8 @@ let b:match_ignorecase = 1
 set showmode " display the current mode
 set background=dark " Assume a dark background
 set cursorline " highlight current line
-hi cursorline guibg=#333333 " highlight bg color of current line
-hi CursorColumn guibg=#333333 " highlight cursor
+" hi cursorline guibg=#333333 " highlight bg color of current line
+" hi CursorColumn guibg=#333333 " highlight cursor
 
 if has('cmdline_info')
     set ruler " show the ruler
@@ -180,6 +193,7 @@ set scrolloff=3 " minimum lines to keep above and below cursor
 set foldenable " auto fold code
 set gdefault " the /g flag on :s substitutions by default
 set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+set diffopt=filler,context:3,icase,iwhite " better diffs
 
 " GUI Settings {
 " GVIM- (here instead of .gvimrc)
@@ -192,7 +206,17 @@ if has('gui_running')
 else
 "    set term=builtin_ansi " Make arrow and other keys work
 "    colorscheme desert256
-    colorscheme wombat256
+    " colorscheme wombat256
+    " colorscheme blacklight " works with light bg
+    " colo bensday " works with light bg
+    " colo   devbox-dark-256
+    " colo kellys " not so good with light bg
+    " colo lingodirector
+    " colo louver
+    " colo moria
+    " colo mustang
+    colo random " !!
+    "
 endif
 " }
 
@@ -264,6 +288,12 @@ inoremap <right> <nop>
 " Wrapped lines goes down/up to next row, rather than next line in file.
 nnoremap j gj
 nnoremap k gk
+
+" These will disable char-based navigation, in order to learn a faster way
+nnoremap h <NOP>
+nnoremap j <NOP>
+nnoremap k <NOP>
+nnoremap l <NOP>
 
 inoremap jj <ESC>
 
@@ -477,6 +507,11 @@ endif
 " }
 
 " Language-related settings {
+" Shell {
+autocmd FileType SH set foldmethod=marker foldlevel=2
+" set colorcolumn=85 " Make this column red, so I can see if the line is too long
+set comments=:#
+" }
 " Python {
 autocmd FileType python set foldmethod=indent foldlevel=99
 au Filetype python set omnifunc=pythoncomplete#Complete
@@ -488,6 +523,5 @@ let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchWindows = 1
 let g:miniBufExplModSelTarget = 1
-
 " }
 " }
