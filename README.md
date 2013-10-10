@@ -43,3 +43,9 @@ Vim:
 * ... a lot of other goodies
 * should probably remove NERDtree in favor of more flexible file finder (ctrlp)
 
+TODO:
+* fix the PATH/MANPATH on all systems (work promarily) using new functions
+* remove all hardcoded colors from .vimrc
+* create one local .bashrc.<hostname> for each of the servers I work with, then
+  rewrite this bit in main .bashrc
+* check new Vim plugins, adapt main .vimrc for that
