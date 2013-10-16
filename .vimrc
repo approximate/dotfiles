@@ -57,7 +57,7 @@ Bundle 'xolox/vim-session'
 " Bundle 'drmikehenry/vim-fixkey'
 " Bundle 'mikewest/vimroom'
 " Bundle 'Shougo/unite.vim'
-" Bundle 'mhinz/vim-startify'
+Bundle 'mhinz/vim-startify'
 " Bundle 'tpope/vim-dispatch'
 " Bundle 'mhinz/vim-tmuxify'
 " Bundle 'kablamo/vim-git-log'
@@ -201,21 +201,21 @@ if has('gui_running')
     set guioptions-=T " remove the toolbar
     set lines=50 " 50 lines of text instead of 24,
     set columns=120 " set for making a GUI window useful
-"    au FocusLost * :wa " write all files when losing focus
+    " au FocusLost * :wa " write all files when losing focus
     colorscheme solarized
 else
-"    set term=builtin_ansi " Make arrow and other keys work
-"    colorscheme desert256
-    " colorscheme wombat256
+    " set term=builtin_ansi " Make arrow and other keys work
+    " colorscheme desert256
+    colorscheme wombat256
     " colorscheme blacklight " works with light bg
-    " colo bensday " works with light bg
-    " colo   devbox-dark-256
-    " colo kellys " not so good with light bg
-    " colo lingodirector
-    " colo louver
-    " colo moria
-    " colo mustang
-    colo random " !!
+    " colorscheme bensday " works with light bg
+    " colorscheme   devbox-dark-256
+    " colorscheme kellys " not so good with light bg
+    " colorscheme lingodirector
+    " colorscheme louver
+    " colorscheme moria
+    " colorscheme mustang
+    " colorscheme random " !!
     "
 endif
 " }
@@ -419,18 +419,18 @@ let g:snips_author = 'Konstantin Zverev <konstantin.zverev@gmail.com>'
 " Shortcut for reloading snippets, useful when developing
 nnoremap <leader>smr <esc>:exec ReloadAllSnippets()<cr>
 " }
-" NerdTree {
-map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
-map <leader>e :NERDTreeFind<CR>
-nmap <leader>nt :NERDTreeFind<CR>
-
-let NERDTreeShowBookmarks=1
-let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-let NERDTreeChDirMode=0
-let NERDTreeQuitOnOpen=1
-let NERDTreeShowHidden=1
-let NERDTreeKeepTreeInNewTab=1
-" }
+" " NerdTree {
+" map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+" map <leader>e :NERDTreeFind<CR>
+" nmap <leader>nt :NERDTreeFind<CR>
+" 
+" let NERDTreeShowBookmarks=1
+" let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+" let NERDTreeChDirMode=0
+" let NERDTreeQuitOnOpen=1
+" let NERDTreeShowHidden=1
+" let NERDTreeKeepTreeInNewTab=1
+" " }
 " Powerline {
 let g:Powerline_symbols='fancy'
 " }
@@ -479,18 +479,18 @@ let g:yankring_history_file='yankring.hist'
 " }
 " }
 
-" NERDTree helper function {
-function! NERDTreeInitAsNeeded()
-    redir => bufoutput
-    buffers!
-    redir END
-    let idx = stridx(bufoutput, "NERD_tree")
-    if idx > -1
-        NERDTreeMirror
-        NERDTreeFind
-        wincmd l
-    endif
-endfunction
+" " NERDTree helper function {
+" function! NERDTreeInitAsNeeded()
+"     redir => bufoutput
+"     buffers!
+"     redir END
+"     let idx = stridx(bufoutput, "NERD_tree")
+"     if idx > -1
+"         NERDTreeMirror
+"         NERDTreeFind
+"         wincmd l
+"     endif
+" endfunction
 " }
 " My vimgrep wrapper that can be mapped {
 function! GlobalGrep()
@@ -504,6 +504,21 @@ endfunction
 if filereadable(expand("~/.vimrc.local"))
     source ~/.vimrc.local
 endif
+" }
+
+" Startify header {
+let g:startify_custom_header = [
+  \ '                    _,    _   _    ,_ ',
+  \ '               .o888P     Y8o8Y     Y888o. ',
+  \ '              d88888      88888      88888b ',
+  \ '             d888888b_  _d88888b_  _d888888b ',
+  \ '             8888888888888888888888888888888 ',
+  \ '             8888888888888888888888888888888 ',
+  \ '             YJGS8P"Y888P"Y888P"Y888P"Y8888P ',
+  \ '              Y888   ''8''   Y8P   ''8''   888Y ',
+  \ '               ''8o          V          o8'' ',
+  \ '                 `                     ` ',
+  \ '' ]
 " }
 
 " Language-related settings {
