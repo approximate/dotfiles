@@ -49,7 +49,8 @@ Bundle 'tpope/vim-scriptease'
 Bundle 'tpope/vim-sensible'
 Bundle 'tpope/vim-surround'
 Bundle 'tsaleh/vim-matchit'
-Bundle 'vimez/vim-showmarks'
+" Bundle 'vimez/vim-showmarks'
+Bundle 'bridgeutopia/vim-showmarks'
 Bundle 'xolox/vim-colorscheme-switcher'
 Bundle 'xolox/vim-misc.git'
 Bundle 'xolox/vim-session'
@@ -206,7 +207,7 @@ if has('gui_running')
 else
 "    set term=builtin_ansi " Make arrow and other keys work
 "    colorscheme desert256
-    " colorscheme wombat256
+    colorscheme wombat256
     " colorscheme blacklight " works with light bg
     " colo bensday " works with light bg
     " colo   devbox-dark-256
@@ -215,7 +216,7 @@ else
     " colo louver
     " colo moria
     " colo mustang
-    colo random " !!
+    " colo random " !!
     "
 endif
 " }
@@ -525,3 +526,8 @@ let g:miniBufExplMapCTabSwitchWindows = 1
 let g:miniBufExplModSelTarget = 1
 " }
 " }
+
+" Temp settings for SML code
+let sml_coursera_interactive=1
+let sml_coursera_clean_output=0
+Bundle 'chilicuil/vim-sml-coursera'
