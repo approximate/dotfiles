@@ -68,6 +68,9 @@
 #   It seems that I'm constantly adding new features that leap-frog the
 #   todo list below, so this is really a SHOULDDO list, but for what it's
 #   worth:
+#     - rewrite the .bashrc.local bit, so I can *different* .bashrc.local
+#       files at the same time (e.g. .bashrc.<hostname>) and can check them
+#       into my Git repo without screwing everything up
 #     - surround the ENV var and other once-only stuff with a big if,
 #       testing $0 or something for login-shellness then call this file
 #       from /.bash_profile with something like:
@@ -375,6 +378,7 @@ if (( _running_X )); then
     [[ -z "$displayhost" ]] && pingcmd=""
     (( _debugging )) && echo Thorough X tests..
 # This section takes AGES to execute on OSX, so I commented it out for the time being
+# TODO: This can be rewritten by using xset instead of xdpyinfo -- should test on OSX
 
 #    if ! ( $pingcmd && xdpyinfo ) >/dev/null 2>&1; then
 #        # Either we can't ping the machine or xdpyinfo failed. Either way,
@@ -474,63 +478,6 @@ alias realias='. ~/.bashrc.aliases'
 # }
 
 # Functions {
-# ruler {
-# This one is sometimes handy. Once I'd written it, I realised I could
-# have just used a static set of strings and extracted the needed
-# substring, but this is niftier and more educational (for me) and a
-# little more robust. By the way, the argument was really just meant so
-# you could have a 0-based ruler, as well as a 1-based one. If you ask for
-# one that will reach over 1000 or less than 0 it will look crappy, but
-# you deserve what you get, IMHO!
-
-# Unfortunately the for (( ... )) feature that I use here did not appear
-# till bash 2.04, so it's not there on Solaris 8 and I have to put the
-# function definition INSIDE an if statement. Ugh!. Worse, there's no easy
-# way to test for its availability (a la no_empty_cmd_completion, above).
-# As a result, I have to check for the bash version. Uerrgh! But wait.
-# there's more!  There's no string >= operator, so this is particularly
-# unpleasant - just look away if you are eating.
-# Finally, of course the shell still processes  the contents of an if
-# branch that it's not executing, so we have to put the entire function
-# definition in a big string so we can eval it. I don't know why I bother!
-
-if [[ ( ${BASH_VERSINFO[0]} = "2"  || ${BASH_VERSINFO[0]} > "2" )
-   && ( ${BASH_VERSINFO[1]} = "04" || ${BASH_VERSINFO[1]} > "04" ) ]]; then
-   eval ' function ruler {
-        local start end col firstline secondline lastline
-        declare -i start end col
-        start="$1"
-        [ -z "$1" ] && start=1
-        (( end = COLUMNS + start ))
-        # loop over the columns
-        for (( col=start; col < end; col++ )); do
-            # prepare the first line
-            if (( col % 10 == 0 && col / 100 != 0 )); then
-                firstline="$firstline"$(( col / 100 ))
-            else
-                firstline="$firstline-"
-            fi
-            # prepare the second line
-            if (( col % 10 == 0 )); then
-                secondline="${secondline}"$(( col / 10 % 10 ))
-            else
-                secondline="$secondline "
-            fi
-            # prepare the last line
-            lastline="$lastline"$(( col % 10 ))
-        done
-        if (( start < 85 )); then
-            printf "%4d %-10s%s" $COLUMNS "columns" "${firstline:15}"
-        else
-            echo "$firstline"
-        fi
-        echo "$secondline"
-        echo "$lastline"
-    }
-    ' # end the eval
-fi # End bash version test
-# }
-
 # The ps function {
 # This function lets me use either the System V (-ef) or BSD (aux) style
 # switches on Solaris. It just runs the appropriate ps based on whether
