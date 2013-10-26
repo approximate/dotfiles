@@ -20,47 +20,60 @@ Bundle 'gmarik/vundle'
 
 " My Bundles here:
 " original repos on github
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-markdown'
-Bundle 'tpope/vim-sensible'
-Bundle 'tpope/vim-scriptease'
-Bundle 'tpope/vim-git'
-Bundle 'kien/ctrlp.vim'
-Bundle 'scrooloose/nerdtree'
+" Bundle 'Lokaltog/powerline'
+Bundle 'bling/vim-airline'
 Bundle 'Lokaltog/vim-easymotion'
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'altercation/vim-colors-solarized'
+Bundle 'cburroughs/pep8.py'
+Bundle 'ervandew/supertab'
+Bundle 'fholgado/minibufexpl.vim'
+Bundle 'flazz/vim-colorschemes'
+Bundle 'fs111/pydoc.vim'
+Bundle 'godlygeek/tabular'
+Bundle 'joeybeninghove/bufexplorer'
+Bundle 'kevinw/pyflakes-vim'
+Bundle 'kien/ctrlp.vim'
+Bundle 'mattboehm/vim-accordion'
+Bundle 'msanders/snipmate.vim'
+Bundle 'nvie/vim-flake8'
+Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Bundle 'scrooloose/nerdtree'
+Bundle 'thisivan/vim-taglist'
+Bundle 'tomtom/tcomment_vim'
+" Bundle 'tpope/vim-commentary'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-git'
+Bundle 'tpope/vim-markdown'
+Bundle 'tpope/vim-ragtag'
+" Bundle 'tpope/vim-scriptease'
+Bundle 'tpope/vim-sensible'
+Bundle 'tpope/vim-surround'
+Bundle 'tsaleh/vim-matchit'
+" Bundle 'vimez/vim-showmarks'
+Bundle 'bridgeutopia/vim-showmarks'
 Bundle 'xolox/vim-colorscheme-switcher'
 Bundle 'xolox/vim-misc.git'
-Bundle 'msanders/snipmate.vim'
-Bundle 'ervandew/supertab'
-Bundle 'vimez/vim-showmarks'
-Bundle 'thisivan/vim-taglist'
-Bundle 'flazz/vim-colorschemes'
-Bundle 'Lokaltog/powerline'
-Bundle 'joeybeninghove/bufexplorer'
-Bundle 'fs111/pydoc.vim'
-Bundle 'kevinw/pyflakes-vim'
-Bundle 'tsaleh/vim-matchit'
-Bundle 'fholgado/minibufexpl.vim'
-Bundle 'scrooloose/nerdtree'
-Bundle 'tpope/vim-ragtag'
 Bundle 'xolox/vim-session'
-Bundle 'cburroughs/pep8.py'
-Bundle 'nvie/vim-flake8'
-Bundle 'tomtom/tcomment_vim'
+" Bundle 'biskark/vim-ultimate-colorscheme-utility'
+" Bundle 'drmikehenry/vim-fixkey'
+Bundle 'mikewest/vimroom'
+" Bundle 'Shougo/unite.vim'
+Bundle 'mhinz/vim-startify'
+" Bundle 'tpope/vim-dispatch'
+" Bundle 'mhinz/vim-tmuxify'
+" Bundle 'kablamo/vim-git-log'
+" Bundle 'jpalardy/vim-slime'
 
 " vim-scripts repos
-Bundle 'L9'
 Bundle 'FuzzyFinder'
 Bundle 'Gundo'
+Bundle 'L9'
 Bundle 'ScrollColors'
-Bundle 'vim-autopep8'
-Bundle 'bufexplorer.zip'
-Bundle 'YankRing.vim'
-Bundle 'vimpager'
 Bundle 'TaskList.vim'
+Bundle 'YankRing.vim'
+Bundle 'bufexplorer.zip'
+Bundle 'vim-autopep8'
+Bundle 'vimpager'
 
 " non github repos
 " Bundle 'git://git.wincent.com/command-t.git'
@@ -119,7 +132,7 @@ set linebreak
 " Setting up the directories for services like undo, backups etc {
 set backup " backups are nice ...
 set backupdir=$HOME/.vim/.cache/backup/ " Write backups to a separate location, not in current dir
-if version > 703 
+if version > 703
     set undofile " so is persistent undo ...
     set undolevels=1000 "maximum number of changes that can be undone
     set undoreload=10000 "maximum number lines to save for undo on a buffer reload
@@ -133,6 +146,7 @@ set directory=$HOME/.vim/.cache/swap/
 " }
 
 " Misc {
+source ~/dotfiles/VerticalHelp.vim " This is a dirty hack, I should repackage this plugin
 let b:match_ignorecase = 1
 " }
 " }
@@ -141,8 +155,8 @@ let b:match_ignorecase = 1
 set showmode " display the current mode
 set background=dark " Assume a dark background
 set cursorline " highlight current line
-hi cursorline guibg=#333333 " highlight bg color of current line
-hi CursorColumn guibg=#333333 " highlight cursor
+" hi cursorline guibg=#333333 " highlight bg color of current line
+" hi CursorColumn guibg=#333333 " highlight cursor
 
 if has('cmdline_info')
     set ruler " show the ruler
@@ -180,6 +194,7 @@ set scrolloff=3 " minimum lines to keep above and below cursor
 set foldenable " auto fold code
 set gdefault " the /g flag on :s substitutions by default
 set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+set diffopt=filler,context:3,icase,iwhite " better diffs
 
 " GUI Settings {
 " GVIM- (here instead of .gvimrc)
@@ -187,12 +202,22 @@ if has('gui_running')
     set guioptions-=T " remove the toolbar
     set lines=50 " 50 lines of text instead of 24,
     set columns=120 " set for making a GUI window useful
-"    au FocusLost * :wa " write all files when losing focus
+    " au FocusLost * :wa " write all files when losing focus
     colorscheme solarized
 else
-"    set term=builtin_ansi " Make arrow and other keys work
-"    colorscheme desert256
+    " set term=builtin_ansi " Make arrow and other keys work
+    " colorscheme desert256
     colorscheme wombat256
+    " colorscheme blacklight " works with light bg
+    " colorscheme bensday " works with light bg
+    " colorscheme   devbox-dark-256
+    " colorscheme kellys " not so good with light bg
+    " colorscheme lingodirector
+    " colorscheme louver
+    " colorscheme moria
+    " colorscheme mustang
+    " colorscheme random " !!
+    "
 endif
 " }
 
@@ -264,6 +289,12 @@ inoremap <right> <nop>
 " Wrapped lines goes down/up to next row, rather than next line in file.
 nnoremap j gj
 nnoremap k gk
+
+" These will disable char-based navigation, in order to learn a faster way
+nnoremap h <NOP>
+nnoremap j <NOP>
+nnoremap k <NOP>
+nnoremap l <NOP>
 
 inoremap jj <ESC>
 
@@ -380,7 +411,7 @@ set tags=./tags;/,$HOME/vimtags
 " C-\ - Open the definition in a new tab
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 " A-] - Open the definition in a vertical split
-map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR> 
+map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 " }
 " SnipMate {
 " Setting the author var
@@ -389,18 +420,18 @@ let g:snips_author = 'Konstantin Zverev <konstantin.zverev@gmail.com>'
 " Shortcut for reloading snippets, useful when developing
 nnoremap <leader>smr <esc>:exec ReloadAllSnippets()<cr>
 " }
-" NerdTree {
-map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
-map <leader>e :NERDTreeFind<CR>
-nmap <leader>nt :NERDTreeFind<CR>
-
-let NERDTreeShowBookmarks=1
-let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-let NERDTreeChDirMode=0
-let NERDTreeQuitOnOpen=1
-let NERDTreeShowHidden=1
-let NERDTreeKeepTreeInNewTab=1
-" }
+" " NerdTree {
+" map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
+" map <leader>e :NERDTreeFind<CR>
+" nmap <leader>nt :NERDTreeFind<CR>
+"
+" let NERDTreeShowBookmarks=1
+" let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+" let NERDTreeChDirMode=0
+" let NERDTreeQuitOnOpen=1
+" let NERDTreeShowHidden=1
+" let NERDTreeKeepTreeInNewTab=1
+" " }
 " Powerline {
 let g:Powerline_symbols='fancy'
 " }
@@ -428,7 +459,7 @@ nmap <leader>vs :ViewSession<CR>
 nmap <leader>b :BufExplorer<CR>
 " }
 " Ctrl-P settings {
-let g:ctrlp_cache_dir=$HOME . '.vim/.cache/ctrlp/'
+let g:ctrlp_cache_dir=$HOME . '/.vim/.cache/ctrlp/'
 " }
 " Taglist settings {
 let Tlist_Auto_Highlight_Tag = 1
@@ -449,18 +480,18 @@ let g:yankring_history_file='yankring.hist'
 " }
 " }
 
-" NERDTree helper function {
-function! NERDTreeInitAsNeeded()
-    redir => bufoutput
-    buffers!
-    redir END
-    let idx = stridx(bufoutput, "NERD_tree")
-    if idx > -1
-        NERDTreeMirror
-        NERDTreeFind
-        wincmd l
-    endif
-endfunction
+" " NERDTree helper function {
+" function! NERDTreeInitAsNeeded()
+"     redir => bufoutput
+"     buffers!
+"     redir END
+"     let idx = stridx(bufoutput, "NERD_tree")
+"     if idx > -1
+"         NERDTreeMirror
+"         NERDTreeFind
+"         wincmd l
+"     endif
+" endfunction
 " }
 " My vimgrep wrapper that can be mapped {
 function! GlobalGrep()
@@ -476,7 +507,27 @@ if filereadable(expand("~/.vimrc.local"))
 endif
 " }
 
+" Startify header {
+let g:startify_custom_header = [
+  \ '                    _,    _   _    ,_ ',
+  \ '               .o888P     Y8o8Y     Y888o. ',
+  \ '              d88888      88888      88888b ',
+  \ '             d888888b_  _d88888b_  _d888888b ',
+  \ '             8888888888888888888888888888888 ',
+  \ '             8888888888888888888888888888888 ',
+  \ '             YJGS8P"Y888P"Y888P"Y888P"Y8888P ',
+  \ '              Y888   ''8''   Y8P   ''8''   888Y ',
+  \ '               ''8o          V          o8'' ',
+  \ '                 `                     ` ',
+  \ '' ]
+" }
+
 " Language-related settings {
+" Shell {
+autocmd FileType SH set foldmethod=marker foldlevel=2
+" set colorcolumn=85 " Make this column red, so I can see if the line is too long
+set comments=:#
+" }
 " Python {
 autocmd FileType python set foldmethod=indent foldlevel=99
 au Filetype python set omnifunc=pythoncomplete#Complete
@@ -488,6 +539,10 @@ let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
 let g:miniBufExplMapCTabSwitchWindows = 1
 let g:miniBufExplModSelTarget = 1
+" }
+" }
 
-" }
-" }
+" Temp settings for SML code
+let sml_coursera_interactive=1
+let sml_coursera_clean_output=0
+Bundle 'chilicuil/vim-sml-coursera'
