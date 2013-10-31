@@ -68,13 +68,10 @@
 #   It seems that I'm constantly adding new features that leap-frog the
 #   todo list below, so this is really a SHOULDDO list, but for what it's
 #   worth:
-#     - rewrite the .bashrc.local bit, so I can have *different* .bashrc.local
-#       files at the same time (e.g. .bashrc.<hostname>) and can check them
-#       into my Git repo without screwing everything up
 #     - surround the ENV var and other once-only stuff with a big if,
 #       testing $0 or something for login-shellness then call this file
 #       from /.bash_profile with something like:
-#       [ -f ~/.bashrc ] && . /.bashrc
+#       [ -r ~/.bashrc ] && . /.bashrc
 #     - exclude lots of things such as alises etc in case our session
 #       is not interactive
 #     - Policy question: Should stuff in the /usr/local tree be used in
@@ -98,7 +95,7 @@
 # }
 
 # Make the first call on the local settings file {
-[ -f $HOME/.bashrc.local ] && . $HOME/.bashrc.local pre
+[ -r $HOME/.bashrc.local ] && . $HOME/.bashrc.local pre
 # }
 
 # PATH, MANPATH, LD_LIBRARY_PATH {
@@ -147,6 +144,8 @@
 # }
 #
 # # TABULA RASA
+# # NOTE: Not a good idea to unset $PATH and similar vars, since interactive shell should
+# #   probably inherit those variables from the process that started it
 # export PATH=""
 # export MANPATH=""
 #
@@ -160,6 +159,7 @@
 #
 # export PATH=$(prepend_colon ".local" $PATH)
 # The end of the idea section}}
+
 # TODO: This has to be fixed for MacOSX, where Homebrew puts stuff directly
 # into /usr/local/bin
 
@@ -405,6 +405,9 @@ shopt -s cdspell checkwinsize histreedit
 HISTCONTROL=ignoredups
 # }
 
+# The following section should only be used for interactive shells {
+
+if [[ $_shell_is_interactive == 1 ]] ; then
 # Prompt and other terminal settings {
 
 # Set the prompt {
@@ -473,14 +476,14 @@ alias realias='. ~/.bashrc.aliases'
 # }
 # Other aliases {
 # Put the rest of stuff that you want aliased in .bashrc.aliases file
-[ -f ~/.bashrc.aliases ] && source ~/.bashrc.aliases
+[ -r ~/.bashrc.aliases ] && source ~/.bashrc.aliases
 # }
 # }
 
 # Functions {
 # Easy extract
 extract () {
-  if [ -f $1 ] ; then
+  if [ -r $1 ] ; then
       case $1 in
           *.tar.bz2)   tar xvjf $1    ;;
           *.tar.gz)    tar xvzf $1    ;;
@@ -522,9 +525,9 @@ if [[ $OSTYPE == solaris* ]]; then
 fi # end solaris function
 # }
 # }
-
+fi # End of interactive-only section
 # Make the last call on the local settings file {
-[ -e $HOME/.bashrc.local ] && . $HOME/.bashrc.local post
+[ -r $HOME/.bashrc.local ] && . $HOME/.bashrc.local post
 # }
 
 # Clean up {
