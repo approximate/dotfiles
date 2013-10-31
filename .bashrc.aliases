@@ -42,11 +42,22 @@ else
 fi
 # }
 
+# Handy cd aliases
+alias back='cd $OLDPWD'
+alias ..='cd ..'
+alias cd..='cd ..'
+alias ...='cd ../..'
+
+# Handy ls aliases: name, mdate, size sorting
 alias ll='ls -la'
 alias lt='ls -ltr'
+alias lz='ls -lS'
+alias l='ls -l'
 
+# Handy grep aliases
 alias psx='ps -elf | grep $USER | grep -v sshd | grep -v $SHELL | grep -v grep'
 alias psu='ps -fu $USER | grep -v sshd | grep -v $SHELL | sort | grep -v sort | grep -v grep '
+alias psg='psu | grep '
 
 alias x="xterm -ls &"
 alias apropos="man -k"
@@ -63,3 +74,12 @@ alias eba='vi ~/.bashrc.aliases'
 
 alias setcontrol='stty erase ^? kill ^D susp ^Z intr ^C'
 setcontrol
+
+alias my_ip='curl ifconfig.me'
+
+alias path='echo -e ${PATH//:/\\n}'
+alias now='date +%T'
+alias today='date +"%Y-%m-%d"'
+
+alias wget='wget -c'
+

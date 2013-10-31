@@ -131,7 +131,7 @@
 #     echo $1:$2
 #   fi
 # }
-# 
+#
 # # unshift_path(path)
 # unshift_path() {
 #   if [ -d $1/sbin ]; then
@@ -140,16 +140,16 @@
 #   if [ -d $1/bin ]; then
 #     export PATH=$(prepend_colon "$1/bin" $PATH)
 #   fi
-# 
+#
 #   if [ -d $1/share/man ]; then
 #     export MANPATH=$(prepend_colon "$1/share/man" $MANPATH)
 #   fi
 # }
-# 
+#
 # # TABULA RASA
 # export PATH=""
 # export MANPATH=""
-# 
+#
 # unshift_path "/usr/X11"
 # unshift_path ""
 # unshift_path "/usr"
@@ -157,7 +157,7 @@
 # unshift_path "/opt/local"
 # unshift_path "$HOME/local"
 # unshift_path "$HOME/etc"
-# 
+#
 # export PATH=$(prepend_colon ".local" $PATH)
 # The end of the idea section}}
 # TODO: This has to be fixed for MacOSX, where Homebrew puts stuff directly
@@ -296,7 +296,7 @@ function pathclean() {
     #
     for component in $(echo ${!thevar} |
                         sed -e 's/ /|/g' -e 's/:/ /g' -e 's#//#/#g' \
-			-e 's#/cygdrive##g' )
+                            -e 's#/cygdrive##g' )
     do
         if [[ -d ${component//|/ } ]]; then
             # The directory exists, lets check we haven't already seen it
@@ -338,8 +338,8 @@ export PATH MANPATH LD_LIBRARY_PATH
 # on solaris (esp. in CDE) 'cos tset is Bezerkeley :-(
 # TODO: I think there's a tset in /usr/ucb
 if [[ "$_shell_is_interactive" == 1 && \
-	$OSTYPE != solaris* && \
-	$OSTYPE != cygwin* ]]; then
+    $OSTYPE != solaris* && \
+    $OSTYPE != cygwin* ]]; then
     if [[ $(type -p tset) ]]; then
         eval $(SHELL=/bin/sh tset -Q -I -s)
     fi
@@ -367,9 +367,9 @@ if (( _running_X )); then
         linux*)
             pingcmd="ping -c 1 $displayhost"
             ;;
-	cygwin*)
-	    pingcmd="ping -n 1 -w 500 $displayhost"
-	    ;;
+        cygwin*)
+            pingcmd="ping -n 1 -w 500 $displayhost"
+            ;;
         *)
             ;;
         # TODO insert other flavors of ping here
@@ -478,6 +478,27 @@ alias realias='. ~/.bashrc.aliases'
 # }
 
 # Functions {
+# Easy extract
+extract () {
+  if [ -f $1 ] ; then
+      case $1 in
+          *.tar.bz2)   tar xvjf $1    ;;
+          *.tar.gz)    tar xvzf $1    ;;
+          *.bz2)       bunzip2 $1     ;;
+          *.rar)       rar e $1       ;;
+          *.gz)        gunzip $1      ;;
+          *.tar)       tar xvf $1     ;;
+          *.tbz2)      tar xvjf $1    ;;
+          *.tgz)       tar xvzf $1    ;;
+          *.zip)       unzip $1       ;;
+          *.Z)         uncompress $1  ;;
+          *.7z)        7z x $1        ;;
+          *)           echo "don't know how to extract '$1'..." ;;
+      esac
+  else
+      echo "'$1' is not a valid file!"
+  fi
+}
 # The ps function {
 # This function lets me use either the System V (-ef) or BSD (aux) style
 # switches on Solaris. It just runs the appropriate ps based on whether
