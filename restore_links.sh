@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO: make the verboseness optional
+
 #u This script will make symlinks in your $HOME to the files in repo dir
 #u
 #u Default Git repo is at $HOME/dotfiles/
@@ -31,8 +33,8 @@ filelist=`find $repo -maxdepth 1 -type f -name .\* | sed -e 's#.*/##'`
 timestamp="$(date +%F_%H.%M.%S)"
 
 # Create symlinks in $dest that point to files in $src
-# 
-# I experimented with hardlinks, but this got screwed by "git pull", which 
+#
+# I experimented with hardlinks, but this got screwed by "git pull", which
 # just created new files
 for file in $filelist ; do
     echo "Checking file $file"
@@ -40,8 +42,8 @@ for file in $filelist ; do
         if [ ! -L "$HOME/$file" ] ; then
             # There is a normal file with the same name
             # Let's just rename it
-            echo "Making backup..."
-            mv "$HOME/$file" "$HOME/${file}.$timestamp" || exit 1
+            echo "Original file found, renaming to ${file}.$timestamp"
+            mv "$HOME/$file" "$HOME/${file}.$timestamp" || { echo "Cannot rename $file, aborting..." ; exit 1 ; }
         else
             # There's a symlink already, let's see where it points
             # link -p $HOME/$file
@@ -50,13 +52,13 @@ for file in $filelist ; do
                 _dest_file=$(readlink -q --canonicalize $HOME/$file)
                 if [ -f $_dest_file ] && [ "$_dest_file" == "$repo/$file" ] ; then
                     echo "Looks like the link is correct, skipping..."
+                    continue
                 else
                     echo "Links point somewhere else, needs changing..."
                 fi
             fi
         fi
-    else
-        ln -s "$repo/$file" "$HOME/$file" || exit 1
-        echo "Created symlink to $file"
     fi
+    ln -s "$repo/$file" "$HOME/$file" || { echo "Cannot creat symlink to $file, aborting..." ; exit 1 ; }
+    echo "Created symlink to $file"
 done

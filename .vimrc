@@ -45,7 +45,7 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-git'
 Bundle 'tpope/vim-markdown'
 Bundle 'tpope/vim-ragtag'
-Bundle 'tpope/vim-scriptease'
+" Bundle 'tpope/vim-scriptease'
 Bundle 'tpope/vim-sensible'
 Bundle 'tpope/vim-surround'
 Bundle 'tsaleh/vim-matchit'
@@ -56,7 +56,7 @@ Bundle 'xolox/vim-misc.git'
 Bundle 'xolox/vim-session'
 " Bundle 'biskark/vim-ultimate-colorscheme-utility'
 " Bundle 'drmikehenry/vim-fixkey'
-" Bundle 'mikewest/vimroom'
+Bundle 'mikewest/vimroom'
 " Bundle 'Shougo/unite.vim'
 Bundle 'mhinz/vim-startify'
 " Bundle 'tpope/vim-dispatch'
@@ -132,7 +132,7 @@ set linebreak
 " Setting up the directories for services like undo, backups etc {
 set backup " backups are nice ...
 set backupdir=$HOME/.vim/.cache/backup/ " Write backups to a separate location, not in current dir
-if version > 703 
+if version > 703
     set undofile " so is persistent undo ...
     set undolevels=1000 "maximum number of changes that can be undone
     set undoreload=10000 "maximum number lines to save for undo on a buffer reload
@@ -411,7 +411,7 @@ set tags=./tags;/,$HOME/vimtags
 " C-\ - Open the definition in a new tab
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 " A-] - Open the definition in a vertical split
-map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR> 
+map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 " }
 " SnipMate {
 " Setting the author var
@@ -424,7 +424,7 @@ nnoremap <leader>smr <esc>:exec ReloadAllSnippets()<cr>
 " map <C-e> :NERDTreeToggle<CR>:NERDTreeMirror<CR>
 " map <leader>e :NERDTreeFind<CR>
 " nmap <leader>nt :NERDTreeFind<CR>
-" 
+"
 " let NERDTreeShowBookmarks=1
 " let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 " let NERDTreeChDirMode=0
@@ -459,7 +459,7 @@ nmap <leader>vs :ViewSession<CR>
 nmap <leader>b :BufExplorer<CR>
 " }
 " Ctrl-P settings {
-let g:ctrlp_cache_dir=$HOME . '.vim/.cache/ctrlp/'
+let g:ctrlp_cache_dir=$HOME . '/.vim/.cache/ctrlp/'
 " }
 " Taglist settings {
 let Tlist_Auto_Highlight_Tag = 1
