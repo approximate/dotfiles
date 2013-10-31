@@ -68,7 +68,7 @@
 #   It seems that I'm constantly adding new features that leap-frog the
 #   todo list below, so this is really a SHOULDDO list, but for what it's
 #   worth:
-#     - rewrite the .bashrc.local bit, so I can *different* .bashrc.local
+#     - rewrite the .bashrc.local bit, so I can have *different* .bashrc.local
 #       files at the same time (e.g. .bashrc.<hostname>) and can check them
 #       into my Git repo without screwing everything up
 #     - surround the ENV var and other once-only stuff with a big if,

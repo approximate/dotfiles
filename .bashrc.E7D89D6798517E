@@ -1,0 +1,2 @@
+[[ -s ~/.autojump/etc/profile.d/autojump.bash ]] && . ~/.autojump/etc/profile.d/autojump.bash
+export PATH=/cygdrive/c/HashiCorp/Vagrant/bin:$PATH
