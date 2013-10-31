@@ -63,6 +63,7 @@ Bundle 'mhinz/vim-startify'
 " Bundle 'mhinz/vim-tmuxify'
 " Bundle 'kablamo/vim-git-log'
 " Bundle 'jpalardy/vim-slime'
+Bundle 'sukima/xmledit'
 
 " vim-scripts repos
 Bundle 'FuzzyFinder'
