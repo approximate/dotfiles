@@ -392,7 +392,7 @@ fi
 
 # Shell options {
 # Set my preferred options
-shopt -s cdspell checkwinsize histreedit
+shopt -s cdspell checkwinsize histreedit globstar histappend nocaseglob
 
 # If I hit <tab> on a blank line, I DON'T want to see a list of all the
 # comands in my PATH - who would EVER want that??  This option appeared in
