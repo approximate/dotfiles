@@ -83,3 +83,4 @@ alias today='date +"%Y-%m-%d"'
 
 alias wget='wget -c'
 
+fullname() { echo $(cd $(dirname ${1}) && pwd -P)/$(basename ${1}) ; }
