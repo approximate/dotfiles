@@ -410,59 +410,48 @@ HISTCONTROL=ignoredups
 if [[ $_shell_is_interactive == 1 ]] ; then
 # Prompt and other terminal settings {
 
-# Set the prompt {
-# If it's an xterm then set the window title to reflect $PWD
-# If we're root, make the prompt red
-# TODO: Should use tput for a lot of this stuff
-# Declare some variables to work with
-declare basicprompt='\h:\W\$'
 # We need extglob turned on, so save the current value
 declare oldextglob=$( shopt extglob )
 shopt -s extglob
-declare settitle setcoloron setcoloroff
+
+# Declare some variables to work with
+declare settitle
+declare red=$(tput setaf 1)
+declare green=$(tput setaf 2)
+declare blue=$(tput setaf 4)
+declare yellow=$(tput setaf 3)
+declare reset=$(tput sgr0)
+
 # set up complicated prompt stuff based on terminal type
 case $TERM in
-    dtterm*|*xterm*|screen*|linux)
-        # These use the basic ANSI color sequences.
-        setcoloroff="\[\033[0m\]"
-        if (( ! $UID )); then
-            # we are root... make the prompt red
-            setcoloron="\[\033[0;31m\]"
-        else
-            # non-root, but I still like color
-            setcoloron="\[\033[1;32m\]"
-        fi
-        if [[ $TERM == +(*xterm*|dtterm*|screen*) ]]; then
-            # These terminals have a title that can be set.
-            # This magic came from one of the linux HOWTOs
-            #PS1='\[\033]0;\h: \w\007\]\h:\W\$ '
-            case $TERM in
-                *xterm*|dtterm*)
-                    settitle="\[\033]0;\h: \w\007\]"
-                    ;;
-                screen*)
-                    # for screen I want to set the window title to only
-                    # the hostname, and use the hardstatus for the path.
-                    # The escape sequences to set the hardstatus are the
-                    # same as those to set the title in xterm.
-                    settitle='\[\033k\h\033\\\033]0;\w\007\]'
-                    ;;
-            esac
-        fi
-        ;;
-    *)
-        # Nothing special here
+    dtterm*|*xterm*|screen*|linux|tmux*)
+        # These terminals have a title that can be set.
+        # This magic came from one of the linux HOWTOs
+        #PS1='\[\033]0;\h: \w\007\]\h:\W\$ '
+        case $TERM in
+            *xterm*|dtterm*)
+                settitle="\[\033]0;\h: \w\007\]"
+                ;;
+            screen*|tmux*)
+                # for screen/tmux I want to set the window title to only
+                # the hostname, and use the hardstatus for the path.
+                # The escape sequences to set the hardstatus are the
+                # same as those to set the title in xterm.
+                settitle='\[\033k\h\033\\\033]0;\w\007\]'
+                ;;
+        esac
+        PS1='${settitle}\[${yellow}\][\t] \[${green}\]\u\[${reset}\] \[${blue}\]\W \[$(test "$?" -ne 0 && echo -ne ${red})\]\$ \[${reset}\]'
         ;;
 esac
-PS1="${settitle}${setcoloron}${basicprompt}${setcoloroff} "
 
 # Remove any exporting of PS1 since it looks hideous in other shells and
 # bash will just re-read this file anyway
 export -n PS1
+export PROMPT_COMMAND="history -a"
 
 # set extglob back to how we found it
 [[ $oldextglob == *off ]] && shopt -u extglob
-unset basicprompt settitle setcoloron setcoloroff oldextglob
+unset settitle oldextglob
 # }
 
 # }
@@ -526,6 +515,7 @@ fi # end solaris function
 # }
 # }
 fi # End of interactive-only section
+
 # Make the last call on the local settings file {
 [ -r $HOME/.bashrc.local ] && . $HOME/.bashrc.local post
 # }
