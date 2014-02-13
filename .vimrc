@@ -292,10 +292,10 @@ nnoremap j gj
 nnoremap k gk
 
 " These will disable char-based navigation, in order to learn a faster way
-nnoremap h <NOP>
-nnoremap j <NOP>
-nnoremap k <NOP>
-nnoremap l <NOP>
+" nnoremap h <NOP>
+" nnoremap j <NOP>
+" nnoremap k <NOP>
+" nnoremap l <NOP>
 
 inoremap jj <ESC>
 
