@@ -415,7 +415,7 @@ declare oldextglob=$( shopt extglob )
 shopt -s extglob
 
 # Declare some variables to work with
-declare settitle
+# declare settitle
 declare red=$(tput setaf 1)
 declare green=$(tput setaf 2)
 declare blue=$(tput setaf 4)
@@ -428,19 +428,19 @@ case $TERM in
         # These terminals have a title that can be set.
         # This magic came from one of the linux HOWTOs
         #PS1='\[\033]0;\h: \w\007\]\h:\W\$ '
-        case $TERM in
-            *xterm*|dtterm*)
-                settitle="\[\033]0;\h: \w\007\]"
-                ;;
-            screen*|tmux*)
-                # for screen/tmux I want to set the window title to only
-                # the hostname, and use the hardstatus for the path.
-                # The escape sequences to set the hardstatus are the
-                # same as those to set the title in xterm.
-                settitle='\[\033k\h\033\\\033]0;\w\007\]'
-                ;;
-        esac
-        PS1='${settitle}\[${yellow}\][\t] \[${green}\]\u\[${reset}\] \[${blue}\]\W \[$(test "$?" -ne 0 && echo -ne ${red})\]\$ \[${reset}\]'
+        # case $TERM in
+        #     *xterm*|dtterm*)
+        #         settitle="\[\033]0;\h: \w\007\]"
+        #         ;;
+        #     screen*|tmux*)
+        #         # for screen/tmux I want to set the window title to only
+        #         # the hostname, and use the hardstatus for the path.
+        #         # The escape sequences to set the hardstatus are the
+        #         # same as those to set the title in xterm.
+        #         settitle='\[\033k\h\033\\\033]0;\w\007\]'
+        #         ;;
+        # esac
+        PS1='\[${yellow}\][\t] \[${green}\]\u\[${reset}\] \[${blue}\]\W \[$(test "$?" -ne 0 && echo -ne ${red})\]\$ \[${reset}\]'
         ;;
 esac
 
@@ -451,7 +451,7 @@ export PROMPT_COMMAND="history -a"
 
 # set extglob back to how we found it
 [[ $oldextglob == *off ]] && shopt -u extglob
-unset settitle oldextglob
+unset oldextglob 
 # }
 
 # }
