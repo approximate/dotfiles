@@ -14,7 +14,7 @@ What I should use more if I can:
 * zsh 
  * oh-my-zsh (https://github.com/robbyrussell/oh-my-zsh)
  * or prezto (https://github.com/sorin-ionescu/prezto)
-* Ack (grep replacement)
+* Ack or ag (the-silver-searcher) (grep replacements)
 * Powerline
 * virtualenv (useful for python)
 * wemux (https://github.com/zolrath/wemux, screen sharing for tmux)
