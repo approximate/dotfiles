@@ -72,8 +72,8 @@ alias ebr='vi ~/.bashrc'
 alias eba='vi ~/.bashrc.aliases'
 
 # Handy edit commands that uses ViM server mode
-alias ed='gvim --servername gvim --remote-silent'
-alias edg='gvim --servername gvim --remote-silent'
+alias vim='vim --servername vim --remote-silent'
+alias gvim='gvim --servername gvim --remote-silent'
 
 alias setcontrol='stty erase ^? kill ^D susp ^Z intr ^C'
 setcontrol
