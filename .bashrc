@@ -424,7 +424,7 @@ declare reset=$(tput sgr0)
 
 # set up complicated prompt stuff based on terminal type
 case $TERM in
-    dtterm*|*xterm*|screen*|linux|tmux*)
+    *rxvt*|dtterm*|*xterm*|screen*|linux|tmux*)
         # These terminals have a title that can be set.
         # This magic came from one of the linux HOWTOs
         #PS1='\[\033]0;\h: \w\007\]\h:\W\$ '
