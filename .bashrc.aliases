@@ -72,7 +72,9 @@ alias ebr='vi ~/.bashrc'
 alias eba='vi ~/.bashrc.aliases'
 
 # Handy edit commands that uses ViM server mode
-alias vim='vim --servername vim --remote-silent'
+# Console vim often doesn't support client-server mode, making this alias useless
+# alias vim='vim --servername vim --remote-silent'
+# FIXME: this alias has to consider empty param list
 alias gvim='gvim --servername gvim --remote-silent'
 
 alias setcontrol='stty erase ^? kill ^D susp ^Z intr ^C'
