@@ -43,7 +43,7 @@ deflogin	off             # default: on
 defsilence      off             # default: off
 defmonitor	off             # default: off
 hardcopy_append on              # default: off
-nethack		on              # default: off
+nethack		off             # default: off
 nonblock 	on  #means that the whole window doesn't hang if an individual doesn't
 #zombie 	cr #keep dead windows around till told to exit
 verbose 	on #show command for windows when they're resurrected
