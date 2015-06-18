@@ -27,7 +27,7 @@ URxvt.internalBorder:       3
 URxvt.lineSpace:            0
  
 ! Fonts
-URxvt.allow_bold:           true
+URxvt.allow_bold:           false
 URxvt*font: xft:Terminus:style=Regular:size=15
 
 !URxvt*font:                 -*-terminus-medium-r-normal-*-12-120-72-72-c-60-iso8859-1
@@ -94,13 +94,16 @@ URxvt.pointerBlank:         true
 URxvt.intensityStyles: false
 
 ! Perl extensions
-URxvt.perl-ext-common: default,matcher,fullscreen
+URxvt.perl-ext-common: default,matcher,fullscreen,selection-to-clipboard,selection
 URxvt.url-launcher: /usr/bin/firefox
 URxvt.matcher.button: 1
  
 
 URxvt.keysym.C-Delete: perl:matcher:last
 URxvt.keysym.M-Delete: perl:matcher:list
+
+URxvt.iso14755: false
+URxvt.iso14755_52: false
 
 URxvt.colorUL: #4682B4
 
