@@ -427,20 +427,19 @@ case $TERM in
     *rxvt*|dtterm*|*xterm*|screen*|linux|tmux*)
         # These terminals have a title that can be set.
         # This magic came from one of the linux HOWTOs
-        #PS1='\[\033]0;\h: \w\007\]\h:\W\$ '
-        # case $TERM in
-        #     *xterm*|dtterm*)
-        #         settitle="\[\033]0;\h: \w\007\]"
-        #         ;;
-        #     screen*|tmux*)
-        #         # for screen/tmux I want to set the window title to only
-        #         # the hostname, and use the hardstatus for the path.
-        #         # The escape sequences to set the hardstatus are the
-        #         # same as those to set the title in xterm.
+         settitle='\[\033]0;\h: \w\007\]\h:\W\$ '
+         case $TERM in
+             *xterm*|dtterm*)
+                 settitle="\[\033]0;\h: \w\007\]"
+                 ;;
+             *rxvt*|screen*|tmux*)
+        #         # for screen/tmux I want to set the window title to 'local' on a localhost,
+        #         # otherwise to ssh-dictated user@host line
         #         settitle='\[\033k\h\033\\\033]0;\w\007\]'
-        #         ;;
-        # esac
-        PS1='\[${yellow}\][\t] \[${green}\]\u\[${reset}\] \[${blue}\]\W \[$(test "$?" -ne 0 && echo -ne ${red})\]\$ \[${reset}\]'
+                 settitle='\033klocal\033\\'
+                 ;;
+         esac
+        PS1=${settitle}' \[${yellow}\][\t] \[${green}\]\u\[${reset}\] \[${blue}\]\W \[$(test "$?" -ne 0 && echo -ne ${red})\]\$ \[${reset}\]'
         ;;
 esac
 
