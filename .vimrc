@@ -181,7 +181,7 @@ endif
 set linespace=0 " No extra spaces between rows
 set nu " Line numbers on
 if version > 703
-    set relativenumber " Show oinly relative line numbers
+    " set relativenumber " Show only relative line numbers
 endif
 set hlsearch " highlight search terms
 set winminheight=0 " windows can be 0 line high
@@ -208,7 +208,8 @@ if has('gui_running')
 else
     " set term=builtin_ansi " Make arrow and other keys work
     " colorscheme desert256
-    colorscheme wombat256
+    colorscheme solarized
+    " colorscheme wombat256 " Previous favourite
     " colorscheme blacklight " works with light bg
     " colorscheme bensday " works with light bg
     " colorscheme   devbox-dark-256
