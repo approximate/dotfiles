@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+if [ x"$1" = "xpost" ] ; then
+    alias fprod='sudo ssh -F ~kzverev/.ssh/config fitsprod'
+    alias fdev='sudo ssh -F ~kzverev/.ssh/config fitsdev'
+    alias fint='sudo ssh -F ~kzverev/.ssh/config fitsint'
+    alias tsaprod='sudo ssh -F ~kzverev/.ssh/config tsaprod'
+    alias tsadev='sudo ssh -F ~kzverev/.ssh/config tsadev'
+    alias atos='sudo ssh -F ~kzverev/.ssh/config atos'
+
+    [[ -s ~/.autojump/etc/profile.d/autojump.bash ]] && . ~/.autojump/etc/profile.d/autojump.bash
+
+    [[ -s /etc/profile.d/bash_completion.sh ]] && . /etc/profile.d/bash_completion.sh
+
+    # activate envirius
+    [ -f ~/.envirius/nv ] && . ~/.envirius/nv
+
+    source ~/perl5/perlbrew/etc/bashrc
+
+    # Set up gpg-agent variables
+    GPG_TTY=$(tty) ; export GPG_TTY
+    unset SSH_AGENT_PID
+    if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+        export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
+    fi
+
+    # Fire up the tmux session if necessary
+    if [[ -z "$TMUX" ]] ; then
+        # Bash isn't running in tmux, check if default session is started and attached
+        if tmux has-session -t default ; then
+            # There's a default session already, checking if attached...
+            if [[ -z "$(tmux list-clients -t default -F '#{session_attached}')" ]] ; then
+                # Looks like there are no clients, attaching to default session
+                tmux -2 -u attach -t default
+            else
+                # There's a client attached to default session already
+                :
+            fi
+        else
+            echo "Didn't find tmux session, creating one..."
+            # Ok, there's no default session, so we start one
+            tmux -2 -u new-session -s default
+        fi
+    else
+        # We're inside tmux already, bailing out
+        :
+    fi
+fi

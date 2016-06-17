@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # KMZ big huge .bashrc {
 # vim: ai tw=74 fen fdm=marker nospell fmr={,}
 
@@ -48,20 +49,6 @@
 #                                       output should be produced if this
 #                                       is set.
 
-#   _running_X                          Set to "1" if we are running under
-#                                       X and appropriate stuff should be
-#                                       done.  NOTE that when the "pre"
-#                                       call to ~/.bashrc.local is made,
-#                                       _running_X is based on a VERY
-#                                       simple test (is DISPLAY set?).  By
-#                                       the time the "post" call is made
-#                                       _running_X reflects more thorough
-#                                       probes for a usable X server. It's
-#                                       best to wait for the "post" call
-#                                       before using X since timeouts on
-#                                       non-existant servers may cause
-#                                       this script to appear to hang
-
 # }
 
 # TODO: Main list {
@@ -71,7 +58,7 @@
 #     - surround the ENV var and other once-only stuff with a big if,
 #       testing $0 or something for login-shellness then call this file
 #       from /.bash_profile with something like:
-#       [ -r ~/.bashrc ] && . /.bashrc
+#       [ -r ~/.bashrc ] && source /.bashrc
 #     - exclude lots of things such as alises etc in case our session
 #       is not interactive
 #     - Policy question: Should stuff in the /usr/local tree be used in
@@ -90,12 +77,10 @@
 
 # $- contains the options provided to the shell
 [[ $- == *i* ]] && _shell_is_interactive=1
-[[ -n "$DISPLAY" ]] && _running_X=1
-[[ -n "$ENABLE_X" ]] || _running_X=0
 # }
 
 # Make the first call on the local settings file {
-[ -r $HOME/.bashrc.local ] && . $HOME/.bashrc.local pre
+[ -r "$HOME"/.bashrc.local ] && source "$HOME"/.bashrc.local pre
 # }
 
 # PATH, MANPATH, LD_LIBRARY_PATH {
@@ -197,41 +182,44 @@ LD_LIBRARY_PATH=/usr/local/lib
 
 # /usr/local {
 if [ -d /usr/local ]; then
-    for PROG in ${LOCALPROGS:-$(cd /usr/local; echo *)}
+    for PROG in ${LOCALPROGS:-$(cd /usr/local; echo ./*)}
     do
-        if [ -d /usr/local/$PROG/bin ]; then
-            PATH=/usr/local/$PROG/bin:$PATH
+        if [ -d /usr/local/"$PROG"/bin ]; then
+            PATH=/usr/local/"$PROG"/bin:$PATH
         fi
-        if [ -d /usr/local/$PROG/sbin ]; then
-            PATH=/usr/local/$PROG/sbin:$PATH
+        if [ -d /usr/local/"$PROG"/sbin ]; then
+            PATH=/usr/local/"$PROG"/sbin:$PATH
         fi
-        if [ -d /usr/local/$PROG/man ]; then
-            MANPATH=/usr/local/$PROG/man:$MANPATH
+        if [ -d /usr/local/"$PROG"/man ]; then
+            MANPATH=/usr/local/"$PROG"/man:$MANPATH
         fi
-        if [ -d /usr/local/$PROG/lib ]; then
-            LD_LIBRARY_PATH=/usr/local/$PROG/lib:$LD_LIBRARY_PATH
+        if [ -d /usr/local/"$PROG"/lib ]; then
+            LD_LIBRARY_PATH=/usr/local/"$PROG"/lib:$LD_LIBRARY_PATH
         fi
     done
 fi
 # }
+# 01.02.2016
+# Adding dirs from /opt breaks all kinds of shit under Linux 
+# after some third party programs are installed, so I commented this out.
 # /opt {
-if [ -d /opt ]; then
-    for PROG in ${OPTPROGS:-$(cd /opt; echo *)}
-    do
-        if [ -d /opt/$PROG/bin ]; then
-            PATH=$PATH:/opt/$PROG/bin
-        fi
-        if [ -d /opt/$PROG/sbin ]; then
-            PATH=$PATH:/opt/$PROG/sbin
-        fi
-        if [ -d /opt/$PROG/man ]; then
-            MANPATH=$MANPATH:/opt/$PROG/man
-        fi
-        if [ -d /opt/$PROG/lib ]; then
-            LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/$PROG/lib
-        fi
-    done
-fi
+# if [ -d /opt ]; then
+#     for PROG in ${OPTPROGS:-$(cd /opt; echo *)}
+#     do
+#         if [ -d /opt/$PROG/bin ]; then
+#             PATH=$PATH:/opt/$PROG/bin
+#         fi
+#         if [ -d /opt/$PROG/sbin ]; then
+#             PATH=$PATH:/opt/$PROG/sbin
+#         fi
+#         if [ -d /opt/$PROG/man ]; then
+#             MANPATH=$MANPATH:/opt/$PROG/man
+#         fi
+#         if [ -d /opt/$PROG/lib ]; then
+#             LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/$PROG/lib
+#         fi
+#     done
+# fi
 # }
 # $HOME/usr {
 # TODO: This section has to be rewritten, as it currently breaks on my
@@ -294,7 +282,7 @@ function pathclean() {
     # - remove "/cygdrive" as I have local mounts
     # - remove directories not needed in cygwin (Program Files etc)
     #
-    for component in $(echo ${!thevar} |
+    for component in $(echo "${!thevar}" |
                         sed -e 's/ /|/g' -e 's/:/ /g' -e 's#//#/#g' \
                             -e 's#/cygdrive##g' )
     do
@@ -302,8 +290,8 @@ function pathclean() {
             # The directory exists, lets check we haven't already seen it
             alreadyseen=0
             i=0
-            while (( $i < ${#newpathcomps[*]} )); do
-                if [[ ${newpathcomps[i]} == $component ]]; then
+            while (( i < ${#newpathcomps[*]} )); do
+                if [[ ${newpathcomps[i]} == "$component" ]]; then
                     alreadyseen=1
                     break
                 fi
@@ -315,7 +303,7 @@ function pathclean() {
         fi
     done
     # I'm just not game to wrap this line!
-    eval "$thevar=\"$( echo ${newpathcomps[*]} | sed -e's/ /:/g' -e 's/|/ /g' )\""
+    eval "$thevar=\"$( echo "${newpathcomps[*]}" | sed -e's/ /:/g' -e 's/|/ /g' )\""
     # eval "$thevar=\"$( echo ${newpathcomps[*]} | sed -e's/ /:/g' -e 's/|/ /g' -e 's/.*Program Files.*//g' )\""
 }
 # }
@@ -341,52 +329,8 @@ if [[ "$_shell_is_interactive" == 1 && \
     $OSTYPE != solaris* && \
     $OSTYPE != cygwin* ]]; then
     if [[ $(type -p tset) ]]; then
-        eval $(SHELL=/bin/sh tset -Q -I -s)
+        eval "$(SHELL=/bin/sh tset -Q -I -s)"
     fi
-fi
-# }
-
-# Better X detection {
-# Ok, we now have the PATH set, so we can be more ambitious (and therefore
-# reliable) about setting the _running_X variable.  The general idea here
-# is that we want to check that the DISPLAY variable is not only set, but
-# set to a valid value. The easiest way to do this is to run an innocuous
-# X program, and check for exit status. Unfortunately, X applications have
-# RIDICULOUSLY long timeouts (e.g. 2 1/2 _MINUTES_ on solaris 8). We don't
-# want to have to wait that long if the DISPLAY variable points at a
-# non-existent host. So we ping first, which should be quicker. But then,
-# of course ping syntax has it's own issues...
-
-if (( _running_X )); then
-    declare displayhost=${DISPLAY%:*}
-    declare pingcmd
-    case $OSTYPE in
-        solaris*)
-            pingcmd="ping $displayhost 1"
-            ;;
-        linux*)
-            pingcmd="ping -c 1 $displayhost"
-            ;;
-        cygwin*)
-            pingcmd="ping -n 1 -w 500 $displayhost"
-            ;;
-        *)
-            ;;
-        # TODO insert other flavors of ping here
-    esac
-    # If displayhost is blank DISPLAY is probably ":0" so we shouldn't ping
-    [[ -z "$displayhost" ]] && pingcmd=""
-    (( _debugging )) && echo Thorough X tests..
-# This section takes AGES to execute on OSX, so I commented it out for the time being
-# TODO: This can be rewritten by using xset instead of xdpyinfo -- should test on OSX
-
-#    if ! ( $pingcmd && xdpyinfo ) >/dev/null 2>&1; then
-#        # Either we can't ping the machine or xdpyinfo failed. Either way,
-#        # X is probably not going to work!
-#        (( _debugging )) && echo X seems to be broken!
-#        unset _running_X
-#    fi
-    unset displayhost pingcmd
 fi
 # }
 
@@ -411,7 +355,7 @@ if [[ $_shell_is_interactive == 1 ]] ; then
 # Prompt and other terminal settings {
 
 # We need extglob turned on, so save the current value
-declare oldextglob=$( shopt extglob )
+declare oldextglob=$(shopt extglob)
 shopt -s extglob
 
 # Declare some variables to work with
@@ -429,17 +373,17 @@ case $TERM in
         # This magic came from one of the linux HOWTOs
          settitle='\[\033]0;\h: \w\007\]\h:\W\$ '
          case $TERM in
-             *xterm*|dtterm*)
+             *rxvt*|*xterm*|dtterm*)
                  settitle="\[\033]0;\h: \w\007\]"
                  ;;
-             *rxvt*|screen*|tmux*)
+             screen*|tmux*)
         #         # for screen/tmux I want to set the window title to 'local' on a localhost,
         #         # otherwise to ssh-dictated user@host line
         #         settitle='\[\033k\h\033\\\033]0;\w\007\]'
                  settitle='\033klocal\033\\'
                  ;;
          esac
-        PS1=${settitle}' \[${yellow}\][\t] \[${green}\]\u\[${reset}\] \[${blue}\]\W \[$(test "$?" -ne 0 && echo -ne ${red})\]\$ \[${reset}\]'
+        PS1='\['${settitle}'\${yellow}\][\t] \[${green}\]\u\[${reset}\] \[${blue}\]\W \[$(test "$?" -ne 0 && echo -ne ${red})\]\$ \[${reset}\]'
         ;;
 esac
 
@@ -471,19 +415,19 @@ alias realias='. ~/.bashrc.aliases'
 # Functions {
 # Easy extract
 extract () {
-  if [ -r $1 ] ; then
+  if [ -r "$1" ] ; then
       case $1 in
-          *.tar.bz2)   tar xvjf $1    ;;
-          *.tar.gz)    tar xvzf $1    ;;
-          *.bz2)       bunzip2 $1     ;;
-          *.rar)       rar e $1       ;;
-          *.gz)        gunzip $1      ;;
-          *.tar)       tar xvf $1     ;;
-          *.tbz2)      tar xvjf $1    ;;
-          *.tgz)       tar xvzf $1    ;;
-          *.zip)       unzip $1       ;;
-          *.Z)         uncompress $1  ;;
-          *.7z)        7z x $1        ;;
+          *.tar.bz2)   tar xvjf "$1"    ;;
+          *.tar.gz)    tar xvzf "$1"    ;;
+          *.bz2)       bunzip2 "$1"     ;;
+          *.rar)       rar e "$1"       ;;
+          *.gz)        gunzip "$1"      ;;
+          *.tar)       tar xvf "$1"     ;;
+          *.tbz2)      tar xvjf "$1"    ;;
+          *.tgz)       tar xvzf "$1"    ;;
+          *.zip)       unzip "$1"       ;;
+          *.Z)         uncompress "$1"  ;;
+          *.7z)        7z x "$1"        ;;
           *)           echo "don't know how to extract '$1'..." ;;
       esac
   else
@@ -501,12 +445,12 @@ if [[ $OSTYPE == solaris* ]]; then
     function ps {
         if [ -n "$1" ]; then
             if [[ $1 == -* ]]; then
-                /usr/bin/ps $@
+                /usr/bin/ps "$@"
             else
-                /usr/ucb/ps $@
+                /usr/ucb/ps "$@"
             fi
         else
-            /usr/bin/ps $@
+            /usr/bin/ps "$@"
         fi
     }
 
@@ -516,11 +460,10 @@ fi # end solaris function
 fi # End of interactive-only section
 
 # Make the last call on the local settings file {
-[ -r $HOME/.bashrc.local ] && . $HOME/.bashrc.local post
+[ -r "$HOME"/.bashrc.local ] && source "$HOME"/.bashrc.local post
 # }
 
 # Clean up {
 unset _shell_is_interactive
-unset _running_X
 unset _debugging
 # }
