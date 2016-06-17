@@ -166,7 +166,7 @@ PATH=$PATH:/usr/bin/X11:/usr/tcb/bin
 PATH=/sw/bin:/sw/sbin:/Developer/Tools:$PATH
 # TODO: HP/UX and Linux entries should be here
 # My entries
-PATH=$PATH:/usr/local/bin:$HOME/scripts
+PATH=$PATH:/usr/local/bin:$HOME/scripts:$HOME/.local/bin:$HOME/bin
 # Late Solaris entries - definitely want these at the end
 PATH=$PATH:/usr/ucb
 
@@ -198,28 +198,6 @@ if [ -d /usr/local ]; then
         fi
     done
 fi
-# }
-# 01.02.2016
-# Adding dirs from /opt breaks all kinds of shit under Linux 
-# after some third party programs are installed, so I commented this out.
-# /opt {
-# if [ -d /opt ]; then
-#     for PROG in ${OPTPROGS:-$(cd /opt; echo *)}
-#     do
-#         if [ -d /opt/$PROG/bin ]; then
-#             PATH=$PATH:/opt/$PROG/bin
-#         fi
-#         if [ -d /opt/$PROG/sbin ]; then
-#             PATH=$PATH:/opt/$PROG/sbin
-#         fi
-#         if [ -d /opt/$PROG/man ]; then
-#             MANPATH=$MANPATH:/opt/$PROG/man
-#         fi
-#         if [ -d /opt/$PROG/lib ]; then
-#             LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/$PROG/lib
-#         fi
-#     done
-# fi
 # }
 # $HOME/usr {
 # TODO: This section has to be rewritten, as it currently breaks on my
@@ -380,10 +358,10 @@ case $TERM in
         #         # for screen/tmux I want to set the window title to 'local' on a localhost,
         #         # otherwise to ssh-dictated user@host line
         #         settitle='\[\033k\h\033\\\033]0;\w\007\]'
-                 settitle='\033klocal\033\\'
+                 settitle='\[\033klocal\033\\\]'
                  ;;
          esac
-        PS1='\['${settitle}'\${yellow}\][\t] \[${green}\]\u\[${reset}\] \[${blue}\]\W \[$(test "$?" -ne 0 && echo -ne ${red})\]\$ \[${reset}\]'
+        PS1=${settitle}'\[${yellow}\][\t] \[${green}\]\u\[${reset}\] \[${blue}\]\W \[$(test "$?" -ne 0 && echo -ne ${red})\]\$ \[${reset}\]'
         ;;
 esac
 
