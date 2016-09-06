@@ -9,7 +9,7 @@ loadplugins '\.(js|penta)$'
 group user
 
 " Bypass keyborad shortcuts for GMail
-set passkeys+=www.google.com/reader:jkarfgtau:?,gt,ga,gu
+set passkeys+=www.inoreader.com/reader:jkavrfgtau:?,gt,ga,gu
 set passkeys+=mail.google.com:'!#*+-./<C-Down><C-s><Enter>?INU[]acefjklmnopqrsuvxyz',*a,*n,*r,*s,*t,*u,ga,gc,gd,gi,gl,gs,gt,yo
 set strictfocus=google.com:laissez-faire,'chrome:*':laissez-faire,*:moderate
 
