@@ -18,9 +18,11 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-eunuch'
+Plugin 'tpope/vim-repeat'
 Plugin 'mhinz/vim-startify'
 Plugin 'Romainl/flattened'
 Plugin 'Romainl/vim-qf'
+Plugin 'dahu/LearnVim'
 
 " End of Vundle setup
 call vundle#end()
@@ -119,11 +121,15 @@ let mapleader = ','
 nnoremap ; :
 
 " Make ViM customization easier
-nmap <silent> <leader>ev :e $MYVIMRC<CR>   " Edit .vimrc
-nmap <silent> <leader>sv :so $MYVIMRC<CR>  " Reload .vimrc
+nnoremap <silent> <leader>ev :e $MYVIMRC<CR>   " Edit .vimrc
+nnoremap <silent> <leader>sv :so $MYVIMRC<CR>  " Reload .vimrc
 
 " Quick buffer switch
 nnoremap <leader>q :b#<CR>
+
+" Clear highlighted search
+nnoremap <silent> <leader>/ :nohlsearch<CR>
+
 
 " Turn off F1 for help
 nnoremap <F1> <nop>
@@ -161,16 +167,16 @@ nnoremap k gk
 inoremap jj <ESC>
 
 " Better bindings for quickfix stuff
-nmap <silent><leader>n :cn<CR>
-nmap <silent><leader>p :cp<CR>
-nmap <silent><leader>l :clist<CR>
+nnoremap <silent><leader>n :cn<CR>
+nnoremap <silent><leader>p :cp<CR>
+nnoremap <silent><leader>l :clist<CR>
 
 " Stupid shift key fixes for common commands
-cmap W<CR> w<CR>
-cmap WQ<CR> wq<CR>
-cmap wQ<CR> wq<CR>
-cmap Q<CR> q<CR>
-cmap Tabe tabe
+cnoremap W<CR> w<CR>
+cnoremap WQ<CR> wq<CR>
+cnoremap wQ<CR> wq<CR>
+cnoremap Q<CR> q<CR>
+cnoremap Tabe tabe
 
 " Yank from the cursor to the end of the line, to be consistent with C and D.
 nnoremap Y y$
@@ -183,13 +189,13 @@ map [H g0
 imap [H g0
 
 " For when you forget to sudo.. Really Write the file.
-cmap w!! w !sudo tee % >/dev/null
+cnoremap w!! w !sudo tee % >/dev/null
 
 " Insert current date using F3 in Insert mode
 inoremap <F3> <C-R>=strftime("%c")<CR>
 
 " C-\ - Open the help page for the word under cursor
-nmap <C-\> :exec("help ".expand("<cword>"))<CR>
+nnoremap <C-\> :exec("help ".expand("<cword>"))<CR>
 
 " }
 
