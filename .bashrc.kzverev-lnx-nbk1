@@ -7,6 +7,7 @@ if [ x"$1" = "xpost" ] ; then
     alias tsaprod='sudo ssh -F ~kzverev/.ssh/config tsaprod'
     alias tsadev='sudo ssh -F ~kzverev/.ssh/config tsadev'
     alias atos='sudo ssh -F ~kzverev/.ssh/config atos'
+    alias atosdev='sudo ssh -F ~kzverev/.ssh/config atosdev'
 
     [[ -s ~/.autojump/etc/profile.d/autojump.bash ]] && . ~/.autojump/etc/profile.d/autojump.bash
 

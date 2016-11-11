@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # This .bashrc.aliases file is read from main .bashrc
 # vim: ai tw=74 fen fdm=marker nospell fmr={,}
 
@@ -17,7 +18,7 @@ fi
 # TODO: This will break in the unfortunate circumstance when dircolors is
 # present, but the first ls in the path is not GNU ls. Should fix this.
 if [[ $(type -p dircolors) ]] ; then
-    eval $(dircolors --bourne-shell )
+    eval "$(dircolors --bourne-shell )"
     alias ls='ls --color=auto '
 elif [[ $OSTYPE == darwin* ]] ; then
     # MacOSX ls can output colors using -G switch
@@ -34,12 +35,14 @@ if [[ $(type -p vim) ]]; then
     else
         alias vi=vim
     fi
-    export EDITOR=$(type -p vim)
-    export VISUAL=$(type -p vim)
+    EDITOR=$(type -p vim)
+    VISUAL=$(type -p vim)
 else
-    export EDITOR=$(type -p vi)
-    export VISUAL=$(type -p vi)
+    EDITOR=$(type -p vi)
+    VISUAL=$(type -p vi)
 fi
+export EDITOR
+export VISUAL
 # }
 
 # Handy cd aliases
@@ -95,12 +98,15 @@ alias servers='netstat -plnt'
 alias ports='netstat -plantu'
 
 
-fullname() { echo $(cd $(dirname ${1}) && pwd -P)/$(basename ${1}) ; }
+fullname() { echo $(cd $(dirname "${1}") && pwd -P)/$(basename "${1}") ; }
 
 mcd() { mkdir -p "$1" ; cd "./$1" ; }
 
 backup() { cp "$1"{,.bak} ; }
 restore() { cp "$1"{.bak,} ; }
+
+# saves some typing at the start of the session
+alias s='screen -r'
 
 # These are CLI note-taking aliases, with completions and stuff
 n() {
@@ -109,7 +115,7 @@ ${EDITOR:-vi} "${files[@]}"
 }
 
 nls() {
-tree -CR --noreport $HOME/.notes | awk '{
+tree -CR --noreport "$HOME/.notes" | awk '{
     if (NF==1) print $1;
     else if (NF==2) print $2;
     else if (NF==3) printf "  %s\n", $3
@@ -122,4 +128,3 @@ local files=($HOME/.notes/**/"$2"*)
     [[ -e ${files[0]} ]] && COMPREPLY=( "${files[@]##~/.notes/}" )
 }
 complete -o default -F _notes n
-
