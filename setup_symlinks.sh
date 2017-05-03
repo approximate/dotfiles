@@ -16,27 +16,27 @@ repo=${DOTFILES:-$HOME/dotfiles}
 
 error()
 {
-    echo $*
+    echo "$*"
     exit 1
 }
 
 show_info()
 {
-    [ "$verbose" == y ] && echo $*
+    [ "$verbose" == y ] && echo "$*"
 }
 
 usage()
 {
     if [ $# -ne 0 ] ; then
-        echo $*
+        echo "$*"
     fi
-    grep -e "^#u" $0 | sed -e 's/^#u \?//'
+    grep -e "^#u" "$0" | sed -e 's/^#u \?//'
 }
 
 dry_run="echo "
 
 while true ; do
-    case $1 in
+    case "$1" in
         -v | --verbose )
             verbose=y
             shift
@@ -84,6 +84,13 @@ files=".bashrc \
     .gitconfig \
     .gitignore \
     .gitmessage \
+    .muttrc \
+    .offlineimaprc \
+    .fdm.conf \
+    .msmtprc \
+    .Xdefaults \
+    .xinitrc \
+    .mailcap \
 "
 
 # filelist=`find $repo -maxdepth 1 -type f -name .\* | sed -e 's#.*/##'`
@@ -96,7 +103,7 @@ timestamp="$(date +%F_%H.%M.%S)"
 # just created new files
 for file in $files ; do
 
-    [ ! -r $repo/$file ] && { show_info "- Source file $file not found in repo, skipping..." ; continue ; }
+    [ ! -r "$repo"/"$file" ] && { show_info "- Source file $file not found in repo, skipping..." ; continue ; }
 
     if [ -e "$HOME/$file" ] ; then
 
@@ -106,11 +113,11 @@ for file in $files ; do
             show_info "+ Ordinary file $file found, renaming to ${file}.$timestamp"
             $dry_run mv "$HOME/$file" "$HOME/${file}.$timestamp" || error "Cannot rename $file, aborting..."
         else
-            if [ -x $(which readlink) ] ; then
+            if [ -x "$(which readlink)" ] ; then
                 show_info "? Found symlink at $HOME/$file, checking destination..."
-                _dest_file=$(readlink -q --canonicalize $HOME/$file)
+                _dest_file="$(readlink -q --canonicalize "$HOME/$file")"
 
-                if [ -f $_dest_file ] && [ "$_dest_file" == "$repo/$file" ] ; then
+                if [ -f "$_dest_file" ] && [ "$_dest_file" == "$repo/$file" ] ; then
                     show_info "- Symlink to $file is correct, skipping..."
                     continue
                 fi
@@ -126,8 +133,8 @@ for file in $files ; do
 done
 
 # Handle .bashrc.local
-if [ -e $repo/.bashrc.$HOSTNAME ] ; then
+if [ -e "$repo"/.bashrc."$HOSTNAME" ] ; then
     show_info "+ Creating symlink to .bashrc.$HOSTNAME"
-    [ -e $HOME/.bashrc.local ] && $dry_run mv $HOME/.bashrc.local $HOME/.bashrc.local.${timestamp}
-    $dry_run ln -s $repo/.bashrc.$HOSTNAME $HOME/.bashrc.local || error "Cannot create symlink to .bashrc.$HOSTNAME, aborting..."
+    [ -e "$HOME"/.bashrc.local ] && $dry_run mv "$HOME"/.bashrc.local "$HOME"/.bashrc.local."${timestamp}"
+    $dry_run ln -s "$repo"/.bashrc."$HOSTNAME" "$HOME"/.bashrc.local || error "Cannot create symlink to .bashrc.$HOSTNAME, aborting..."
 fi
