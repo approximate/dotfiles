@@ -2,11 +2,11 @@
 ! Xft settings
 !-------------------------------------------------------------------------------
  
-Xft.dpi:                    96
-Xft.antialias:              true
-Xft.rgba:                   rgb
-Xft.hinting:                true
-Xft.hintstyle:              hintslight
+! Xft.dpi:                    96
+! Xft.antialias:              true
+! Xft.rgba:                   rgb
+! Xft.hinting:                true
+! Xft.hintstyle:              hintslight
  
 !-------------------------------------------------------------------------------
 ! URxvt settings. More info at:
@@ -17,8 +17,8 @@ URxvt.depth:                32
 URxvt.geometry:             160x45
 URxvt.transparent:          false
 URxvt.fading:               0
-! URxvt.urgentOnBell:         true
-! URxvt.visualBell:           true
+URxvt.urgentOnBell:         true
+URxvt.visualBell:           true
 URxvt.loginShell:           true
 URxvt.saveLines:            50000
 URxvt.internalBorder:       3
@@ -40,6 +40,8 @@ URxvt*scrollTtyKeypress: true
 ! Fonts
 URxvt.allow_bold:           false
 URxvt*font: xft:Terminus:style=Regular:size=15
+!urxvt.font:         -xos4-terminus-bold-r-normal--14-140-72-72-c-80-iso8859-15
+
 
 ! Fix font space -- not needed for proper fonts
 !URxvt*letterSpace: -1
