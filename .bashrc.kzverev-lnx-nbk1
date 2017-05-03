@@ -8,6 +8,7 @@ if [ x"$1" = "xpost" ] ; then
     alias tsadev='sudo ssh -F ~kzverev/.ssh/config tsadev'
     alias atos='sudo ssh -F ~kzverev/.ssh/config atos'
     alias atosdev='sudo ssh -F ~kzverev/.ssh/config atosdev'
+    alias tss='rdesktop -u kzverev -d TC-AS 172.20.128.134 -f -g 1400x1000'
 
     [[ -s ~/.autojump/etc/profile.d/autojump.bash ]] && . ~/.autojump/etc/profile.d/autojump.bash
 

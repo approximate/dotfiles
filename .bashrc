@@ -346,7 +346,7 @@ declare reset=$(tput sgr0)
 
 # set up complicated prompt stuff based on terminal type
 case $TERM in
-    *rxvt*|dtterm*|*xterm*|screen*|linux|tmux*)
+    *rxvt*|dtterm*|st*|*xterm*|screen*|linux|tmux*)
         # These terminals have a title that can be set.
         # This magic came from one of the linux HOWTOs
          settitle='\[\033]0;\h: \w\007\]\h:\W\$ '
@@ -372,7 +372,7 @@ export PROMPT_COMMAND="history -a"
 
 # set extglob back to how we found it
 [[ $oldextglob == *off ]] && shopt -u extglob
-unset oldextglob 
+unset oldextglob
 # }
 
 # }
@@ -445,3 +445,6 @@ fi # End of interactive-only section
 unset _shell_is_interactive
 unset _debugging
 # }
+
+# added by Miniconda2 4.0.5 installer
+export PATH="/home/kzverev/miniconda2/bin:$PATH"
