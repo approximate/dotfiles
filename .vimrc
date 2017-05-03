@@ -23,6 +23,7 @@ Plugin 'mhinz/vim-startify'
 Plugin 'Romainl/flattened'
 Plugin 'Romainl/vim-qf'
 Plugin 'dahu/LearnVim'
+Plugin 'junegunn/Goyo.vim'
 
 " End of Vundle setup
 call vundle#end()
