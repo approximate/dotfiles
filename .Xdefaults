@@ -1,18 +1,18 @@
 !-------------------------------------------------------------------------------
 ! Xft settings
 !-------------------------------------------------------------------------------
- 
-! Xft.dpi:                    96
-! Xft.antialias:              true
-! Xft.rgba:                   rgb
-! Xft.hinting:                true
-! Xft.hintstyle:              hintslight
+Xft.dpi: 96
+Xft.antialias: true      
+Xft.hinting: true
+Xft.rgba: rgb 
+Xft.autohint: false
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
  
 !-------------------------------------------------------------------------------
 ! URxvt settings. More info at:
 ! http://pod.tst.eu/http://cvs.schmorp.de/rxvt-unicode/doc/rxvt.1.pod
 !-------------------------------------------------------------------------------
- 
 URxvt.depth:                32
 URxvt.geometry:             160x45
 URxvt.transparent:          false
@@ -39,12 +39,15 @@ URxvt*scrollTtyKeypress: true
  
 ! Fonts
 URxvt.allow_bold:           false
-URxvt*font: xft:Terminus:style=Regular:size=15
+! URxvt*font: xft:Roboto Mono:size=13
+URxvt*font: xft:Terminus (TTF):style=Regular:pixelsize=21 xft:FontAwesome:style=Regular:pixelsize=21
+! URxvt*font: xft:Monospace:style=Regular:size=15
+! URxvt*font: pango:System San Francisco Display 15
 !urxvt.font:         -xos4-terminus-bold-r-normal--14-140-72-72-c-80-iso8859-15
 
 
 ! Fix font space -- not needed for proper fonts
-!URxvt*letterSpace: -1
+! URxvt*letterSpace: -1
  
 ! Scrollbar
 URxvt.scrollStyle:          rxvt
@@ -68,4 +71,4 @@ URxvt.keysym.M-Delete: perl:matcher:list
 URxvt.keysym.F11: perl:fullscreen:switch
 
 ! Include color definitions
-#include "dotfiles/Xcolors"
+#include "/home/kzverev/dotfiles/Xcolors"
