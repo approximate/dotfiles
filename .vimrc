@@ -24,6 +24,7 @@ Plugin 'Romainl/flattened'
 Plugin 'Romainl/vim-qf'
 Plugin 'dahu/LearnVim'
 Plugin 'junegunn/Goyo.vim'
+Plugin 'neomutt/neomutt.vim'
 
 " End of Vundle setup
 call vundle#end()
