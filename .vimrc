@@ -20,7 +20,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-eunuch'
 Plugin 'tpope/vim-repeat'
 Plugin 'mhinz/vim-startify'
-Plugin 'Romainl/flattened'
+" Plugin 'Romainl/flattened'
 Plugin 'Romainl/vim-qf'
 Plugin 'dahu/LearnVim'
 Plugin 'junegunn/Goyo.vim'
@@ -52,7 +52,8 @@ set path=.,**
 
 " Vim UI tweaks {
 
-colorscheme flattened_dark
+" colorscheme flattened_dark
+colorscheme desert
 set background=light " Use lighter colors from the colorscheme
 set mouse=a " automatically enable mouse usage
 
