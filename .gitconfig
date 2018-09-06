@@ -38,6 +38,8 @@
     d = diff -U0 -w
     changes = show --stat --oneline
     unstash = stash pop --index
+    track = for-each-ref --format='%(refname:short) <- %(upstream:short)' refs/heads
+
 # everyday ones
 # [alias]
 #     s   = status -s -b -uno
@@ -138,3 +140,8 @@
 [github]
     user = approximate
     token = 0d32529c03e64d0e0d7d64778d1ae66ed359c602
+[http]
+	sslVerify = false
+
+[includeIf "gitdir:~/Projects/"]
+    path = ~/Projects/.gitconfig
