@@ -1,23 +1,10 @@
 #!/usr/bin/env bash
 
 if [ x"$1" = "xpost" ] ; then
-    alias fprod='sudo ssh -F ~kzverev/.ssh/config fitsprod'
-    alias fdev='sudo ssh -F ~kzverev/.ssh/config fitsdev'
-    alias fint='sudo ssh -F ~kzverev/.ssh/config fitsint'
-    alias tsaprod='sudo ssh -F ~kzverev/.ssh/config tsaprod'
-    alias tsadev='sudo ssh -F ~kzverev/.ssh/config tsadev'
-    alias atos='sudo ssh -F ~kzverev/.ssh/config atos'
-    alias atosdev='sudo ssh -F ~kzverev/.ssh/config atosdev'
-    alias tss='rdesktop -u kzverev -d TC-AS 172.20.128.134 -f -g 1400x1000'
 
     [[ -s ~/.autojump/etc/profile.d/autojump.bash ]] && . ~/.autojump/etc/profile.d/autojump.bash
 
     [[ -s /etc/profile.d/bash_completion.sh ]] && . /etc/profile.d/bash_completion.sh
-
-    # activate envirius
-    [ -f ~/.envirius/nv ] && . ~/.envirius/nv
-
-    source ~/perl5/perlbrew/etc/bashrc
 
     # Set up gpg-agent variables
     GPG_TTY=$(tty) ; export GPG_TTY
