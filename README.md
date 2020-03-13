@@ -2,17 +2,19 @@ This repository holds the configuration of my most used tools:
 
 * shell: bash (w/ readline config)
 * editor: vim
-* terminal: urxvt with 256 color support
+* terminal: urxvt with 256 color support, alacritty on wayland
 * multiplexer: screen *and* tmux
-* wm/de: i3
-* audio: -
-* monitor: i3
+* wm/de: sway
+* audio: none at the moment, thinking about mpd/mpc
 * mail: mutt, offlineimap, fdm, msmtp, notmuch
+* browser: qutebrowser, maybe w3m
 * irc: -
-* other configs: git, vimperator (FF extention for vim-like browsing)
+* other configs: git, tridactyl (FF extention for vim-like browsing)
 
 * Autojump (http://github.com/joelthelion/autojump.git)
 * ctags
+* Microsoft Visual Studio Code
+* somethings else?
 
 What I should use more if I can:
 * virtualenv/pew (useful for python dev)
@@ -22,9 +24,9 @@ What I should use more if I can:
 I use this repo to quickly set up a new machine/account, so it is
 intended to be more-or-less compatible with most of the OSes I use
 on a regular basis:
-* Linux (Debian, RHEL, Fedora, CentOS) -- this is what I use daily
+* Linux workstation (Debian, RHEL, Fedora, CentOS) -- this is what I use daily
 * Mac OS X -- old-ish MacBook at home
-* (rarely) Solaris 10/11, HP/UX 11.23/11.31, AIX
+* (almost never) Solaris 10/11, HP/UX 11.23/11.31, AIX
 
 
 Color schemes:
@@ -41,9 +43,7 @@ Vim:
 * a short list of plugins that don't interfere with core Vim
 
 Tmux:
-* as I use it mainly on Linux, it integrates with other Linux tools:
-  * parcellite (clipboard manager)
-  * urxvt
+* Plugin Manager is good to have
 
 TODO:
 * fix the PATH/MANPATH on all systems (work primarily) using new functions
