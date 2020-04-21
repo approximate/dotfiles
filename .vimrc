@@ -22,7 +22,7 @@ Plugin 'tpope/vim-repeat'
 Plugin 'mhinz/vim-startify'
 " Plugin 'Romainl/flattened'
 Plugin 'Romainl/vim-qf'
-Plugin 'dahu/LearnVim'
+" Plugin 'dahu/LearnVim'
 Plugin 'junegunn/Goyo.vim'
 Plugin 'neomutt/neomutt.vim'
 
@@ -53,9 +53,9 @@ set path=.,**
 " Vim UI tweaks {
 
 " colorscheme flattened_dark
-colorscheme desert
 set background=light " Use lighter colors from the colorscheme
 set mouse=a " automatically enable mouse usage
+colorscheme desert
 
 if has('statusline')
     set laststatus=2
