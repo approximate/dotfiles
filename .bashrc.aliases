@@ -45,6 +45,11 @@ export EDITOR
 export VISUAL
 # }
 
+# Some typo fixes {
+alias gti='git'
+alias tgi='tig'
+# }
+
 # Handy cd aliases
 alias back='cd $OLDPWD'
 alias ..='cd ..'
@@ -52,6 +57,8 @@ alias cd..='cd ..'
 alias ...='cd ../..'
 
 # Handy ls aliases: name, mdate, size sorting
+alias llll='ls -la'
+alias lll='ls -la'
 alias ll='ls -la'
 alias lt='ls -ltr'
 alias lz='ls -lS'

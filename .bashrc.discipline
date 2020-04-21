@@ -2,9 +2,13 @@
 
 if [ x"$1" = "xpost" ] ; then
 
+    export PATH=$PATH:/var/lib/snapd/snap/bin
+
     [[ -s ~/.autojump/etc/profile.d/autojump.bash ]] && . ~/.autojump/etc/profile.d/autojump.bash
 
     [[ -s /etc/profile.d/bash_completion.sh ]] && . /etc/profile.d/bash_completion.sh
+
+    [[ -s /usr/libexec/z.sh ]] && . /usr/libexec/z.sh
 
     # Set up gpg-agent variables
     GPG_TTY=$(tty) ; export GPG_TTY
