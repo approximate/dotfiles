@@ -1,0 +1,100 @@
+" vim: foldmarker={,} foldlevel=2 foldmethod=marker nospell
+"
+" Automatically install vim-plug and all plugins {
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall
+endif
+" }
+
+" Plugins {
+call plug#begin()
+
+" My Plugins here:
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-repeat'
+Plug 'mhinz/vim-startify'
+" Plug 'Romainl/flattened'
+" Plug 'Romainl/vim-qf'
+" Plug 'dahu/LearnVim'
+" Plug 'junegunn/Goyo.vim'
+" Plug 'neomutt/neomutt.vim'
+
+call plug#end()
+" }
+"
+" Setup directories for undo, backups etc {
+if has('backup')
+    " protect against crash-during-write
+    set writebackup
+    " but do not persist backup after successful write
+    set nobackup
+    " use rename-and-write-new method whenever safe
+    set backupcopy=auto
+    " patch required to honor double slash at end
+    if has("patch-8.1.0251")
+        " consolidate the writebackups -- not a big
+        " deal either way, since they usually get deleted
+        set backupdir=$HOME/.vim/cache/backup//
+    else
+        set backupdir=$HOME/.vim/cache/backup/
+    end
+endif
+if has('undofile')
+    " persist the undo tree for each file
+    set undofile " so is persistent undo ...
+    set undolevels=1000 "maximum number of changes that can be undone
+    set undoreload=10000 "maximum number lines to save for undo on a buffer reload
+    set undodir=$HOME/.vim/cache/undo//
+endif
+
+" Protect changes between writes. Default values of
+" updatecount (200 keystrokes) and updatetime
+" (4 seconds) are fine
+if has('swapfile')
+    set swapfile
+    set directory=$HOME/.vim/cache/swap//
+endif
+" }
+
+set path=.,**3
+
+" Vim UI tweaks {
+
+" colorscheme flattened_dark
+set background=dark " Use lighter colors from the colorscheme
+set mouse=a " automatically enable mouse usage
+colorscheme desert
+
+if has('statusline')
+    set laststatus=2
+
+    " Broken down into easily includeable segments
+    set statusline=%<%f\  " Filename
+    set statusline+=%w%h%m%r " Options
+    set statusline+=\ [%{&ff}/%Y] " Format / Filetype
+    set statusline+=%=[L:%l/%L,C:%c][%p%%] " Right aligned file nav info
+endif
+
+" abbrev. of messages (avoids 'hit enter')
+set shortmess+=filmnrxoOtT
+" }
+
+" Formatting {
+set formatoptions+=qrn1
+
+set copyindent " Copy previous indentation on autoindent
+set tabstop=8 " a Tab char is equal to 8 spaces
+set shiftwidth=4 " use indents of 4 spaces
+set softtabstop=4 " let backspace delete indent
+set expandtab " tabs are spaces, not tabs
+
+set matchpairs+=<:> " match, to be used with %
+
+set pastetoggle=<F12> " pastetoggle (sane indentation on pastes)
+set comments=sl:/*,mb:*,elx:*/ " auto format comment blocks
+" }
+
+
