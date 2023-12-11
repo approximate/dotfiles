@@ -28,6 +28,10 @@ config.launch_menu = {
     args = { "wsl.exe" },
     set_environment_variables = { WEZTERM = "true" },
   },
+  {
+    label = "Claranet support01",
+    args = { "ssh.exe", "-A", "-J", "kzverev@traxbuild.internal.traxpay.com", "kzverev@support01.prod.dpp.traxpay.mgt.de.clara.net" },
+  }
 }
 
 -- alternative way, Windows-only
@@ -38,8 +42,8 @@ if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
   config.default_prog = { 'wsl.exe' }
 
   table.insert(config.launch_menu, {
-    label = 'PowerShell',
-    args = { 'C:\Program Files\PowerShell\7\pwsh.exe', '-NoLogo' },
+    label = 'PowerShell 7',
+    args = { 'C:/Program Files/PowerShell/7/pwsh.exe', '-NoLogo' },
   })
 
   -- This doesn't work due to spaces in directory names
