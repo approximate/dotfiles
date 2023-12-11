@@ -39,7 +39,7 @@ if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
 
   table.insert(config.launch_menu, {
     label = 'PowerShell',
-    args = { 'powershell.exe', '-NoLogo' },
+    args = { 'C:\Program Files\PowerShell\7\pwsh.exe', '-NoLogo' },
   })
 
   -- This doesn't work due to spaces in directory names
