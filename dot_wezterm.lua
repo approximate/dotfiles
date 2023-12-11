@@ -12,60 +12,26 @@ end
 
 -- This is where you actually apply your config choices
 
--- For example, changing the color scheme:
+-- Change the color scheme:
 config.color_scheme = 'AdventureTime'
 
--- Custom lauch_menu config
-config.launch_menu = {
-  {
-    label = "Git/Bash",
-    args = { "bash", "-l" },
-    cwd = "$HOME",
-    set_environment_variables = { WEZTERM = "true" },
-  },
-  {
-    label = "WSL (Ubuntu)",
-    args = { "wsl.exe" },
-    set_environment_variables = { WEZTERM = "true" },
-  },
-  {
-    label = "Claranet support01",
-    args = { "ssh.exe", "-A", "-J", "kzverev@traxbuild.internal.traxpay.com", "kzverev@support01.prod.dpp.traxpay.mgt.de.clara.net" },
-  }
-}
-
--- alternative way, Windows-only
-
+-- Windows-only launch menu config
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
 
-  -- Change default shell to WSL on windows
-  config.default_prog = { 'wsl.exe' }
+  -- Change default shell to PowerShell on Windows
+  config.default_prog = { 'C:/Program Files/PowerShell/7/pwsh.exe' }
 
-  table.insert(config.launch_menu, {
-    label = 'PowerShell 7',
-    args = { 'C:/Program Files/PowerShell/7/pwsh.exe', '-NoLogo' },
-  })
+  -- FIXME: 
+  -- This section should be templated using chezmoi to differentiate between
+  -- Traxpay work laptop and my private Windows machines
 
-  -- This doesn't work due to spaces in directory names
-  -- Find installed visual studio version(s) and add their compilation
-  -- environment command prompts to the menu
-  for _, vsvers in
-    ipairs(
-      wezterm.glob('Microsoft Visual Studio/20*', 'C:/Program Files (x86)')
-    )
-  do
-    local year = vsvers:gsub('Microsoft Visual Studio/', '')
-    table.insert(config.launch_menu, {
-      label = 'x64 Native Tools VS ' .. year,
-      args = {
-        'cmd.exe',
-        '/k',
-        'C:/Program Files (x86)/'
-          .. vsvers
-          .. '/BuildTools/VC/Auxiliary/Build/vcvars64.bat',
-      },
-    })
-  end
+  -- Custom lauch_menu config
+  config.launch_menu = {
+    {
+      label = "Claranet support01",
+      args = { "ssh.exe", "-A", "-J", "kzverev@traxbuild.internal.traxpay.com", "kzverev@support01.prod.dpp.traxpay.mgt.de.clara.net" },
+    }
+  }
 end
 
 -- and finally, return the configuration to wezterm
