@@ -34,5 +34,7 @@ if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
   }
 end
 
+config.font = wezterm.font('VictorMono Nerd Font', { weight = 'Medium', italic = false })
+
 -- and finally, return the configuration to wezterm
 return config
