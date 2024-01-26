@@ -18,10 +18,9 @@ Supported platforms
 
 Initialize the dotfiles repo, restart the session afterwards:
 ```shell
-chezmoi init --apply https://traxbuild.internal.traxpay.com:8443/konstantin.zverev/dotfiles.git
-
-## when outside of traxpay, use this instead
 chezmoi init --apply https://github.com/approximate/dotfiles.git
+
+## alternatively, use Traxpay Gitlab
 ```
 
 Periodically update the dotfiles:
