@@ -31,8 +31,21 @@ chezmoi update -v
 
 Adding new files:
 ```shell
-chezmoi add <file>
+chezmoi add <file> # copy file (home -> source)
+chezmoi cd
+git commit -m "add new file"  # add change to local repo (source -> local)
+git push # push to remote (local -> remote)
 ```
+
+Changing existing files:
+```shell
+chezmoi edit <file>  # change the file at the source
+chezmoi apply    # apply the change (source -> home)
+chezmoi cd
+git commit -m "changed file"  # add change to local repo (source -> local)
+git push  # push to remote (local -> remote)
+```
+
 
 ## Main tools
 

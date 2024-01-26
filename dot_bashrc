@@ -361,7 +361,7 @@ case $TERM in
                  settitle='\[\033klocal\033\\\]'
                  ;;
          esac
-        PS1=${settitle}'\[${yellow}\][\t] \[${green}\]\u\[${reset}\] \[${blue}\]\W \[$(test "$?" -ne 0 && echo -ne ${red})\]\$ \[${reset}\]'
+        PS1=${settitle}'\[${yellow}\][\t] \[${green}\]\u@\h\[${reset}\] \[${blue}\]\W \[$(test "$?" -ne 0 && echo -ne ${red})\]\$ \[${reset}\]'
         ;;
 esac
 
