@@ -1,0 +1,452 @@
+#!/usr/bin/env bash
+# KMZ big huge .bashrc {
+# vim: ai tw=74 fen fdm=marker nospell fmr={,}
+
+# This file is largely based on Boyd Adamson's .bashrc
+# REQUIRES bash version >= 2.04
+# }
+
+# COMMENTS & DOCUMENTATION {
+
+# NOTE!!!! Don't make changes to this file for a single machine. Use
+# .bashrc.local. See "Local Customisations" below.
+
+# General {
+
+# This file is designed on the assumption that bash is NOT our login
+# shell. If it was then the env variable setting should be in the
+# .bash_profile file, not the .bashrc. I've made a special effort to keep
+# the number of external calls to a minimum, since it was getting to the
+# point that it would take 5 seconds to fire up bash on an Sun Ultra 10!
+# As a result, there are some unusual constructs in here. There are still
+# some external calls left (e.g. calls to sed) but they are not in loops
+# and I doubt they make that much difference to performance.
+# }
+
+# Local Customisations {
+
+# It's best not to change this file on a machine-by-machine basis. For
+# local extensions this file calls ~/.bashrc.local if it exists. It's
+# called twice...  once before all processing with a single parameter ($1)
+# "pre" and once after all processing with a single parameter "post".
+
+# In addition, a number of variables are set and are available for use by
+# the ~/.bashrc.local script. These variables are UNset before this file
+# exits, so they are not available once the shell is interactive.
+
+# The variables set by this script are:
+#   _debugging                          Manually set (see below) to "1" if
+#                                       parts of this and called scripts
+#                                       should be verbose in their output.
+#                                       Unset otherwise. NOTE that some
+#                                       non-interactive tools (e.g. rsync)
+#                                       get confused by stuff being
+#                                       printed at shell startup so
+#                                       normally this should be OFF.
+
+#   _shell_is_interactive               Set to "1" if this is an interactive
+#                                       session, and unset otherwise. No
+#                                       output should be produced if this
+#                                       is set.
+
+# }
+
+# TODO: Main list {
+#   It seems that I'm constantly adding new features that leap-frog the
+#   todo list below, so this is really a SHOULDDO list, but for what it's
+#   worth:
+#     - surround the ENV var and other once-only stuff with a big if,
+#       testing $0 or something for login-shellness then call this file
+#       from /.bash_profile with something like:
+#       [ -r ~/.bashrc ] && source /.bashrc
+#     - exclude lots of things such as alises etc in case our session
+#       is not interactive
+#     - Policy question: Should stuff in the /usr/local tree be used in
+#       preference to stuff in system directories like /usr/bin? At the
+#       moment the path has the /usr/local stuff later. That means that a
+#       newer version of software installed there won't get used.
+# }
+# }
+
+# Set up some variables for later {
+
+# NOTE: If a variable is added here it should be unset at the end of the
+# file!
+
+# _debugging=1
+
+# $- contains the options provided to the shell
+[[ $- == *i* ]] && _shell_is_interactive=1
+# }
+
+# Make the first call on the local settings file {
+[ -r "$HOME"/.bashrc.local ] && source "$HOME"/.bashrc.local pre
+# }
+
+# PATH, MANPATH, LD_LIBRARY_PATH {
+
+# Comments {
+# We do this first since we might need them later.
+
+# Selective adding of installed programs:
+# LOCALPROGS allows programs to be installed in
+# /usr/local/<progname>/{bin,man,sbin,lib} and still be found.  OPTPROGS
+# does the same thing for /opt/<progname> - mostly for Solaris. MYUSRPROGS
+# is the same thing for ~/usr
+
+# Here we add EVERY path we're likely to need, independant of OS. We will
+# strip the ones that don't exist later
+# }
+
+# Variable setup {
+# I don't normally set these to a complete list since not all users need
+# all apps, but if either of the {LOCAL,OPT}PROGS variables is not set it
+# will be automatically filled below with all values from the disk.
+
+# Here's another idea how to populate the PATH and MANPATH variables
+
+# # prepend_colon(val, var)
+# prepend_colon() {
+#   if [ -z "$2" ]; then
+#     echo $1
+#   else
+#     echo $1:$2
+#   fi
+# }
+#
+# # unshift_path(path)
+# unshift_path() {
+#   if [ -d $1/sbin ]; then
+#     export PATH=$(prepend_colon "$1/sbin" $PATH)
+#   fi
+#   if [ -d $1/bin ]; then
+#     export PATH=$(prepend_colon "$1/bin" $PATH)
+#   fi
+#
+#   if [ -d $1/share/man ]; then
+#     export MANPATH=$(prepend_colon "$1/share/man" $MANPATH)
+#   fi
+# }
+#
+# # TABULA RASA
+# # NOTE: Not a good idea to unset $PATH and similar vars, since interactive shell should
+# #   probably inherit those variables from the process that started it
+# export PATH=""
+# export MANPATH=""
+#
+# unshift_path "/usr/X11"
+# unshift_path ""
+# unshift_path "/usr"
+# unshift_path "/usr/local"
+# unshift_path "/opt/local"
+# unshift_path "$HOME/local"
+# unshift_path "$HOME/etc"
+#
+# export PATH=$(prepend_colon ".local" $PATH)
+# The end of the idea section}}
+
+# TODO: This has to be fixed for MacOSX, where Homebrew puts stuff directly
+# into /usr/local/bin
+
+#LOCALPROGS="vim screen teTeX"
+#OPTPROGS="SUNWcluster SUNWmd"
+#MYUSRPROGS=""
+
+# Basic Entries
+PATH=/sbin:/usr/sbin:/usr/bin:/usr/dt/bin:$PATH
+# Solaris entries
+PATH=$PATH:/usr/ccs/bin:/usr/openwin/bin:/usr/sfw/bin:/usr/perl5/bin
+# SunCluster entries (inc DTK)
+PATH=$PATH:/usr/cluster/bin:/usr/cluster/lib/sc:/usr/cluster/dtk/bin
+# SunFire 15k path
+PATH=$PATH:/opt/SUNWSMS/bin
+# Tru64 entries
+PATH=$PATH:/usr/bin/X11:/usr/tcb/bin
+# MacOSX entries
+PATH=/sw/bin:/sw/sbin:/Developer/Tools:$PATH
+# TODO: HP/UX and Linux entries should be here
+# My entries
+PATH=$PATH:/usr/local/bin:$HOME/scripts:$HOME/.local/bin:$HOME/bin
+# Late Solaris entries - definitely want these at the end
+PATH=$PATH:/usr/ucb
+
+MANPATH=/sw/share/man:/usr/share/man:/usr/dt/share/man
+MANPATH=$MANPATH:/usr/local/man:/usr/openwin/man
+MANPATH=$MANPATH:/usr/X11R6/man/:/usr/perl5/man
+MANPATH=$MANPATH:/opt/SUNWSMS/man
+MANPATH=$MANPATH:/usr/cluster/man:/usr/cluster/dtk/man:/usr/sfw/man
+LD_LIBRARY_PATH=/usr/local/lib
+# }
+
+# Auto-add paths {
+
+# /usr/local {
+if [ -d /usr/local ]; then
+    for PROG in ${LOCALPROGS:-$(cd /usr/local; echo ./*)}
+    do
+        if [ -d /usr/local/"$PROG"/bin ]; then
+            PATH=/usr/local/"$PROG"/bin:$PATH
+        fi
+        if [ -d /usr/local/"$PROG"/sbin ]; then
+            PATH=/usr/local/"$PROG"/sbin:$PATH
+        fi
+        if [ -d /usr/local/"$PROG"/man ]; then
+            MANPATH=/usr/local/"$PROG"/man:$MANPATH
+        fi
+        if [ -d /usr/local/"$PROG"/lib ]; then
+            LD_LIBRARY_PATH=/usr/local/"$PROG"/lib:$LD_LIBRARY_PATH
+        fi
+    done
+fi
+# }
+# $HOME/usr {
+# TODO: This section has to be rewritten, as it currently breaks on my
+# multiplatform $HOME/usr.
+# Don't do this if our home directory is /. This won't affect the
+# resulting PATH but it will make the loop below faster
+# if [ -d $HOME/usr -a $HOME != "/" ]; then
+#     for PROG in ${MYUSRPROGS:-$(cd $HOME/usr; echo *)}
+#     do
+#         if [ -d $HOME/usr/$PROG/bin ]; then
+#             PATH=$HOME/usr/$PROG/bin:$PATH
+#         fi
+#         if [ -d $HOME/usr/$PROG/sbin ]; then
+#             PATH=$HOME/usr/$PROG/sbin:$PATH
+#         fi
+#         if [ -d $HOME/usr/$PROG/man ]; then
+#             MANPATH=$HOME/usr/$PROG/man:$MANPATH
+#         fi
+#         if [ -d $HOME/usr/$PROG/lib ]; then
+#             LD_LIBRARY_PATH=$HOME/usr/$PROG/lib:$LD_LIBRARY_PATH
+#         fi
+#     done
+# fi
+# }
+
+unset PROG OPTPROGS LOCALPROGS
+
+# Clean up path-like variables {
+# Here we clean up the PATH and similar variables by removing non-existant
+# dirs and duplicates.
+
+# This whole thing is complicated by the fact that we want to keep the
+# existing path components in order, so we can't just use sort -u
+
+# We do this by declaring a function that cleans a variable. This function
+# is left declared for future use.
+
+# pathclean: Clean up path-like variables {
+# arguments: name-of-var-to-clean
+
+# Note that this function's parameter is the NAME of the variable to clean
+# up, not the contents of the variable. The variable is changed in-place.
+# This is the bash equivalent to pass-by-reference!
+
+function pathclean() {
+    # Variable Declarations
+    local -a newpathcomps     # Array of new path components
+    local -i alreadyseen      # Have we already seen this component?
+    local component           # Current component we're looking at
+    local -i i                # loop var
+    local thevar=$1           # The NAME of the variable we're cleaning
+
+    # Clean up the PATH
+    # Expunge double /s and make : into a space. Unfortunatly, this breaks
+    # on path entries with a space in them, as happens in the cygwin
+    # environment with the fabulous "Program Files" directory, so we have
+    # to kludge them into | and then back again...
+    #
+    # Changed by KZ:
+    # - remove "/cygdrive" as I have local mounts
+    # - remove directories not needed in cygwin (Program Files etc)
+    #
+    for component in $(echo "${!thevar}" |
+                        sed -e 's/ /|/g' -e 's/:/ /g' -e 's#//#/#g' \
+                            -e 's#/cygdrive##g' )
+    do
+        if [[ -d ${component//|/ } ]]; then
+            # The directory exists, lets check we haven't already seen it
+            alreadyseen=0
+            i=0
+            while (( i < ${#newpathcomps[*]} )); do
+                if [[ ${newpathcomps[i]} == "$component" ]]; then
+                    alreadyseen=1
+                    break
+                fi
+                (( i = i + 1 ))
+            done
+            if (( ! alreadyseen )); then
+                newpathcomps[i]=$component
+            fi
+        fi
+    done
+    # I'm just not game to wrap this line!
+    eval "$thevar=\"$( echo "${newpathcomps[*]}" | sed -e's/ /:/g' -e 's/|/ /g' )\""
+    # eval "$thevar=\"$( echo ${newpathcomps[*]} | sed -e's/ /:/g' -e 's/|/ /g' -e 's/.*Program Files.*//g' )\""
+}
+# }
+# Perform the cleaning {
+
+pathclean PATH
+pathclean MANPATH
+pathclean LD_LIBRARY_PATH
+
+export PATH MANPATH LD_LIBRARY_PATH
+
+# }
+# }
+# }
+
+# }
+
+# Terminal setup {
+# Set up the terminal (based on the TERM variable). Doesn't work properly
+# on solaris (esp. in CDE) 'cos tset is Bezerkeley :-(
+# TODO: I think there's a tset in /usr/ucb
+if [[ "$_shell_is_interactive" == 1 && \
+    $OSTYPE != solaris* && \
+    $OSTYPE != cygwin* ]]; then
+    if [[ $(type -p tset) ]]; then
+        eval "$(SHELL=/bin/sh tset -Q -I -s)"
+    fi
+fi
+# }
+
+# Shell options {
+# Set my preferred options
+shopt -s cdspell checkwinsize histreedit globstar histappend nocaseglob
+
+# If I hit <tab> on a blank line, I DON'T want to see a list of all the
+# comands in my PATH - who would EVER want that??  This option appeared in
+# bash 2.04, so it's not in the Solaris 8 version of bash.  Rather than
+# checking for the version, check for the existance of the option:
+[[ $(shopt) == *no_empty_cmd_completion* ]] &&
+    shopt -s no_empty_cmd_completion
+
+#Only put duplicate lines in the history once
+HISTCONTROL=ignoredups
+# }
+
+# The following section should only be used for interactive shells {
+
+if [[ $_shell_is_interactive == 1 ]] ; then
+# Prompt and other terminal settings {
+
+# We need extglob turned on, so save the current value
+declare oldextglob=$(shopt extglob)
+shopt -s extglob
+
+# Declare some variables to work with
+# declare settitle
+declare red=$(tput setaf 1)
+declare green=$(tput setaf 2)
+declare blue=$(tput setaf 4)
+declare yellow=$(tput setaf 3)
+declare reset=$(tput sgr0)
+
+# set up complicated prompt stuff based on terminal type
+case $TERM in
+    *rxvt*|dtterm*|st*|*xterm*|screen*|linux|tmux*)
+        # These terminals have a title that can be set.
+        # This magic came from one of the linux HOWTOs
+         settitle='\[\033]0;\h: \w\007\]\h:\W\$ '
+         case $TERM in
+             *rxvt*|*xterm*|dtterm*)
+                 settitle="\[\033]0;\h: \w\007\]"
+                 ;;
+             screen*|tmux*)
+        #         # for screen/tmux I want to set the window title to 'local' on a localhost,
+        #         # otherwise to ssh-dictated user@host line
+        #         settitle='\[\033k\h\033\\\033]0;\w\007\]'
+                 settitle='\[\033klocal\033\\\]'
+                 ;;
+         esac
+        PS1=${settitle}'\[${yellow}\][\t] \[${green}\]\u\[${reset}\] \[${blue}\]\W \[$(test "$?" -ne 0 && echo -ne ${red})\]\$ \[${reset}\]'
+        ;;
+esac
+
+# Remove any exporting of PS1 since it looks hideous in other shells and
+# bash will just re-read this file anyway
+export -n PS1
+export PROMPT_COMMAND="history -a"
+
+# set extglob back to how we found it
+[[ $oldextglob == *off ]] && shopt -u extglob
+unset oldextglob
+# }
+
+# }
+
+# Aliases {
+# "rebash" and "realias" {
+# Let me easily re-run this in case of a new installation or change to this
+# file. I know, how lazy is this?
+alias rebash='. ~/.bashrc'
+alias realias='. ~/.bashrc.aliases'
+# }
+# Other aliases {
+# Put the rest of stuff that you want aliased in .bashrc.aliases file
+[ -r ~/.bashrc.aliases ] && source ~/.bashrc.aliases
+# }
+# }
+
+# Functions {
+# Easy extract
+extract () {
+  if [ -r "$1" ] ; then
+      case $1 in
+          *.tar.bz2)   tar xvjf "$1"    ;;
+          *.tar.gz)    tar xvzf "$1"    ;;
+          *.bz2)       bunzip2 "$1"     ;;
+          *.rar)       rar e "$1"       ;;
+          *.gz)        gunzip "$1"      ;;
+          *.tar)       tar xvf "$1"     ;;
+          *.tbz2)      tar xvjf "$1"    ;;
+          *.tgz)       tar xvzf "$1"    ;;
+          *.zip)       unzip "$1"       ;;
+          *.Z)         uncompress "$1"  ;;
+          *.7z)        7z x "$1"        ;;
+          *)           echo "don't know how to extract '$1'..." ;;
+      esac
+  else
+      echo "'$1' is not a valid file!"
+  fi
+}
+# The ps function {
+# This function lets me use either the System V (-ef) or BSD (aux) style
+# switches on Solaris. It just runs the appropriate ps based on whether
+# there's a - there or not.
+# Been meaning to do this for a while, then came across one at
+# http://www.beaglebros.com/unix - so I stole it. I've since changed it,
+# but when do I stop crediting the inspiration?
+if [[ $OSTYPE == solaris* ]]; then
+    function ps {
+        if [ -n "$1" ]; then
+            if [[ $1 == -* ]]; then
+                /usr/bin/ps "$@"
+            else
+                /usr/ucb/ps "$@"
+            fi
+        else
+            /usr/bin/ps "$@"
+        fi
+    }
+
+fi # end solaris function
+# }
+# }
+fi # End of interactive-only section
+
+# Make the last call on the local settings file {
+[ -r "$HOME"/.bashrc.local ] && source "$HOME"/.bashrc.local post
+# }
+
+# Clean up {
+unset _shell_is_interactive
+unset _debugging
+# }
+
+export STARSHIP_CONFIG=~/dotfiles/starship.toml
+eval "$(starship init bash)"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
