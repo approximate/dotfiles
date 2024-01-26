@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+if [ x"$1" = "xpost" ] ; then
+
+    [[ -s /etc/profile.d/bash_completion.sh ]] && . /etc/profile.d/bash_completion.sh
+
+    [[ -s /usr/libexec/z.sh ]] && . /usr/libexec/z.sh
+
+    # Set up ssh agent socket (WinCrypt)
+    export SSH_AUTH_SOCK="C:\Users\konstantin.zverev\.ssh\.agent.sock.cygwin"
+    export GIT_SSH_COMMAND=ssh
+
+    eval "$(zoxide init bash)"
+    export MANPAGER="less -R --use-color -Dd+r -Du+b"
+
+    # Fire up the tmux session if necessary
+    TMUX=no-tmux
+    if [[ -z "$TMUX" ]] ; then
+        # Bash isn't running in tmux, check if default session is started and attached
+        if tmux has-session -t default ; then
+            # There's a default session already, checking if attached...
+            if [[ -z "$(tmux list-clients -t default -F '#{session_attached}')" ]] ; then
+                # Looks like there are no clients, attaching to default session
+                tmux -2 -u attach -t default
+            else
+                # There's a client attached to default session already
+                :
+            fi
+        else
+            echo "Didn't find tmux session, creating one..."
+            # Ok, there's no default session, so we start one
+            tmux -2 -u new-session -s default
+        fi
+    else
+        # We're inside tmux already, bailing out
+        :
+    fi
+fi
