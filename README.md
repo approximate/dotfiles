@@ -71,6 +71,7 @@ No competition really.
 ## Additional tools
 
 - Terminal: WezTerm
+- Prompt: Starship
 - alternative CLI utilities (replacement for GNU tools):
     - bat (cat/less)
     - zoxide (cd)
@@ -85,3 +86,4 @@ No competition really.
 
 - [ ] Add more documentation!
 - [ ] Add scripts that do initial installation of all necessary tools. Ansible?
+
