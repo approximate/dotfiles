@@ -105,3 +105,9 @@ mcd() { mkdir -p "$1" ; cd "./$1" ; }
 
 backup() { cp "$1"{,.bak} ; }
 restore() { cp "$1"{.bak,} ; }
+
+# chezmoi aliases
+alias cm=chezmoi
+alias cm-u='chezmoi update'
+alias cm-a='chezmoi apply'
+alias cm-cd='chezmoi cd'
