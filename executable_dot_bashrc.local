@@ -6,12 +6,12 @@ if [ x"$1" = "xpost" ] ; then
 
     [[ -s /usr/libexec/z.sh ]] && . /usr/libexec/z.sh
 
-    # Set up ssh agent socket (WinCrypt)
-    export SSH_AUTH_SOCK="C:\Users\konstantin.zverev\.ssh\.agent.sock.cygwin"
     export GIT_SSH_COMMAND=ssh
 
     eval "$(zoxide init bash)"
     export MANPAGER="less -R --use-color -Dd+r -Du+b"
+
+    [ -r ~/.bashrc.$(hostname -s) ] && source ~/.bashrc.$(hostname)
 
     # Fire up the tmux session if necessary
     TMUX=no-tmux

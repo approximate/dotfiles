@@ -63,6 +63,13 @@ alias ll='ls -la'
 alias lt='ls -ltr'
 alias lz='ls -lS'
 alias l='ls -l'
+[ -x $(which eza) ] && alias ls='eza --icons=auto'
+[ -x $(which eza) ] && alias ll='eza -l --icons=auto'
+[ -x $(which eza) ] && alias lt='eza -lr -s size --icons=auto'
+
+# Set nvim as default if available
+[ -x $(which nvim) ] && alias vim=nvim
+
 
 # Handy ps aliases
 alias psx='ps -elf | grep $USER | grep -v sshd | grep -v $SHELL | grep -v grep'
