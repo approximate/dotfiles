@@ -42,8 +42,9 @@ if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
     }}
 end
 
-config.font = wezterm.font('VictorMono Nerd Font', {
-    weight = 'Medium',
+-- config.font = wezterm.font('VictorMono Nerd Font', {
+config.font = wezterm.font('FiraMono Nerd Font', {
+    weight = 'Regular',
     italic = false
 })
 
@@ -58,6 +59,10 @@ config.colors = {
 }
 
 config.audible_bell = "Disabled"
+
+config.keys = {
+  { key = 'l', mods = 'ALT', action = wezterm.action.ShowLauncher },
+}
 
 -- and finally, return the configuration to wezterm
 return config
