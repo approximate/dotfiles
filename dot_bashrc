@@ -264,7 +264,7 @@ function pathclean() {
                         sed -e 's/ /|/g' -e 's/:/ /g' -e 's#//#/#g' \
                             -e 's#/cygdrive##g' )
     do
-        if [[ -d ${component//|/ } ]]; then
+        if [[ -d "${component//|/ }" ]]; then
             # The directory exists, lets check we haven't already seen it
             alreadyseen=0
             i=0
@@ -386,7 +386,7 @@ alias realias='. ~/.bashrc.aliases'
 # }
 # Other aliases {
 # Put the rest of stuff that you want aliased in .bashrc.aliases file
-[ -r ~/.bashrc.aliases ] && source ~/.bashrc.aliases
+[ -r "~/.bashrc.aliases" ] && source ~/.bashrc.aliases
 # }
 # }
 
@@ -436,7 +436,6 @@ fi # end solaris function
 # }
 # }
 fi # End of interactive-only section
-
 # Make the last call on the local settings file {
 [ -r "$HOME"/.bashrc.local ] && source "$HOME"/.bashrc.local post
 # }

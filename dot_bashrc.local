@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
 
-if [ x"$1" = "xpost" ] ; then
+if [[ $1 == "post" ]] ; then
 
-    [[ -s /etc/profile.d/bash_completion.sh ]] && . /etc/profile.d/bash_completion.sh
+    [[ -s /etc/profile.d/bash_completion.sh ]] && source /etc/profile.d/bash_completion.sh
 
-    [[ -s /usr/libexec/z.sh ]] && . /usr/libexec/z.sh
+    [[ -s /usr/libexec/z.sh ]] && source /usr/libexec/z.sh
 
     export GIT_SSH_COMMAND=ssh
 
     eval "$(zoxide init bash)"
     export MANPAGER="less -R --use-color -Dd+r -Du+b"
 
-    [ -r ~/.bashrc.$(hostname -s) ] && source ~/.bashrc.$(hostname)
+    if [ -z "$HOSTNAME" ] ; then
+        HOSTNAME=$(hostname -s 2>/dev/null)
+    fi
+    if [ -z "$HOSTNAME" ] ; then
+        HOSTNAME=$(hostname)
+    fi
+    [[ -r ~/.bashrc.$HOSTNAME ]] && source ~/.bashrc.$HOSTNAME
 
     # Fire up the tmux session if necessary
     TMUX=no-tmux
