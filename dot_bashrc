@@ -324,7 +324,7 @@ shopt -s cdspell checkwinsize histreedit globstar histappend nocaseglob
     shopt -s no_empty_cmd_completion
 
 #Only put duplicate lines in the history once
-HISTCONTROL=ignoredups
+HISTCONTROL=ignoreboth
 # }
 
 # The following section should only be used for interactive shells {
