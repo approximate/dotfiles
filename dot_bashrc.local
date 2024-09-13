@@ -7,6 +7,7 @@ if [[ $1 == "post" ]] ; then
     [[ -s /usr/libexec/z.sh ]] && source /usr/libexec/z.sh
 
     export GIT_SSH_COMMAND=ssh
+    export RUSTC_WRAPPER=sccache
 
     eval "$(zoxide init bash)"
     export MANPAGER="less -R --use-color -Dd+r -Du+b"
