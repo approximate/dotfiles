@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# KMZ big huge .bashrc {
+# KMZ big huge .bashrc (NEW) {
 # vim: ai tw=74 fen fdm=marker nospell fmr={,}
 
-# This file is largely based on Boyd Adamson's .bashrc
+# This file is rewritten from scratch in September 2024
 # REQUIRES bash version >= 2.04
 # }
 
-# COMMENTS & DOCUMENTATION {
+# COMMENTS & DOCUMENTATION (NEW) {
 
 # NOTE!!!! Don't make changes to this file for a single machine. Use
 # .bashrc.local. See "Local Customisations" below.
@@ -16,8 +16,7 @@
 # This file is designed on the assumption that bash is NOT our login
 # shell. If it was then the env variable setting should be in the
 # .bash_profile file, not the .bashrc. I've made a special effort to keep
-# the number of external calls to a minimum, since it was getting to the
-# point that it would take 5 seconds to fire up bash on an Sun Ultra 10!
+# the number of external calls to a minimum
 # As a result, there are some unusual constructs in here. There are still
 # some external calls left (e.g. calls to sed) but they are not in loops
 # and I doubt they make that much difference to performance.
@@ -68,7 +67,7 @@
 # }
 # }
 
-# Set up some variables for later {
+# Set up some variables for later (NEW) {
 
 # NOTE: If a variable is added here it should be unset at the end of the
 # file!
@@ -79,7 +78,7 @@
 [[ $- == *i* ]] && _shell_is_interactive=1
 # }
 
-# Make the first call on the local settings file {
+# Make the first call on the local settings file (NEW) {
 [ -r "$HOME"/.bashrc.local ] && source "$HOME"/.bashrc.local pre
 # }
 
@@ -128,7 +127,7 @@
 #   fi
 # }
 #
-# # TABULA RASA
+# # TABULA RASA {
 # # NOTE: Not a good idea to unset $PATH and similar vars, since interactive shell should
 # #   probably inherit those variables from the process that started it
 # export PATH=""
@@ -143,7 +142,7 @@
 # unshift_path "$HOME/etc"
 #
 # export PATH=$(prepend_colon ".local" $PATH)
-# The end of the idea section}}
+# The end of the idea section}
 
 # TODO: This has to be fixed for MacOSX, where Homebrew puts stuff directly
 # into /usr/local/bin
@@ -296,7 +295,6 @@ export PATH MANPATH LD_LIBRARY_PATH
 # }
 # }
 # }
-
 # }
 
 # Terminal setup {
@@ -312,9 +310,9 @@ if [[ "$_shell_is_interactive" == 1 && \
 fi
 # }
 
-# Shell options {
+# Shell options (NEW) {
 # Set my preferred options
-shopt -s cdspell checkwinsize histreedit globstar histappend nocaseglob
+shopt -s autocd cdspell checkjobs checkwinsize cmdhist dirspell dotglob histreedit globstar histappend nocaseglob 
 
 # If I hit <tab> on a blank line, I DON'T want to see a list of all the
 # comands in my PATH - who would EVER want that??  This option appeared in
@@ -323,8 +321,9 @@ shopt -s cdspell checkwinsize histreedit globstar histappend nocaseglob
 [[ $(shopt) == *no_empty_cmd_completion* ]] &&
     shopt -s no_empty_cmd_completion
 
-#Only put duplicate lines in the history once
-HISTCONTROL=ignoredups
+# Only put duplicate lines in the history once, and don't record in
+# history commands that start with at least one space
+HISTCONTROL=ignoreboth
 # }
 
 # The following section should only be used for interactive shells {
@@ -375,16 +374,16 @@ export PROMPT_COMMAND="history -a"
 unset oldextglob
 # }
 
-# }
 
-# Aliases {
-# "rebash" and "realias" {
+# Aliases (NEW) { 
+# Main aliases "rebash" and "realias" that help with profile {
 # Let me easily re-run this in case of a new installation or change to this
 # file. I know, how lazy is this?
 alias rebash='. ~/.bashrc'
 alias realias='. ~/.bashrc.aliases'
 # }
-# Other aliases {
+#
+# Load other aliases {
 # Put the rest of stuff that you want aliased in .bashrc.aliases file
 [ -r "~/.bashrc.aliases" ] && source ~/.bashrc.aliases
 # }
@@ -412,40 +411,18 @@ extract () {
       echo "'$1' is not a valid file!"
   fi
 }
-# The ps function {
-# This function lets me use either the System V (-ef) or BSD (aux) style
-# switches on Solaris. It just runs the appropriate ps based on whether
-# there's a - there or not.
-# Been meaning to do this for a while, then came across one at
-# http://www.beaglebros.com/unix - so I stole it. I've since changed it,
-# but when do I stop crediting the inspiration?
-if [[ $OSTYPE == solaris* ]]; then
-    function ps {
-        if [ -n "$1" ]; then
-            if [[ $1 == -* ]]; then
-                /usr/bin/ps "$@"
-            else
-                /usr/ucb/ps "$@"
-            fi
-        else
-            /usr/bin/ps "$@"
-        fi
-    }
+# }
 
-fi # end solaris function
-# }
-# }
 fi # End of interactive-only section
-# Make the last call on the local settings file {
+
+# }
+
+# Make the last call on the local settings file (NEW) {
 [ -r "$HOME"/.bashrc.local ] && source "$HOME"/.bashrc.local post
 # }
 
-# Clean up {
+# Clean up (NEW) {
 unset _shell_is_interactive
 unset _debugging
 # }
 
-eval "$(starship init bash)"
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-. "$HOME/.cargo/env"
