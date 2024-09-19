@@ -329,89 +329,89 @@ HISTCONTROL=ignoreboth
 # The following section should only be used for interactive shells {
 
 if [[ $_shell_is_interactive == 1 ]] ; then
-# Prompt and other terminal settings {
+    # Prompt and other terminal settings {
 
-# We need extglob turned on, so save the current value
-declare oldextglob=$(shopt extglob)
-shopt -s extglob
+    # We need extglob turned on, so save the current value
+    declare oldextglob=$(shopt extglob)
+    shopt -s extglob
 
-# Declare some variables to work with
-# declare settitle
-declare red=$(tput setaf 1)
-declare green=$(tput setaf 2)
-declare blue=$(tput setaf 4)
-declare yellow=$(tput setaf 3)
-declare reset=$(tput sgr0)
+    # Declare some variables to work with
+    # declare settitle
+    declare red=$(tput setaf 1)
+    declare green=$(tput setaf 2)
+    declare blue=$(tput setaf 4)
+    declare yellow=$(tput setaf 3)
+    declare reset=$(tput sgr0)
 
-# set up complicated prompt stuff based on terminal type
-case $TERM in
-    *rxvt*|dtterm*|st*|*xterm*|screen*|linux|tmux*)
-        # These terminals have a title that can be set.
-        # This magic came from one of the linux HOWTOs
-         settitle='\[\033]0;\h: \w\007\]\h:\W\$ '
-         case $TERM in
-             *rxvt*|*xterm*|dtterm*)
-                 settitle="\[\033]0;\h: \w\007\]"
-                 ;;
-             screen*|tmux*)
-        #         # for screen/tmux I want to set the window title to 'local' on a localhost,
-        #         # otherwise to ssh-dictated user@host line
-        #         settitle='\[\033k\h\033\\\033]0;\w\007\]'
-                 settitle='\[\033klocal\033\\\]'
-                 ;;
-         esac
-        PS1=${settitle}'\[${yellow}\][\t] \[${green}\]\u@\h\[${reset}\] \[${blue}\]\W \[$(test "$?" -ne 0 && echo -ne ${red})\]\$ \[${reset}\]'
-        ;;
-esac
+    # set up complicated prompt stuff based on terminal type
+    case $TERM in
+        *rxvt*|dtterm*|st*|*xterm*|screen*|linux|tmux*)
+            # These terminals have a title that can be set.
+            # This magic came from one of the linux HOWTOs
+             settitle='\[\033]0;\h: \w\007\]\h:\W\$ '
+             case $TERM in
+                 *rxvt*|*xterm*|dtterm*)
+                     settitle="\[\033]0;\h: \w\007\]"
+                     ;;
+                 screen*|tmux*)
+            #         # for screen/tmux I want to set the window title to 'local' on a localhost,
+            #         # otherwise to ssh-dictated user@host line
+            #         settitle='\[\033k\h\033\\\033]0;\w\007\]'
+                     settitle='\[\033klocal\033\\\]'
+                     ;;
+             esac
+            PS1=${settitle}'\[${yellow}\][\t] \[${green}\]\u@\h\[${reset}\] \[${blue}\]\W \[$(test "$?" -ne 0 && echo -ne ${red})\]\$ \[${reset}\]'
+            ;;
+    esac
 
-# Remove any exporting of PS1 since it looks hideous in other shells and
-# bash will just re-read this file anyway
-export -n PS1
-export PROMPT_COMMAND="history -a"
+    # Remove any exporting of PS1 since it looks hideous in other shells and
+    # bash will just re-read this file anyway
+    export -n PS1
+    export PROMPT_COMMAND="history -a"
 
-# set extglob back to how we found it
-[[ $oldextglob == *off ]] && shopt -u extglob
-unset oldextglob
-# }
+    # set extglob back to how we found it
+    [[ $oldextglob == *off ]] && shopt -u extglob
+    unset oldextglob
+    # }
 
 
-# Aliases (NEW) { 
-# Main aliases "rebash" and "realias" that help with profile {
-# Let me easily re-run this in case of a new installation or change to this
-# file. I know, how lazy is this?
-alias rebash='. ~/.bashrc'
-alias realias='. ~/.bashrc.aliases'
-# }
-#
-# Load other aliases {
-# Put the rest of stuff that you want aliased in .bashrc.aliases file
-[ -r "~/.bashrc.aliases" ] && source ~/.bashrc.aliases
-# }
-# }
+    # Aliases (NEW) { 
+    # Main aliases "rebash" and "realias" that help with profile {
+    # Let me easily re-run this in case of a new installation or change to this
+    # file. I know, how lazy is this?
+    alias rebash='. ~/.bashrc'
+    alias realias='. ~/.bashrc.aliases'
+    # }
+    #
+    # Load other aliases {
+    # Put the rest of stuff that you want aliased in .bashrc.aliases file
+    [ -r ~/.bashrc.aliases ] && source ~/.bashrc.aliases
+    # }
+    # }
 
-# Functions {
-# Easy extract
-extract () {
-  if [ -r "$1" ] ; then
-      case $1 in
-          *.tar.bz2)   tar xvjf "$1"    ;;
-          *.tar.gz)    tar xvzf "$1"    ;;
-          *.bz2)       bunzip2 "$1"     ;;
-          *.rar)       rar e "$1"       ;;
-          *.gz)        gunzip "$1"      ;;
-          *.tar)       tar xvf "$1"     ;;
-          *.tbz2)      tar xvjf "$1"    ;;
-          *.tgz)       tar xvzf "$1"    ;;
-          *.zip)       unzip "$1"       ;;
-          *.Z)         uncompress "$1"  ;;
-          *.7z)        7z x "$1"        ;;
-          *)           echo "don't know how to extract '$1'..." ;;
-      esac
-  else
-      echo "'$1' is not a valid file!"
-  fi
-}
-# }
+    # Functions {
+    # Easy extract
+    extract () {
+      if [ -r "$1" ] ; then
+          case $1 in
+              *.tar.bz2)   tar xvjf "$1"    ;;
+              *.tar.gz)    tar xvzf "$1"    ;;
+              *.bz2)       bunzip2 "$1"     ;;
+              *.rar)       rar e "$1"       ;;
+              *.gz)        gunzip "$1"      ;;
+              *.tar)       tar xvf "$1"     ;;
+              *.tbz2)      tar xvjf "$1"    ;;
+              *.tgz)       tar xvzf "$1"    ;;
+              *.zip)       unzip "$1"       ;;
+              *.Z)         uncompress "$1"  ;;
+              *.7z)        7z x "$1"        ;;
+              *)           echo "don't know how to extract '$1'..." ;;
+          esac
+      else
+          echo "'$1' is not a valid file!"
+      fi
+    }
+    # }
 
 fi # End of interactive-only section
 
