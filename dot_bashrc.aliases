@@ -49,6 +49,15 @@ export VISUAL
 alias gti='git'
 alias tgi='tig'
 # }
+#
+# ... and let's define some git aliases while we're at it. {
+alias gp='git pull'
+alias gpa='git pull --all'
+alias gl='git l'
+alias gs='git status'
+alias gd='git diff -w'
+alias gaa='git add --all'
+alias gcm='git commit -m'
 
 # Handy cd aliases
 alias back='cd $OLDPWD'
