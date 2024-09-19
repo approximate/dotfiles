@@ -70,25 +70,23 @@ alias l='ls -l'
 # Set nvim as default if available
 [ -x $(which nvim) ] && alias vim=nvim
 
-
 # Handy ps aliases
 alias psx='ps -elf | grep $USER | grep -v sshd | grep -v $SHELL | grep -v grep'
 alias psu='ps -fu $USER | grep -v sshd | grep -v $SHELL | sort | grep -v sort | grep -v grep '
 alias psg='psu | grep '
 alias psc='ps xawf -eo pid,user,cgroup,crgs'
 
-alias x="xterm -ls &"
 alias apropos="man -k"
 
 alias h=history
 alias hig='history | grep '
 
-# Quick bash-related edit commands
+# bash-related edit commands
 alias ebl='vi ~/.bashrc.local'
 alias ebr='vi ~/.bashrc'
 alias eba='vi ~/.bashrc.aliases'
 
-alias setcontrol='stty erase ^? kill ^D susp ^Z intr ^C'
+alias setcontrol='stty -ixon erase ^? kill ^D susp ^Z intr ^C'
 setcontrol
 
 alias my_ip='curl ifconfig.me'
@@ -115,6 +113,6 @@ restore() { cp "$1"{.bak,} ; }
 
 # chezmoi aliases
 alias cm=chezmoi
-alias cm-u='chezmoi update'
-alias cm-a='chezmoi apply'
-alias cm-cd='chezmoi cd'
+alias cmu='chezmoi update'
+alias cma='chezmoi apply'
+alias cmcd='chezmoi cd'

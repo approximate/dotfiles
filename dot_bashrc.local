@@ -1,16 +1,30 @@
 #!/usr/bin/env bash
 
+# Big question: should additional utils (fzf, starship etc) be configured in local profile or in the general profile?
+#
+# I tend to think this should probably be included in the local profile, and the general profile should only be used
+# to configure Bash itself, as well as for paths and environment configuration, and general structure.
+# This way I could have different profiles for Windows and Linux thank to chezmoi magic
+
 if [[ $1 == "post" ]] ; then
+
+    [ -f ~/.cargo/env ] && source ~/.cargo/env
+
+    # Set up prompt
+    eval "$(starship init bash)"
+
+    # Enable fzf goodness
+    [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
     [[ -s /etc/profile.d/bash_completion.sh ]] && source /etc/profile.d/bash_completion.sh
 
-    [[ -s /usr/libexec/z.sh ]] && source /usr/libexec/z.sh
-
     export GIT_SSH_COMMAND=ssh
+    export RUSTC_WRAPPER=sccache
 
     eval "$(zoxide init bash)"
     export MANPAGER="less -R --use-color -Dd+r -Du+b"
 
+    # This section sets up the HOSTNAME envar and loads host-specific profile (probably an overkill) {
     if [ -z "$HOSTNAME" ] ; then
         HOSTNAME=$(hostname -s 2>/dev/null)
     fi
@@ -18,27 +32,5 @@ if [[ $1 == "post" ]] ; then
         HOSTNAME=$(hostname)
     fi
     [[ -r ~/.bashrc.$HOSTNAME ]] && source ~/.bashrc.$HOSTNAME
-
-    # Fire up the tmux session if necessary
-    TMUX=no-tmux
-    if [[ -z "$TMUX" ]] ; then
-        # Bash isn't running in tmux, check if default session is started and attached
-        if tmux has-session -t default ; then
-            # There's a default session already, checking if attached...
-            if [[ -z "$(tmux list-clients -t default -F '#{session_attached}')" ]] ; then
-                # Looks like there are no clients, attaching to default session
-                tmux -2 -u attach -t default
-            else
-                # There's a client attached to default session already
-                :
-            fi
-        else
-            echo "Didn't find tmux session, creating one..."
-            # Ok, there's no default session, so we start one
-            tmux -2 -u new-session -s default
-        fi
-    else
-        # We're inside tmux already, bailing out
-        :
-    fi
+    # }
 fi
