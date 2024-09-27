@@ -5,9 +5,9 @@
 # Less is MORE {
 unalias less 2>/dev/null
 if [[ $(type -p less) ]]; then
-    # without less, man is CRAPPO (esp. on Solaris!).
     export PAGER="less -si -R"
 else
+    # without less, man is CRAPPO (esp. on Solaris!).
     # We don't have less, but my fingers are ALWAYS typing it anyway. So
     # this prevents (even more) insanity.
     alias less=more
@@ -15,26 +15,26 @@ fi
 # }
 
 # If I have proper ls then use color! {
-# TODO: This will break in the unfortunate circumstance when dircolors is
-# present, but the first ls in the path is not GNU ls. Should fix this.
-if [[ $(type -p dircolors) ]] ; then
-    eval "$(dircolors --bourne-shell )"
+if [[ $(type -p dircolors) ]]; then
+    eval "$(dircolors --bourne-shell)"
     alias ls='ls --color=auto '
-elif [[ $OSTYPE == darwin* ]] ; then
+elif [[ $OSTYPE == darwin* ]]; then
     # MacOSX ls can output colors using -G switch
     alias ls='ls -G'
 fi
 # }
 
-# vi is good, but vim is better {
-# I'm in the habit of typing 'vi' but if vim is there, I'd prefer that
-if [[ $(type -p vim) ]]; then
-    if [[ $OSTYPE == solaris* && $TERM == xterm ]]; then
-        # I'm probably using putty on a PC so to get colors going:
-        alias vi='TERM=xtermc vim'
-    else
-        alias vi=vim
-    fi
+# vi is good, vim is better,  nvim is best {
+# I'm in the habit of typing 'vi' but if nvim or vim is there, I'd prefer that
+if [[ $(type -p nvim) ]]; then
+    alias vim=nvim
+    alias vi=nvim
+    alias n=nvim
+    # and some typos...
+    EDITOR=$(type -p nvim)
+    VISUAL=$(type -p nvim)
+elif [[ $(type -p vim) ]]; then
+    alias vi=vim
     EDITOR=$(type -p vim)
     VISUAL=$(type -p vim)
 else
@@ -48,6 +48,7 @@ export VISUAL
 # Some typo fixes {
 alias gti='git'
 alias tgi='tig'
+alias vmi=nvim
 # }
 #
 # ... and let's define some git aliases while we're at it. {
@@ -72,12 +73,12 @@ alias ll='ls -la'
 alias lt='ls -ltr'
 alias lz='ls -lS'
 alias l='ls -l'
-[ -x $(which eza) ] && alias ls='eza --icons=auto'
-[ -x $(which eza) ] && alias ll='eza -l --icons=auto'
-[ -x $(which eza) ] && alias lt='eza -lr -s size --icons=auto'
-
-# Set nvim as default if available
-[ -x $(which nvim) ] && alias vim=nvim
+if [ -x $(which eza) ] ; then
+    alias ls='eza --icons=auto'
+    alias ll='eza -l --icons=auto'
+    alias lt='eza -lr -s size --icons=auto'
+    alias tree='eza --tree --icons=auto'
+fi
 
 # Handy ps aliases
 alias psx='ps -elf | grep $USER | grep -v sshd | grep -v $SHELL | grep -v grep'
@@ -112,16 +113,20 @@ alias cmount='mount | column -t'
 alias servers='netstat -plnt'
 alias ports='netstat -plantu'
 
+fullname() { echo $(cd $(dirname "${1}") && pwd -P)/$(basename "${1}"); }
 
-fullname() { echo $(cd $(dirname "${1}") && pwd -P)/$(basename "${1}") ; }
+mcd() {
+    mkdir -p "$1"
+    cd "./$1"
+}
 
-mcd() { mkdir -p "$1" ; cd "./$1" ; }
-
-backup() { cp "$1"{,.bak} ; }
-restore() { cp "$1"{.bak,} ; }
+backup() { cp "$1"{,.bak}; }
+restore() { cp "$1"{.bak,}; }
 
 # chezmoi aliases
-alias cm=chezmoi
-alias cmu='chezmoi update'
-alias cma='chezmoi apply'
-alias cmcd='chezmoi cd'
+if [[ $(type -p chezmoi) ]]; then
+    alias cm=chezmoi
+    alias cmu='chezmoi update'
+    alias cma='chezmoi apply'
+    alias cmcd='chezmoi cd'
+fi
