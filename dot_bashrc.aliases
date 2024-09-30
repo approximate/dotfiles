@@ -7,6 +7,7 @@ unalias less 2>/dev/null
 if [[ $(type -p less) ]]; then
     # without less, man is CRAPPO (esp. on Solaris!).
     export PAGER="less -si -R"
+    export LESS=-R
 else
     # We don't have less, but my fingers are ALWAYS typing it anyway. So
     # this prevents (even more) insanity.
