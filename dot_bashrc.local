@@ -11,17 +11,17 @@ if [[ $1 == "post" ]] ; then
     [ -f ~/.cargo/env ] && source ~/.cargo/env
 
     # Set up prompt
-    eval "$(starship init bash)"
+    [ -x $(which starship) ] && eval "$(starship init bash)"
 
     # Enable fzf goodness
-    [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+    [ -x $(which fzf) ] && eval "$(fzf --bash)" 
 
     [[ -s /etc/profile.d/bash_completion.sh ]] && source /etc/profile.d/bash_completion.sh
 
-    export GIT_SSH_COMMAND=ssh
-    export RUSTC_WRAPPER=sccache
+    [ -x $(which sccache) ] && export RUSTC_WRAPPER=sccache
 
-    eval "$(zoxide init bash)"
+    [ -x $(which zoxide) ] && eval "$(zoxide init bash)"
+
     export MANPAGER="less -R --use-color -Dd+r -Du+b"
 
     # This section sets up the HOSTNAME envar and loads host-specific profile (probably an overkill) {
