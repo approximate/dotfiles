@@ -6,31 +6,39 @@
 # to configure Bash itself, as well as for paths and environment configuration, and general structure.
 # This way I could have different profiles for Windows and Linux thank to chezmoi magic
 
-if [[ $1 == "post" ]] ; then
+if [[ $1 == "pre" ]]; then
+    if [[ $(uname -a) =~ "microsoft" ]]; then
+        if ! pgrep socat; then
+            socat UNIX-LISTEN:"$SSH_AUTH_SOCK",fork,group=docker,umask=007,unlink-early EXEC:"npiperelay.exe -ep -s //./pipe/openssh-ssh-agent",nofork &
+        fi
+    fi
+fi
+
+if [[ $1 == "post" ]]; then
 
     [ -f ~/.cargo/env ] && source ~/.cargo/env
 
     # Set up prompt
-    [ -x $(which starship) ] && eval "$(starship init bash)"
+    [[ -x $(which starship) ]] && eval "$(starship init bash)"
 
     # Enable fzf goodness
-    [ -x $(which fzf) ] && eval "$(fzf --bash)" 
+    [[ -x $(which fzf) ]] && eval "$(fzf --bash)"
 
     [[ -s /etc/profile.d/bash_completion.sh ]] && source /etc/profile.d/bash_completion.sh
 
-    [ -x $(which sccache) ] && export RUSTC_WRAPPER=sccache
+    [[ -x $(which sccache) ]] && export RUSTC_WRAPPER=sccache
 
-    [ -x $(which zoxide) ] && eval "$(zoxide init bash)"
+    [[ -x $(which zoxide) ]] && eval "$(zoxide init bash)"
 
     export MANPAGER="less -R --use-color -Dd+r -Du+b"
 
     # This section sets up the HOSTNAME envar and loads host-specific profile (probably an overkill) {
-    if [ -z "$HOSTNAME" ] ; then
+    if [ -z "$HOSTNAME" ]; then
         HOSTNAME=$(hostname -s 2>/dev/null)
     fi
-    if [ -z "$HOSTNAME" ] ; then
+    if [ -z "$HOSTNAME" ]; then
         HOSTNAME=$(hostname)
     fi
-    [[ -r ~/.bashrc.$HOSTNAME ]] && source ~/.bashrc.$HOSTNAME
-    # }
+    [[ -r ~/.bashrc.$HOSTNAME ]] && source ~/.bashrc."$HOSTNAME"
+    # } ]
 fi
