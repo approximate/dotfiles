@@ -8,8 +8,8 @@
 
 if [[ $1 == "pre" ]]; then
     if [[ $(uname -a) =~ "microsoft" ]]; then
-        if ! pgrep socat; then
-            socat UNIX-LISTEN:"$SSH_AUTH_SOCK",fork,group=docker,umask=007,unlink-early EXEC:"npiperelay.exe -ep -s //./pipe/openssh-ssh-agent",nofork &
+        if ! pgrep socat >/dev/null; then
+            socat UNIX-LISTEN:"/home/kzverev/.ssh/wsl-ssh-agent.sock",fork,group=docker,umask=007,unlink-early EXEC:"npiperelay.exe -ep -s //./pipe/openssh-ssh-agent",nofork &
         fi
     fi
 fi
@@ -41,4 +41,5 @@ if [[ $1 == "post" ]]; then
     fi
     [[ -r ~/.bashrc.$HOSTNAME ]] && source ~/.bashrc."$HOSTNAME"
     # } ]
+    #
 fi
