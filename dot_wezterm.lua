@@ -13,8 +13,9 @@ config.color_scheme = "Dracula"
 
 -- Windows-only launch menu config
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+	--
 	-- Change default shell to PowerShell on Windows
-	config.default_prog = { "C:/Program Files/PowerShell/7/pwsh.exe" }
+	-- config.default_prog = { "C:/Program Files/PowerShell/7/pwsh.exe" }
 
 	-- FIXME:
 	-- This section should be templated using chezmoi to differentiate between
@@ -22,19 +23,21 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 
 	-- Custom lauch_menu config
 	config.launch_menu = {
+		{ label = "FAR Manager", args = { "C:/Program Files/Far Manager/Far.exe" } },
+		{ label = "bottom", args = { "btm" } },
 		{
-			label = "Claranet support01",
+			label = "Claranet: support01",
 			args = {
 				"ssh.exe",
 				"-A",
 				"-J",
-				"kzverev@traxbuild.internal.traxpay.com",
-				"kzverev@support01.prod.dpp.traxpay.mgt.de.clara.net",
+				"kzverev@traxproxy.internal.traxpay.com",
+				"kzverev@support01-new.prod.dpp.traxpay.mgt.de.clara.net",
 			},
 		},
 		{
-			label = "Traxpay: traxbuild",
-			args = { "ssh.exe", "-A", "kzverev@traxbuild.internal.traxpay.com" },
+			label = "Traxpay: traxalert",
+			args = { "ssh.exe", "-A", "kzverev@traxalert.internal.traxpay.com" },
 		},
 		{
 			label = "Traxpay: traxtest",
@@ -54,9 +57,11 @@ config.font = wezterm.font("FiraMono Nerd Font", {
 })
 config.font_size = 12
 
-config.enable_tab_bar = false
+config.window_decorations = "INTEGRATED_BUTTONS | RESIZE"
+config.use_fancy_tab_bar = true
+config.enable_tab_bar = true
+config.tab_bar_at_bottom = false
 
-config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.95
 config.macos_window_background_blur = 10
 
@@ -71,6 +76,8 @@ config.colors = {
 }
 
 config.audible_bell = "Disabled"
+
+config.enable_scroll_bar = true
 
 config.keys = {
 	{ key = "l", mods = "ALT", action = wezterm.action.ShowLauncher },
