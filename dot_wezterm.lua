@@ -15,7 +15,7 @@ config.color_scheme = "Dracula"
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 	--
 	-- Change default shell to PowerShell on Windows
-	-- config.default_prog = { "C:/Program Files/PowerShell/7/pwsh.exe" }
+	config.default_prog = { "C:/Program Files/PowerShell/7/pwsh.exe" }
 
 	-- FIXME:
 	-- This section should be templated using chezmoi to differentiate between
@@ -23,8 +23,6 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 
 	-- Custom lauch_menu config
 	config.launch_menu = {
-		{ label = "FAR Manager", args = { "C:/Program Files/Far Manager/Far.exe" } },
-		{ label = "bottom", args = { "btm" } },
 		{
 			label = "Claranet: support01",
 			args = {
@@ -47,6 +45,7 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 			label = "Traxpay: traxproxy",
 			args = { "ssh.exe", "-A", "kzverev@traxproxy.internal.traxpay.com" },
 		},
+		{ label = "Util: bottom", args = { "btm" } },
 	}
 end
 
@@ -80,7 +79,7 @@ config.audible_bell = "Disabled"
 config.enable_scroll_bar = true
 
 config.keys = {
-	{ key = "l", mods = "ALT", action = wezterm.action.ShowLauncher },
+	{ key = "l", mods = "ALT", action = wezterm.action.ShowLauncherArgs { flags = ' LAUNCH_MENU_ITEMS | DOMAINS | WORKSPACES'} },
 }
 
 -- and finally, return the configuration to wezterm
