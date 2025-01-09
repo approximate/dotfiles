@@ -57,9 +57,9 @@ config.font = wezterm.font("FiraMono Nerd Font", {
 config.font_size = 12
 
 config.window_decorations = "INTEGRATED_BUTTONS | RESIZE"
-config.use_fancy_tab_bar = true
+config.use_fancy_tab_bar = false
 config.enable_tab_bar = true
-config.tab_bar_at_bottom = false
+config.tab_bar_at_bottom = true
 
 config.window_background_opacity = 0.95
 config.macos_window_background_blur = 10

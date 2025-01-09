@@ -1,146 +1,46 @@
-# This is a faily modest prompt:
-# - battery level if below 25%
-# - OS type
-# - username/host
-# - current dir
-# - git info
-# - last command's exit status
-# 
-
-format = """\
-[](bg:background fg:bg1)\
-$battery\
-$os\
-[](fg:bg1 bg:bg2)\
+format = """
 $username\
-[@](bg:bg2 fg:cyan)\
 $hostname\
-[](fg:bg2 bg:bg3)\
 $directory\
-[](fg:bg3 bg:bg4)\
 $git_branch\
+$git_state\
 $git_status\
-$git_metrics\
-[](fg:bg4 bg:background)\
-$character\
-"""
-
-# Use the color palette
-palette = "dracula"
-
-# Define Dracula color palette
-[palettes.dracula]
-background = "#282a36"
-current_line = "#44475a"
-foreground = "#f8f8f2"
-comment = "#6272a4"
-cyan = "#8be9fd"
-green = "#50fa7b"
-orange = "#ffb86c"
-pink = "#ff79c6"
-purple = "#bd93f9"
-red = "#ff5555"
-yellow = "#f1fa8c"
-# And these are the background colors for different prompt sections
-bg1 = "#01404d" 
-bg2 = "#026074"
-bg3 = "#3B76F0"
-bg4 = "#FCF392"
-
-# Only show battery section when below 25%
-# Use colors to show warning/critical levels
-[battery]
-full_symbol = '🔋'
-charging_symbol = '⚡️'
-# discharging_symbol = '💀 '
-format = '[ $symbol$percentage ]($style)'
-[[battery.display]]
-threshold = 10
-style = "italic bg:bg1 fg:red"
-[[battery.display]] 
-threshold = 25
-style = "bg:bg1 fg:yellow"
-
-# Displays a symbol that represents the current operating system
-[os]
-style = "bg:bg1 fg:foreground"
-disabled = false # Disabled by default
-
-[username]
-show_always = true
-style_user = "bg:bg2 fg:cyan"
-style_root = "bg:bg2 fg:red"
-format = '[ $user]($style)'
-disabled = false
-
-
-[hostname]
-ssh_only = false
-style = "bg:bg2 fg:cyan"
-format = '[$hostname ]($style)'
-trim_at = '.'
-disabled = false
+$cmd_duration\
+$line_break\
+$python\
+$character"""
 
 [directory]
-truncation_length = 2
-truncation_symbol = '…/'
-format = "[ $path ]($style)[$read_only]($read_only_style)"
-style = "fg:white bg:bg3"
-read_only_style = "fg:white bg:bg3"
-
-# Here is how you can shorten some long paths by text replacement
-# similar to mapped_locations in Oh My Posh:
-[directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = " "
-"Pictures" = " "
-# Keep in mind that the order matters. For example:
-# "Important Documents" = " 󰈙 "
-# will not be replaced, because "Documents" was already substituted before.
-# So either put "Important Documents" before "Documents" or use the substituted version:
-# "Important 󰈙 " = " 󰈙 "
-
-[git_branch]
-# style = "bold pink"
-format = '[ $symbol$branch(:$remote_branch)]($style)'
-symbol = " "
-style = "fg:background bg:bg4"
-
-[git_status]
-format = '[$all_status]($style)'
-style = "fg:background bg:bg4"
-# disabled = true
-conflicted = ' c:$count'
-up_to_date = '✓'
-untracked = ' u:$count'
-stashed = ' s:$count'
-modified = ' m:$count'
-staged = ' ++\($count\)'
-renamed = ' r:$count'
-deleted = ' t:$count'
-ahead = ' ⇡${count}'
-diverged = ' ⇕⇡${ahead_count}⇣${behind_count}'
-behind = ' ⇣${count}'
-
-[git_metrics]
-format = "([ +$added]($added_style))[]($added_style)"
-added_style = "fg:background bg:bg4"
-deleted_style = "fg:bright-red bg:235"
-disabled = true
+style = "blue"
 
 [character]
-success_symbol = '[ ➜](bold green) '
-error_symbol = '[ ✗](bold red) '
+success_symbol = "[❯](purple)"
+error_symbol = "[❯](red)"
+vimcmd_symbol = "[❮](green)"
 
-# The modules below aren't used currently
-[time]
-disabled = true
-time_format = "%R" # Hour:Minute Format
-style = "bg:#1d2230"
-format = '[[ 󱑍 $time ](bg:#1C3A5E fg:#8DFBD2)]($style)'
+[git_branch]
+format = "[$branch]($style)"
+style = "bright-black"
+
+[git_status]
+format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)"
+style = "cyan"
+conflicted = "​"
+untracked = "​"
+modified = "​"
+staged = "​"
+renamed = "​"
+deleted = "​"
+stashed = "≡"
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "bright-black"
 
 [cmd_duration]
-format = "[  $duration ]($style)"
-style = "fg:bright-white bg:18"
+format = "[$duration]($style) "
+style = "yellow"
 
+[python]
+format = "[$virtualenv]($style) "
+style = "bright-black"

@@ -1,0 +1,8 @@
+# vim: set ft=go ff=unix
+{{- if eq .chezmoi.os "windows" }}
+# only sync Kitty configs on non-Windows machines
+.config/kitty
+{{else if ne .chezmoi.os "windows" }}
+# similarly, ignore "Documents" folder and PowerShell configs inside it on non-Windows machines
+Documents/
+{{- end }}

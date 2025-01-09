@@ -1,0 +1,10 @@
+# NeoVim configuration is managed in a separate repo
+{{- if eq .chezmoi.os "windows" }}
+["AppData\\Local\\nvim"]
+{{- else }}
+[".config/nvim"]
+{{- end }}
+    type = "git-repo"
+    url = "https://github.com/approximate/kickstart.nvim.git"
+# clone.args = 
+# pull.args = 
