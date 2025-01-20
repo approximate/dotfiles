@@ -245,6 +245,7 @@ function rgg
 
 
 # SET KEYBOARD SHORTCUTS TO CALL FUNCTION
+Set-PSReadLineKeyHandler -Key "Ctrl+," ClearScreen
 
 Set-PSReadLineKeyHandler -Key "Ctrl+f" -ScriptBlock {
   [Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
