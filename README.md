@@ -61,6 +61,21 @@ chezmoi git push  # push to remote (local -> remote)
 
 Aside from being an awesome cross-platform terminal emulator it also supports multiplexing, thus replacing `tmux`. 
 
+Important bits:
+- multiplexing: local/remote sessions, session management
+- appearance (dynamic window and tab naming, styling)
+- keybindings
+- NeoVim integration (so splits movement is handled transparently)
+
+Further reading:
+Generally useful info: https://mwop.net/blog/2024-07-04-how-i-use-wezterm.html
+Pre-defined config snippets: https://github.com/wez/wezterm/discussions/5435
+Multiplexing: https://wezfurlong.org/wezterm/multiplexing.html
+Another customization blog post: https://alexplescan.com/posts/2024/08/10/wezterm/
+And another one: https://www.florianbellmann.com/blog/switch-from-tmux-to-wezterm
+Session management: https://github.com/danielcopper/wezterm-session-manager
+
+
 ### Shell: bash
 
 I use Bash because it's available everywhere, and can be easily installed when not provided out-of-the-box. Also, `readline` is configured as part of Bash config, and it is used in many other CLI utils.
@@ -126,13 +141,21 @@ TBD
 
 ## Additional tools
 
+NOTE: The only requirement is that these should be cross-platform, i.e. work under Linux, OS X and Windows.
+
 Alternative CLI utilities, mostly replacement for GNU tools:
-    - bat (cat/less)
-    - zoxide (cd)
-    - [httpie](https://httpie.io/) or [xh](https://github.com/ducaale/xh) (curl/wget)
-    - bottom (top)
-    - delta (diff)
-    - eza (ls)
-    - fzf (find and more)
-    - fd (find)
+- bat (cat/less)
+- zoxide (cd)
+- [httpie](https://httpie.io/) or [xh](https://github.com/ducaale/xh) (curl/wget)
+- bottom (top)
+- delta (diff)
+- eza (ls)
+- fzf (find and more)
+- fd (find)
+
+Other TUI tools:
+- [Yazi](https://yazi-rs.github.io/docs/configuration/overview/) (file manager)
+- [Just](https://just.systems/man/en/) (command runner, alternative to `make`)
+- [Atuin](https://docs.atuin.sh/) (shared/synced shell history)
+
 
