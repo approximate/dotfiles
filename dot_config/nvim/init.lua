@@ -55,6 +55,7 @@ vim.opt.timeoutlen = 500
 vim.opt.ttimeoutlen = 0
 vim.opt.autoread = true
 vim.opt.autowrite = false
+vim.cmd("filetype plugin indent on")
 
 -- Behavior settings
 vim.opt.hidden = true
@@ -81,11 +82,11 @@ vim.opt.splitright = true -- Vertical splits go right
 -- Diagnostics config
 vim.diagnostic.config({ virtual_text = true })
 
-local nvimpath = vim.fn.stdpath 'config'
+local nvimpath = vim.fn.stdpath "config"
 vim.opt.rtp:prepend(nvimpath)
 
 -- Additional configuration in separate files
 require("keymaps")  -- Load custom keymaps
-require("plugins")  -- Load plugins
+require("plug-ins")  -- Load plugins
 require("lsp")      -- Load LSP settings
-vim.cmd(":source " .. vim.fn.stdpath('config') .. "/ScrollColors.vim")   -- use :COLORSCROLL to test installed colorschemes
+vim.cmd(":source " .. vim.fn.stdpath("config") .. "/ScrollColors.vim")   -- use :COLORSCROLL to test installed colorschemes
