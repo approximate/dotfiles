@@ -2,27 +2,21 @@
 # vim: ai tw=74 fen fdm=marker nospell fmr={,} sw=4
 # shellcheck disable=SC2155
 #
-# KMZ big huge .bashrc (NEW). REQUIRES bash version >= 2.04
+######## KMZ big huge .bashrc {
 # This file is rewritten from scratch in February 2026, AGAIN
-#
-# DOCUMENTATION (UPDATED on 2026-02-26) {
+# REQUIRES bash version >= 2.04
 #
 # NOTE!!!! Don't make changes to this file for a single machine. Use
 # .bashrc.local. See "Local Customisations" below.
 #
-# General
+####### General
 #
 # This file is designed on the assumption that bash is NOT our login
 # shell. If it was then the env variable setting should be in the
 # .bash_profile file, not the .bashrc. I've made a special effort to keep
 # the number of external calls to a minimum
-# As a result, there are some unusual constructs in here. There are still
-# some external calls left (e.g. calls to sed) but they are not in loops
-# and I doubt they make that much difference to performance.
 #
-#
-#
-# Local Customisations
+####### Local Customisations
 #
 # It's best not to change this file on a machine-by-machine basis. For
 # local extensions this file calls ~/.bashrc.local if it exists. It's
@@ -50,34 +44,30 @@
 #
 # }
 
-# Set up some variables for later (NEW) {
-
+######## Set up some variables for later {
+#
 # NOTE: If a variable is added here it should be unset at the end of the
 # file!
-
+#
 # _debugging=1
-
+#
 # $- contains the options provided to the shell
 [[ $- == *i* ]] && _shell_is_interactive=1
 
 # }
 
-# Make the first call on the local settings file (NEW)
-[ -r "$HOME/.bashrc.local" ] && source "$HOME/.bashrc.local" pre
+# Make the first call on the local settings file
+[ -r "${HOME}/.bashrc.local" ] && source "${HOME}/.bashrc.local" pre
 
-# 2026-02-26: PATH manipulation was simplified, to the point that it probably
-# shouldn't be touched at all
-PATH=$PATH:/usr/local/bin:$HOME/.local/bin
+# PATH manipulation was simplified, it probably shouldn't be touched at all
+PATH=${PATH}:/usr/local/bin:${HOME}/.local/bin
 
-# Clean up path-like variables {
+######## Clean up the PATH {
 #
-# Here we clean up the PATH and similar variables by removing non-existant
-# dirs and duplicates, keeping the order.
-
-# pathclean: Clean up path-like variables
-# arguments: NAME of var to clean (not VALUE!)
+# PATH and similar vars are cleaned by dropping non-existant dirs
+# and duplicates while keeping the order
+# 
 function pathclean() {
-    # Variable Declarations
     local -a newpathcomps # Array of new path components
     local -i alreadyseen  # Have we already seen this component?
     local component       # Current component we're looking at
@@ -88,7 +78,7 @@ function pathclean() {
     # Expunge double /s and make : into a space. Unfortunatly, this breaks
     # on path entries with a space in them, as happens in the Cygwin/WSL
     # environments with the fabulous "Program Files" directory, so we have
-    # to kludge them into | and then back again...
+    # to kludge spaces into | and then back again...
     #
     for component in $(echo "${!thevar}" | sed -e 's/ /|/g' -e 's/:/ /g' -e 's#//#/#g'); do
         if [[ -d "${component//|/ }" ]]; then
@@ -119,10 +109,13 @@ export PATH MANPATH LD_LIBRARY_PATH
 
 # }
 
-# Shell options (NEW) {
+######## Shell options {
 #
 # Set my preferred options
 shopt -s autocd cdspell checkjobs checkwinsize cmdhist dirspell dotglob histreedit globstar histappend nocaseglob
+
+# Also, disable flow control (Ctrl-S and Ctrl-Q) -- who wants that anyway?
+stty -ixon
 
 # If I hit <tab> on a blank line, I DON'T want to see a list of all the
 # comands in my PATH - who would EVER want that??  This option appeared in
@@ -133,10 +126,10 @@ shopt -s autocd cdspell checkjobs checkwinsize cmdhist dirspell dotglob histreed
 
 # Only put duplicate lines in the history once, and don't record in
 # history commands that start with at least one space
-HISTCONTROL=ignoreboth
+HISTCONTROL=ignoreboth,erasedups
 # }
 
-# The following section should only be used for interactive shells {
+######## This section is only for interactive shells {
 
 if [[ $_shell_is_interactive == 1 ]]; then
     # Prompt and other terminal settings {
@@ -176,24 +169,24 @@ if [[ $_shell_is_interactive == 1 ]]; then
 
     # Remove any exporting of PS1 since it looks hideous in other shells and
     # bash will just re-read this file anyway
-    export -n PS1
-    export PROMPT_COMMAND="history -a"
+    # export -n PS1
+    PROMPT_COMMAND=${PROMPT_COMMAND=history -a}
+    export PROMPT_COMMAND
 
     # set extglob back to how we found it
     [[ $oldextglob == *off ]] && shopt -u extglob
     unset oldextglob
     # }
 
-    # Aliases (NEW) {
-
+    ######## Aliases {
     # Main aliases "rebash" and "realias" that help with profile development
     # Let me easily re-run this in case of a new installation or change to this
     # file. I know, how lazy is this?
-    alias rebash='source $HOME/.bashrc'
-    alias realias='source $HOME/.bashrc.aliases'
+    alias rebash='source ${HOME}/.bashrc'
+    alias realias='source ${HOME}/.bashrc.aliases'
 
     # Put the rest of stuff that you want aliased in .bashrc.aliases file
-    [ -r "$HOME/.bashrc.aliases" ] && source "$HOME/.bashrc.aliases"
+    [ -r "${HOME}/.bashrc.aliases" ] && source "${HOME}/.bashrc.aliases"
 
     # }
 
@@ -202,9 +195,9 @@ fi # End of interactive-only section
 
 # }
 
-# Make the last call on the local settings file (NEW)
-[ -r "$HOME"/.bashrc.local ] && source "$HOME"/.bashrc.local post
+# Make the last call on the local settings file
+[ -r "${HOME}/.bashrc.local" ] && source "${HOME}/.bashrc.local" post
 
-# Clean up (NEW)
+######## Clean up
 unset _shell_is_interactive
 unset _debugging
