@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# This .bashrc.aliases file is read from main .bashrc
-# vim: ai tw=74 fen fdm=marker nospell fmr={,}
+# vim: ai tw=74 fen fdm=marker nospell fmr={,} sw=4
+# shellcheck disable=SC2164
+#
+# This .bashrc.aliases file is sourced from the main .bashrc
 
 # Less is MORE {
 unalias less 2>/dev/null
@@ -31,7 +33,6 @@ if [[ $(type -p nvim) ]]; then
     alias vim=nvim
     alias vi=nvim
     alias n=nvim
-    # and some typos...
     EDITOR=$(type -p nvim)
     VISUAL=$(type -p nvim)
 elif [[ $(type -p vim) ]]; then
@@ -74,7 +75,8 @@ alias ll='ls -la'
 alias lt='ls -ltr'
 alias lz='ls -lS'
 alias l='ls -l'
-if [ -x $(which eza) ] ; then
+
+if [ -x "$(which eza)" ]; then
     alias ls='eza --icons=auto'
     alias ll='eza -l --icons=auto'
     alias lt='eza -lr -s size --icons=auto'
@@ -97,7 +99,7 @@ alias ebl='vi ~/.bashrc.local'
 alias ebr='vi ~/.bashrc'
 alias eba='vi ~/.bashrc.aliases'
 
-alias setcontrol='stty -ixon erase ^? kill ^D susp ^Z intr ^C'
+alias setcontrol='stty sane ; stty -ixon erase ^? kill ^D susp ^Z intr ^C'
 setcontrol
 
 alias my_ip='curl ifconfig.me'
@@ -114,15 +116,39 @@ alias cmount='mount | column -t'
 alias servers='netstat -plnt'
 alias ports='netstat -plantu'
 
-fullname() { echo $(cd $(dirname "${1}") && pwd -P)/$(basename "${1}"); }
+# Functions {
 
+# Make a directory and immediately enter it
 mcd() {
-    mkdir -p "$1"
-    cd "./$1"
+    mkdir -p "$1" && cd "./$1"
 }
 
+# Helpers for making quick backup and restores
 backup() { cp "$1"{,.bak}; }
 restore() { cp "$1"{.bak,}; }
+
+# Easy extract
+extract() {
+    if [ -r "$1" ]; then
+        case $1 in
+        *.tar.bz2) tar xvjf "$1" ;;
+        *.tar.gz) tar xvzf "$1" ;;
+        *.bz2) bunzip2 "$1" ;;
+        *.rar) rar e "$1" ;;
+        *.gz) gunzip "$1" ;;
+        *.tar) tar xvf "$1" ;;
+        *.tbz2) tar xvjf "$1" ;;
+        *.tgz) tar xvzf "$1" ;;
+        *.zip) unzip "$1" ;;
+        *.Z) uncompress "$1" ;;
+        *.7z) 7z x "$1" ;;
+        *) echo "don't know how to extract '$1'..." ;;
+        esac
+    else
+        echo "'$1' is not a valid archive file!"
+    fi
+}
+# }
 
 # chezmoi aliases
 if [[ $(type -p chezmoi) ]]; then

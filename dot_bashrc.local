@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-
+# vim: ai tw=74 fen fdm=marker nospell fmr={,} sw=4
+# shellcheck disable=SC1090
+#
 # Big question: should additional utils (fzf, starship etc) be configured in local profile or in the general profile?
 #
 # I tend to think this should probably be included in the local profile, and the general profile should only be used
@@ -8,6 +10,7 @@
 
 if [[ $1 == "pre" ]]; then
     if [[ $(uname -a) =~ "microsoft" ]]; then
+        # WSL-specific SSH agent pipe magic: we use socat/npiperelay so that Linux ssh can use KeeAgent (KeePass plugin)
         if ! pgrep socat >/dev/null; then
             socat UNIX-LISTEN:"/home/kzverev/.ssh/wsl-ssh-agent.sock",fork,group=docker,umask=007,unlink-early EXEC:"npiperelay.exe -ep -s //./pipe/openssh-ssh-agent",nofork &
         fi
@@ -16,7 +19,12 @@ fi
 
 if [[ $1 == "post" ]]; then
 
-    [ -f ~/.cargo/env ] && source ~/.cargo/env
+    # Enable bash-completion if available
+    [[ -s /etc/profile.d/bash_completion.sh ]] && source /etc/profile.d/bash_completion.sh
+
+    # If Rust toolchain and utils are available, use them
+    [ -f "${HOME}/.cargo/env" ] && source "${HOME}/.cargo/env"
+    [[ -x $(which sccache) ]] && export RUSTC_WRAPPER=sccache
 
     # Set up prompt
     [[ -x $(which starship) ]] && eval "$(starship init bash)"
@@ -24,22 +32,18 @@ if [[ $1 == "post" ]]; then
     # Enable fzf goodness
     [[ -x $(which fzf) ]] && eval "$(fzf --bash)"
 
-    [[ -s /etc/profile.d/bash_completion.sh ]] && source /etc/profile.d/bash_completion.sh
-
-    [[ -x $(which sccache) ]] && export RUSTC_WRAPPER=sccache
-
+    # Quick directory navigation with zoxide
     [[ -x $(which zoxide) ]] && eval "$(zoxide init bash)"
 
     export MANPAGER="less -R --use-color -Dd+r -Du+b"
 
-    # This section sets up the HOSTNAME envar and loads host-specific profile (probably an overkill) {
-    if [ -z "$HOSTNAME" ]; then
+    # This section sets up the HOSTNAME envar and loads host-specific profile (probably an overkill)
+    if [ -z "${HOSTNAME}" ]; then
         HOSTNAME=$(hostname -s 2>/dev/null)
     fi
-    if [ -z "$HOSTNAME" ]; then
+    if [ -z "${HOSTNAME}" ]; then
         HOSTNAME=$(hostname)
     fi
-    [[ -r ~/.bashrc.$HOSTNAME ]] && source ~/.bashrc."$HOSTNAME"
-    # } ]
-    #
+    [[ -r "${HOME}/.bashrc.${HOSTNAME}" ]] && source "${HOME}/.bashrc.${HOSTNAME}"
+
 fi
