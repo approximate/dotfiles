@@ -1,4 +1,4 @@
--- Neovim config
+-- Neovim config: Main settings
 -- vim: ft=lua ff=unix
 
 -- General settings
@@ -42,7 +42,7 @@ vim.opt.lazyredraw = true
 vim.opt.synmaxcol = 300
 -- Built-in `desert` colorscheme is actually OK
 vim.cmd("colorscheme desert")
--- vim.cmd(":hi statusline guibg=NONE")
+vim.cmd(":hi statusline guibg=NONE")
 
 -- File handling
 vim.opt.backup = false
@@ -89,4 +89,7 @@ vim.opt.rtp:prepend(nvimpath)
 require("keymaps")  -- Load custom keymaps
 require("plug-ins")  -- Load plugins
 require("lsp")      -- Load LSP settings
+require("autocmds") -- Load useful autocommands
+require("terminal") -- Built-in terminal goodness
+
 vim.cmd(":source " .. vim.fn.stdpath("config") .. "/ScrollColors.vim")   -- use :COLORSCROLL to test installed colorschemes

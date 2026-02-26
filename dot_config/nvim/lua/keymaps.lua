@@ -8,14 +8,19 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>y", '"+y<CR>', { desc = "Yank into cl
 vim.keymap.set({ "n", "v", "x" }, "<leader>d", '"+d<CR>', { desc = "Cut into clipboard register" })
 
 -- Better split navigation -- movements don't work for some reason!
-vim.keymap.set({ "n" }, "<leader>s", ":split<CR>", { desc = "Split horizontally" })
+vim.keymap.set({ "n" }, "<leader>h", ":split<CR>", { desc = "Split horizontally" })
 vim.keymap.set({ "n" }, "<leader>v", ":vsplit<CR>", { desc = "Split vertically" })
 
--- vim.keymap.set("n", "<C-h>", "<C-w>h")
--- vim.keymap.set("n", "<C-j>", "<C-w>j")
--- vim.keymap.set("n", "<C-k>", "<C-w>k")
--- vim.keymap.set("n", "<C-l>", "<C-w>l")
---
+-- Diagnostic keymaps
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+
 -- Easier buffer navigation
 vim.keymap.set({ "n" }, "<Tab>", ":bnext<CR>", { desc = "Next buffer" })
 vim.keymap.set({ "n" }, "<S-Tab>", ":bprev<CR>", { desc = "Previous buffer" })
+
+-- TIP: Disable arrow keys in normal mode
+vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
+vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
+vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
+vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+
