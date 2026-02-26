@@ -40,14 +40,6 @@
       "rev": "23f1e57d5af462c69e988642c020430449a7b1b0",
       "src": "https://github.com/mrjones2014/smart-splits.nvim"
     },
-    "smear-cursor.nvim": {
-      "rev": "c85bdbb25db096fbcf616bc4e1357bd61fe2c199",
-      "src": "https://github.com/sphamba/smear-cursor.nvim"
-    },
-    "telescope-fzf-native.nvim": {
-      "rev": "6fea601bd2b694c6f2ae08a6c6fab14930c60e2c",
-      "src": "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
-    },
     "telescope-ui-select.nvim": {
       "rev": "6e51d7da30bd139a6950adf2a47fda6df9fa06d2",
       "src": "https://github.com/nvim-telescope/telescope-ui-select.nvim"

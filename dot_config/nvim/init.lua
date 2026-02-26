@@ -82,6 +82,7 @@ vim.opt.splitright = true -- Vertical splits go right
 -- Diagnostics config
 vim.diagnostic.config({ virtual_text = true })
 
+-- Add Neovim config path to RUNTIMEPATH so that we can `require` modules
 local nvimpath = vim.fn.stdpath "config"
 vim.opt.rtp:prepend(nvimpath)
 

@@ -17,7 +17,6 @@ vim.pack.add({
 	-- These section below is for Telescope
 	{ src = "https://github.com/nvim-lua/plenary.nvim" }, -- Helper plugin for Telescope
 	{ src = "https://github.com/nvim-telescope/telescope.nvim" }, -- Telescope itself
-	{ src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" }, -- Telescope fzf integration
 	{ src = "https://github.com/nvim-telescope/telescope-ui-select.nvim" }, -- Telescope UI addons
 })
 
@@ -45,7 +44,6 @@ require("telescope").setup({
 })
 
 -- Enable Telescope extensions if they are installed
-pcall(require("telescope").load_extension, "fzf")
 pcall(require("telescope").load_extension, "ui-select")
 
 -- Key bindings for Telescope
@@ -84,7 +82,8 @@ end, { desc = "[S]earch [/] in Open Files" })
 vim.keymap.set("n", "<leader>sn", function()
 	builtin.find_files({ cwd = vim.fn.stdpath("config") })
 end, { desc = "[S]earch [N]eovim files" })
--- Set up Oil
+
+-- Shortcut for Oil file manager
 vim.keymap.set({ "n" }, "<leader>e", ":Oil<CR>")
 
 -- recommended mappings for smart-splits

@@ -24,3 +24,16 @@ vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-f>", "<C-f>zz")
+vim.keymap.set("n", "<C-b>", "<C-b>zz")
+vim.keymap.set("n", "Y", "yy")
+
+-- autocomplete in normal text
+vim.keymap.set("i", "<C-f>", "<C-x><C-f>", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-n>", "<C-x><C-n>", { noremap = true, silent = true })
+vim.keymap.set("i", "<C-l>", "<C-x><C-l>", { noremap = true, silent = true })
+
+-- make Enter choose the selected completion text
+vim.cmd(":inoremap <expr> <cr> pumvisible() ? '<c-y>' : '<cr>'")
