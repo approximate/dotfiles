@@ -81,8 +81,11 @@ vim.opt.splitright = true -- Vertical splits go right
 -- Diagnostics config
 vim.diagnostic.config({ virtual_text = true })
 
+local nvimpath = vim.fn.stdpath 'config'
+vim.opt.rtp:prepend(nvimpath)
+
 -- Additional configuration in separate files
 require("keymaps")  -- Load custom keymaps
 require("plugins")  -- Load plugins
 require("lsp")      -- Load LSP settings
-vim.cmd(":source ScrollColors.vim")   -- use :COLORSCROLL to test installed colorschemes
+vim.cmd(":source " .. vim.fn.stdpath('config') .. "/ScrollColors.vim")   -- use :COLORSCROLL to test installed colorschemes
