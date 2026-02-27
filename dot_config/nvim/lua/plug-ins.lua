@@ -12,7 +12,7 @@ vim.pack.add({
 	{ src = "https://github.com/j-hui/fidget.nvim" }, -- better notifications
 	{ src = "https://github.com/nvim-tree/nvim-web-devicons" }, -- Icons for file types
 	{ src = "https://github.com/mrjones2014/smart-splits.nvim" }, -- Better split navigation, including terminal/multiplexer support
-	-- { src = "https://github.com/sphamba/smear-cursor.nvim" }, -- Animate cursor movements
+	{ src = "https://github.com/DrKJeff16/wezterm-types" }, -- Wezterm-specific LSP type info
 
 	-- These section below is for Telescope
 	{ src = "https://github.com/nvim-lua/plenary.nvim" }, -- Helper plugin for Telescope
@@ -32,9 +32,7 @@ require("fidget").setup({
 require("lualine").setup({})
 require("nvim-web-devicons").setup()
 require("smart-splits").setup()
---
--- require("smear-cursor").setup()
---
+
 require("telescope").setup({
 	extensions = {
 		["ui-select"] = {

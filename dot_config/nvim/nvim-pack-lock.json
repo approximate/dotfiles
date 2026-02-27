@@ -48,6 +48,10 @@
       "rev": "5255aa27c422de944791318024167ad5d40aad20",
       "src": "https://github.com/nvim-telescope/telescope.nvim"
     },
+    "wezterm-types": {
+      "rev": "396b1b7af275f036662c94b1fbe2891949433ebc",
+      "src": "https://github.com/DrKJeff16/wezterm-types"
+    },
     "which-key.nvim": {
       "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
       "src": "https://github.com/folke/which-key.nvim"
